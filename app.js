@@ -4,7 +4,12 @@ const {
     WAConnection,
     Browsers
 } = require('@adiwajshing/baileys');
+
+// routes
+const contactRoute = require('./Routes/contact.route');
 const chatRoute = require('./Routes/chat.route');
+
+
 global.client = new WAConnection();
 
 const app = express();
@@ -32,6 +37,7 @@ app.use(function(req, res, next){
 });
 
 app.use('/chat',chatRoute);
+app.use('/contact',contactRoute);
 
 app.listen(port, () => {
     console.log("Server Running Live on Port : " + port);
