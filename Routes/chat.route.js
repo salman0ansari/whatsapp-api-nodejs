@@ -1,5 +1,16 @@
 const router = require('express').Router();
 const {Mimetype, MessageType} = require('@adiwajshing/baileys');
+const vuri = require('valid-url')
+const fs = require('fs');
+
+
+const mediaDownloader = function(uri, filename,callback) {
+    let request = require('request');
+    request.head(uri, function(err, res, body) {
+    res.headers['content-type']
+    res.headers['content-length']
+    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+    })};
 
 router.post('/sendmessage/:phone', async (req,res) => {
     let phone = req.params.phone;
@@ -56,6 +67,41 @@ router.get('/getchats', async (req, res) => {
     }).catch(() => {
         res.send({ status: "error",message: "getchatserror" })
     })
+});
+
+router.post('/sendimage/:phone', async (req,res) => {
+    var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+
+    let phone = req.params.phone;
+    let image = req.body.image;
+    let caption = req.body.caption;
+
+    if (phone == undefined || image == undefined) {
+        res.send({ status: "error", message: "please enter valid phone and base64/url of image" })
+    } else {
+        if (base64regex.test(image)) {
+            await client.sendMessage(`${phone}@c.us`, {url : image}, MessageType.image, { caption: caption || '' }).then((response) => {
+                if (response.key.fromMe) {
+                    res.send({ status: 'success', message: `MessageType.image successfully sent to ${phone}` })
+                }
+            });
+        } else if (vuri.isWebUri(image)) {
+            if (!fs.existsSync('./temp')) {
+                await fs.mkdirSync('./temp');
+            }
+            var path = './temp/' + image.split("/").slice(-1)[0]
+            mediaDownloader(image, path,async () => {
+                await client.sendMessage(`${phone}@c.us`, {url : image}, MessageType.image, {caption: caption || '' }).then((response) => {
+                    if (response.key.fromMe) {
+                        res.send({ status: 'success', message: `MessageType.image successfully sent to ${phone}` })
+                        fs.unlinkSync(path) // delete file after send
+                    }
+                });
+            })
+        } else {
+            res.send({ status:'error', message: 'Invalid URL/Base64 Encoded Media' })
+        }
+    }
 });
 
 module.exports = router;
