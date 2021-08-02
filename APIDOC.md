@@ -1,5 +1,9 @@
 # API Docs
+## Auth
 
+> All endpoints requires API-Key
+	> - Pass API-Key in to Headers
+	 ```If not passed, returns "Unauthorised" message.```
 ## Route Chat
 
 Sending Messages 
@@ -24,8 +28,8 @@ Get All Chats
 >Returns an Array of all Chats
 
 
-Sending Images POST :
-``/chat/sendimage/<phone_number>``
+Sending Images
+``POST : /chat/sendimage/<phone_number>``
 > Request Body
 > - image - contains the base64 encoded / URL of image to be sent
 > - caption - (optional) - contains caption for the message
@@ -36,20 +40,39 @@ Get Profile Pic
 ``GET : /contact/getprofilepic/<phone_number>``
 > Returns URL of the User's Profile Picture if Privacy Settings isn't Private
 
-### Example Usage
+
+###  Example Usage
+
+> In Node.js axios
+
 ```javascript
-import axios from "axios";
+const axios = require('axios');
+axios.post('http://localhost:5000/chat/sendmessage/919999999991', message="this is a test",{
+headers : {"API-Key":  "xf4pBcl2hYfbccjnaYvKLyDAndr8p1LP",
+"Content-Type":  "application/x-www-form-urlencoded; charset=utf-8"}
+}).then(response =>  {
+console.log(response);
+}).catch(error =>  {
+console.log(error);
+})
+```
 
-const options = {
-  method: 'POST',
-  url: 'http://localhost:5000/chat/sendmessage/919999999999',
-  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-  data: {message: 'this is a test'}
-};
+> In Python
 
-axios.request(options).then((response) => {
-  console.log(response.data);
-}).catch((error) => {
-  console.error(error);
-});
+```python
+import requests
+
+url = 'http://localhost:5000/chat/sendmessage/919999999991'
+headers = {
+  'API-Key': 'xf4pBcl2hYfbccjnaYvKLyDAndr8p1LP',
+  'Content-Type': 'application/x-www-form-urlencoded'
+}
+data = [('message', 'this is a test')]
+response = requests.request(
+  'POST',
+  'http://localhost:5000/chat/sendmessage/919999999991',
+  data=data,
+  headers=headers,
+)
+print(response)
 ```
