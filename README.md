@@ -1,5 +1,5 @@
 # whatsapp-api-nodejs ⚡
->> whatsapp-api-nodejs is built on top of [Baileys](https://github.com/adiwajshing/Baileys). 
+>> A simple NodeJS Wrapper for [Baileys](https://github.com/adiwajshing/Baileys). 
 
 • [Why use this?](https://github.com/salman0ansari/whatsapp-api-nodejs#whyuse) • [FAQ](https://github.com/salman0ansari/whatsapp-api-nodejs#faq) • [Legal](https://github.com/salman0ansari/whatsapp-api-nodejs#legal) 
 ### [📃 API Documentation](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/APIDOC.md)
