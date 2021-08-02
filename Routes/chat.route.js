@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {Mimetype, MessageType} = require('@adiwajshing/baileys');
+const {Mimetype, MessageType } = require('@adiwajshing/baileys');
 const vuri = require('valid-url')
 const fs = require('fs');
 
@@ -12,6 +12,7 @@ const mediaDownloader = function(uri, filename,callback) {
     request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
     })};
 
+    
 router.post('/sendmessage/:phone', async (req,res) => {
     let phone = req.params.phone;
     let message = req.body.message;
@@ -26,6 +27,7 @@ router.post('/sendmessage/:phone', async (req,res) => {
         });
     }
 });
+
 
 router.post('/sendlocation/:phone', async (req, res) => {
     let phone = req.params.phone;
@@ -44,7 +46,7 @@ router.post('/sendlocation/:phone', async (req, res) => {
     }
 });
 
-// TODO : add pagination
+
 router.get('/getchatbyid/:phone', async (req, res) => {
     let phone = req.params.phone;
     if (phone == undefined) {
@@ -59,7 +61,6 @@ router.get('/getchatbyid/:phone', async (req, res) => {
     }
 });
 
-// 13476672301
 
 router.get('/getchats', async (req, res) => {
     await client.getChats().then(() => {
@@ -69,8 +70,9 @@ router.get('/getchats', async (req, res) => {
     })
 });
 
+
 router.post('/sendimage/:phone', async (req,res) => {
-    var base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+    let base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
 
     let phone = req.params.phone;
     let image = req.body.image;
@@ -80,21 +82,27 @@ router.post('/sendimage/:phone', async (req,res) => {
         res.send({ status: "error", message: "please enter valid phone and base64/url of image" })
     } else {
         if (base64regex.test(image)) {
-            await client.sendMessage(`${phone}@c.us`, {url : image}, MessageType.image, { caption: caption || '' }).then((response) => {
+            try {
+                let buffer = Buffer.from(image, 'base64')
+            await client.sendMessage(`${phone}@c.us`, buffer, MessageType.image, { caption: caption || '' }).then((response) => {
                 if (response.key.fromMe) {
                     res.send({ status: 'success', message: `MessageType.image successfully sent to ${phone}` })
                 }
             });
+            } catch (error) {
+                res.send({ status: 'error', message: `${error}` })
+            }
+            
         } else if (vuri.isWebUri(image)) {
             if (!fs.existsSync('./temp')) {
                 await fs.mkdirSync('./temp');
             }
-            var path = './temp/' + image.split("/").slice(-1)[0]
-            mediaDownloader(image, path,async () => {
+            let fileName = './temp/' + image.split("/").slice(-1)[0]
+            mediaDownloader(image, fileName ,async () => {
                 await client.sendMessage(`${phone}@c.us`, {url : image}, MessageType.image, {caption: caption || '' }).then((response) => {
                     if (response.key.fromMe) {
                         res.send({ status: 'success', message: `MessageType.image successfully sent to ${phone}` })
-                        fs.unlinkSync(path) // delete file after send
+                        fs.unlinkSync(fileName) // delete file after send
                     }
                 });
             })
