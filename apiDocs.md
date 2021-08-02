@@ -23,6 +23,12 @@ Get All Chats
 ``GET : /chat/getchats``
 >Returns an Array of all Chats
 
+Sending Images POST :
+``/chat/sendimage/<phone_number>``
+> Request Body
+> - image - contains the base64 encoded / URL of image to be sent
+> - caption - (optional) - contains caption for the message
+
 ### Example Usage
 ```javascript
 import axios from "axios";
