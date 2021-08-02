@@ -20,6 +20,6 @@ If you find an issue, report it. Have questions? drop me a msg on telegram at [@
 
 
 ### [](https://github.com/salman0ansari/whatsapp-api-nodejs#legal)⚖️ Legal
-- This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by WA or any of its affiliates or subsidiaries.
+- This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.
 - Use at your own risk.
 - Do not spam people with this.
