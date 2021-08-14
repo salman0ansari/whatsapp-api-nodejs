@@ -36,7 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 fs.existsSync('./auth_info.json') && client.loadAuthInfo('./auth_info.json')
-client.on('qr',async ()  => {
+client.on('open', async ()  => {
         const authInfo = await client.base64EncodedAuthInfo()
         fs.writeFileSync('./auth_info.json', JSON.stringify(authInfo, null, '\t'))
 })
