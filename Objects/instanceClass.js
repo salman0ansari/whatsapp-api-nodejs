@@ -1,11 +1,6 @@
 const {
     MessageType,
-    WAChatUpdate,
-    WAConnection,
-    WAGroupMetadata,
-    WAGroupModification,
-    WAOpenResult,
-    WAUser,
+    WAConnection
 } = require("@adiwajshing/baileys")
 const QRCode = require("qrcode")
 const { v4: uuidv4 } = require('uuid');
