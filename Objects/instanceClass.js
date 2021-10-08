@@ -63,7 +63,7 @@ class WhatsAppInstance {
         this.instance.conn.on("open", (data) => {
             const authInfo = this.instance.conn.base64EncodedAuthInfo(); // get all the auth info we need to restore this session
             const path = `./Instances/${this.key}.json`;
-            console.log(path);
+            // console.log(path);
             fs.writeFileSync(path, JSON.stringify(authInfo, null, "\t"), {
                 flag: "w",
             });
@@ -132,7 +132,6 @@ class WhatsAppInstance {
         file
     ) {
         await this.verifyId(this.getWhatsAppId(to));
-        // eslint-disable-next-line
         const data = await this.instance.conn.sendMessage(
             this.getWhatsAppId(to),
             file,
@@ -206,7 +205,7 @@ class WhatsAppInstance {
 
     init(whatsappData) {
         const conn = new WAConnection();
-
+        conn.logger.level = 'warn';
         if (whatsappData) {
             const path = `./Instances/${whatsappData}`;
             conn.loadAuthInfo(path);
