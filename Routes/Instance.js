@@ -1,6 +1,8 @@
+require('dotenv').config()
 const fs = require("fs")
 const { WhatsAppInstance } = require("../Objects/instanceClass")
 const router = require('express').Router()
+const rateLimit = require("express-rate-limit");
 
 const path = './Instances'
 global.WhatsAppInstances = {};
@@ -8,15 +10,24 @@ global.WhatsAppInstances = {};
 const InstanceKeyVerification = require("../Middleware/keyVerify.js")
 const InstanceLoginVerification = require("../Middleware/loginVerify.js");
 
+const apiLimiter = rateLimit({
+    windowMs: 3600000, // 1 hour;
+    max: 5,
+    message: {
+        error: true,
+        message: "Too many accounts created from this IP, please try again after an hour"
+        }
+  });
+
 // Initialize Instance
-router.get('/init', async (req, res) => {
+router.get('/init', apiLimiter, async (req, res) => {
     const instance = new WhatsAppInstance();
     const data = await instance.init();
     WhatsAppInstances[data.key] = instance;
     res.json({
         error: false,
         message: "Initializing successfull",
-        key: data.key,
+        key: data.key
     });
 })
 
@@ -28,7 +39,8 @@ router.get('/qrcode', InstanceKeyVerification, async (req, res) => {
         const instance_key = instance.key;
         res.render('qrcode', {
             qrcode: qrcode,
-            instance_key: instance_key
+            instance_key: instance_key,
+            PUSHER_KEY: process.env.PUSHER_KEY
         })
     } catch {
         res.json({
