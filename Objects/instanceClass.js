@@ -83,11 +83,12 @@ class WhatsAppInstance {
                         messageType: "",
                         message: msg,
                     };
-
-                    if (msg.message.conversation) {
-                        newMsg.message = msg;
-                        newMsg.messageType = "text";
-                    }
+                    try{
+                        if (msg.message.conversation) {
+                            newMsg.message = msg;
+                            newMsg.messageType = "text";
+                        }
+                    } catch{}
 
                     if (
                         msg.message.audioMessage ||
