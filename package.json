@@ -1,15 +1,15 @@
 {
   "name": "whatsapp-api-nodejs",
-  "version": "0.1",
+  "version": "2",
   "description": "whatsapp-api-nodejs is built on top of Baileys.",
-  "main": "app.js",
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/salman0ansari/whatsapp-api-nodejs.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node server.js"
   },
   "keywords": [
     "whatsapp-api",
@@ -27,11 +27,15 @@
   "homepage": "https://github.com/salman0ansari/whatsapp-api-nodejs",
   "dependencies": {
     "@adiwajshing/baileys": "^3.5.1",
+    "chalk": "^4.1.2",
     "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "os": "^0.1.2",
-    "request": "^2.88.2",
-    "valid-url": "^1.0.9"
+    "express-fileupload": "^1.2.1",
+    "express-rate-limit": "^5.4.1",
+    "pusher": "^5.0.0",
+    "qrcode": "^1.4.4",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.12"
