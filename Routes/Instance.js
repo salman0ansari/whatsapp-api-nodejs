@@ -49,7 +49,7 @@ router.get('/qrcode', InstanceKeyVerification, async (req, res) => {
     }
 })
 
-// Get Info Related to Instances
+// Get Info Related to Instance
 router.get('/instance', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     instance_key = req.query.key
     const instance = WhatsAppInstances[instance_key];
@@ -71,7 +71,11 @@ router.get('/instance', InstanceKeyVerification, InstanceLoginVerification, asyn
 // Logout a Instance
 router.delete('/logout', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
-    return await instance.logout();
+    await instance.logout();
+    res.json({
+        error: false,
+        message: "logout successfull"
+    })
 })
 
 // Delete a Instance
