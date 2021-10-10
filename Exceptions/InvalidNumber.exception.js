@@ -1,13 +1,10 @@
-function Exceptions () {
-    
-    this.InvalidNumber = function () {
-        return "Number is not registered on WhatsApp"
+class ErrorHandler extends Error {
+    constructor(statusCode, message) {
+      super();
+      this.statusCode = statusCode;
+      this.message = message;
     }
-
-    this.InvalidKey = function () {
-        return "key is not registered with us"
-    }
-
-}
-
-exports.Exceptions = Exceptions
+  }
+  module.exports = {
+    ErrorHandler
+  };

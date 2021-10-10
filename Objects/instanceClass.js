@@ -6,7 +6,7 @@ const {
 const QRCode = require("qrcode")
 const { v4: uuidv4 } = require('uuid');
 const Pusher = require("pusher")
-const { Exceptions } = require('../Exceptions/InvalidNumber.exception')
+const { ErrorHandler } = require("../Exceptions/InvalidNumber.exception")
 const fs = require("fs")
 
 class WhatsAppInstance {
@@ -38,8 +38,7 @@ class WhatsAppInstance {
         if (isRegistered) {
             return true;
         }
-        let error = new Exceptions();
-        throw error.InvalidNumber()
+        throw new ErrorHandler(404, 'Number is not registered on WhatsApp');
     }
 
     async getInstanceDetails() {
@@ -83,26 +82,27 @@ class WhatsAppInstance {
                         messageType: "",
                         message: msg,
                     };
-                    try{
+                    try {
                         if (msg.message.conversation) {
                             newMsg.message = msg;
                             newMsg.messageType = "text";
                         }
-                    } catch{}
-
-                    if (
-                        msg.message.audioMessage ||
-                        msg.message.imageMessage ||
-                        msg.message.videoMessage ||
-                        msg.message.documentMessage
-                    ) {
-                        const mediaContent = await this.instance.conn.downloadMediaMessage(
-                            msg
-                        );
-                        newMsg.message = msg;
-                        newMsg.message.base64 = mediaContent.toString("base64");
-                        newMsg.messageType = "media";
-                    }
+                    } catch { }
+                    try {
+                        if (
+                            msg.message.audioMessage ||
+                            msg.message.imageMessage ||
+                            msg.message.videoMessage ||
+                            msg.message.documentMessage
+                        ) {
+                            const mediaContent = await this.instance.conn.downloadMediaMessage(
+                                msg
+                            );
+                            newMsg.message = msg;
+                            newMsg.message.base64 = mediaContent.toString("base64");
+                            newMsg.messageType = "media";
+                        }
+                    } catch { }
 
                     if (msg.message.locationMessage) {
                         newMsg.message = msg;
@@ -132,7 +132,11 @@ class WhatsAppInstance {
         messageType,
         file
     ) {
-        await this.verifyId(this.getWhatsAppId(to));
+        try {
+            await this.verifyId(this.getWhatsAppId(to));
+        } catch (error) {
+            return { error: true, message: error }
+        }
         const data = await this.instance.conn.sendMessage(
             this.getWhatsAppId(to),
             file,
@@ -150,7 +154,11 @@ class WhatsAppInstance {
         messageType,
         file
     ) {
-        await this.verifyId(this.getWhatsAppId(to));
+        try {
+            await this.verifyId(this.getWhatsAppId(to));
+        } catch (error) {
+            return { error: true, message: error }
+        }
         const data = await this.instance.conn.sendMessage(
             this.getWhatsAppId(to),
             file.data,
@@ -164,7 +172,11 @@ class WhatsAppInstance {
     }
 
     async sendTextMessage(to, message) {
-        await this.verifyId(this.getWhatsAppId(to));
+        try {
+            await this.verifyId(this.getWhatsAppId(to));
+        } catch (error) {
+            return { error: true, message: error }
+        }
         const data = await this.instance.conn.sendMessage(
             this.getWhatsAppId(to),
             message,
@@ -174,7 +186,11 @@ class WhatsAppInstance {
     }
 
     async sendLocationMessage(to, lat, long) {
-        await this.verifyId(this.getWhatsAppId(to));
+        try {
+            await this.verifyId(this.getWhatsAppId(to));
+        } catch (error) {
+            return { error: true, message: error }
+        }
         const data = await this.instance.conn.sendMessage(
             this.getWhatsAppId(to),
             { degreesLatitude: lat, degreesLongitude: long },
@@ -183,8 +199,19 @@ class WhatsAppInstance {
         return data;
     }
 
+    async isOnWhatsApp(number) {
+        const data = await this.instance.conn?.isOnWhatsApp(
+            `${number}@s.whatsapp.net`
+        );
+        return data ? data : { exists: false, jid: `${number}@s.whatsapp.net` };
+    }
+
     async sendVCardMessage(to, cardData) {
-        await this.verifyId(this.getWhatsAppId(to));
+        try {
+            await this.verifyId(this.getWhatsAppId(to));
+        } catch (error) {
+            return { error: true, message: error }
+        }
         const vcard =
             "BEGIN:VCARD\n" +
             "VERSION:3.0\n" +
