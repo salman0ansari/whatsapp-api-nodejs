@@ -3,7 +3,11 @@ const router = require('express').Router()
 const InstanceKeyVerification = require("../Middleware/keyVerify")
 const InstanceLoginVerification = require("../Middleware/loginVerify")
 
-router.post('/sendTextMessage', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+const multer  = require('multer')
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage, inMemory: true }).single('file')
+
+router.post('/sendText', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.sendTextMessage(
         req.body.msg_data.id,
@@ -15,13 +19,14 @@ router.post('/sendTextMessage', InstanceKeyVerification, InstanceLoginVerificati
     });
 })
 
-router.post('/sendImage', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+router.post('/sendImage', InstanceKeyVerification, InstanceLoginVerification,  upload, async (req, res) => {
+    // console.log(req.file)
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.sendMediaFile(
         req.query.id,
         req.query.caption,
         MessageType.image,
-        req.files.photo.data
+        req.file
     );
     res.status(201).json({
         error: false,
@@ -30,13 +35,13 @@ router.post('/sendImage', InstanceKeyVerification, InstanceLoginVerification, as
 })
 
 
-router.post('/sendVideo', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+router.post('/sendVideo', InstanceKeyVerification, InstanceLoginVerification, upload, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.sendMediaFile(
         req.query.id,
         req.query.caption,
         MessageType.video,
-        req.files.video.data
+        req.file
     );
     res.status(201).json({
         error: false,
@@ -44,26 +49,28 @@ router.post('/sendVideo', InstanceKeyVerification, InstanceLoginVerification, as
     });
 })
 
-router.post('/sendAudio', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+router.post('/sendAudio', InstanceKeyVerification, InstanceLoginVerification, upload, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.sendMediaFile(
         req.query.id,
         "",
         MessageType.audio,
-        req.files.audio.data);
+        req.file
+        );
     res.status(201).json({
         error: false,
         data: data,
     });
 })
 
-router.post('/sendDocument', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+router.post('/sendDocument', InstanceKeyVerification, InstanceLoginVerification, upload, async (req, res) => {
     // console.log(req.files.document.name)
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.sendDocument(
         req.query.id, 
         MessageType.document, 
-        req.files.document);
+        req.file
+        );
     res.status(201).json({
         error: false,
         data: data,

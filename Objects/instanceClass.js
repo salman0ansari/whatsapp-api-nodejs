@@ -139,7 +139,7 @@ class WhatsAppInstance {
         }
         const data = await this.instance.conn.sendMessage(
             this.getWhatsAppId(to),
-            file,
+            file.buffer,
             messageType,
             {
                 caption: caption,
@@ -161,7 +161,7 @@ class WhatsAppInstance {
         }
         const data = await this.instance.conn.sendMessage(
             this.getWhatsAppId(to),
-            file.data,
+            file.buffer,
             messageType,
             {
                 mimetype: file.mimetype,
