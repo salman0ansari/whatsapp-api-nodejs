@@ -29,7 +29,7 @@ app.use(sendMessage);
 
 app.get('/', (req, res) => {
     res.status(200)
-    .send("Whatsapp API <br><a href='https://api.mdsalman.tech/api-docs'> /api-docs </a>")
+    .send("Whatsapp API <br><a href='/api-docs'> /api-docs </a>")
 })
 
 app.get('*',(req, res) => {
