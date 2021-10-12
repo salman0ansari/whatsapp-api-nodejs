@@ -27,6 +27,10 @@ const sendMessage = require("./Routes/sendMessage")
 app.use(Instance);
 app.use(sendMessage);
 
+app.get('/', (req, res) => {
+    res.status(200)
+    .send("Whatsapp API <br><a href='https://api.mdsalman.tech/api-docs'> /api-docs </a>")
+})
 
 app.get('*',(req, res) => {
     res.status(404).send({

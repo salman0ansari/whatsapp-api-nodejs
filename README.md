@@ -1,8 +1,10 @@
 # whatsapp-api-nodejs ⚡
 >> A simple NodeJS Wrapper for [Baileys](https://github.com/adiwajshing/Baileys). 
 
-• [Why use this?](https://github.com/salman0ansari/whatsapp-api-nodejs#whyuse) • [FAQ](https://github.com/salman0ansari/whatsapp-api-nodejs#faq) • [Legal](https://github.com/salman0ansari/whatsapp-api-nodejs#legal) 
-### [📃 API Documentation](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/APIDOC.md)
+• [Why use this?](https://github.com/salman0ansari/whatsapp-api-nodejs#whyuse) 
+• [FAQ](https://github.com/salman0ansari/whatsapp-api-nodejs#faq) 
+• [Legal](https://github.com/salman0ansari/whatsapp-api-nodejs#legal) 
+### [📃 /api-docs](https://api.mdsalman.tech/api-docs/)
 
 ### [](https://github.com/salman0ansari/whatsapp-api-nodejs#whyuse)🧐 Why use this?
 - 🌠 Fast : This project uses Baileys which does not require Selenium or any other browser to be interface with WhatsApp Web, it does so directly using a WebSocket. Not running Selenium or Chromimum saves you like half a gig of ram :/
