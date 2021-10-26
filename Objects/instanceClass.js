@@ -34,7 +34,7 @@ class WhatsAppInstance {
         if (id.includes("@g.us")) {
             return true
         }
-        const isRegistered = await this.instance.conn.isOnWhatsApp(id);
+        const isRegistered = await this.instance.conn?.isOnWhatsApp(id);
         if (isRegistered) {
             return true;
         }
@@ -44,23 +44,23 @@ class WhatsAppInstance {
     async getInstanceDetails() {
         return {
             instance_key: this.key,
-            phone_connected: this.instance.conn.phoneConnected,
-            userData: this.instance.conn.phoneConnected
+            phone_connected: this.instance.conn?.phoneConnected,
+            userData: this.instance.conn?.phoneConnected
                 ? this.instance.userData
                 : {},
         };
     }
 
     setHandlers() {
-        this.instance.conn.on("qr", async (qrcode) => {
+        this.instance.conn?.on("qr", async (qrcode) => {
             this.instance.qrcode = await QRCode.toDataURL(qrcode);
             this.pusher.trigger(this.key, "qrcode_update", {
                 qrcode: this.instance.qrcode,
             });
         });
 
-        this.instance.conn.on("open", (data) => {
-            const authInfo = this.instance.conn.base64EncodedAuthInfo(); // get all the auth info we need to restore this session
+        this.instance.conn?.on("open", (data) => {
+            const authInfo = this.instance.conn?.base64EncodedAuthInfo(); // get all the auth info we need to restore this session
             const path = `./Instances/${this.key}.json`;
             // console.log(path);
             fs.writeFileSync(path, JSON.stringify(authInfo, null, "\t"), {
@@ -73,38 +73,33 @@ class WhatsAppInstance {
             });
         });
 
-        this.instance.conn.on("chat-update", async (data) => {
+        this.instance.conn?.on("chat-update", async (data) => {
             if (data.messages) {
-                data.messages.all().forEach(async (msg) => {
+                data.messages?.all().forEach(async (msg) => {
                     const newMsg = {
                         instance_key: this.key,
-                        phone: this.instance.conn.user.jid,
+                        phone: this.instance.conn?.user.jid,
                         messageType: "",
                         message: msg,
                     };
-                    try {
-                        if (msg.message.conversation) {
-                            newMsg.message = msg;
-                            newMsg.messageType = "text";
-                        }
-                    } catch { }
-                    try {
-                        if (
-                            msg.message.audioMessage ||
-                            msg.message.imageMessage ||
-                            msg.message.videoMessage ||
-                            msg.message.documentMessage
-                        ) {
-                            const mediaContent = await this.instance.conn.downloadMediaMessage(
-                                msg
-                            );
-                            newMsg.message = msg;
-                            newMsg.message.base64 = mediaContent.toString("base64");
-                            newMsg.messageType = "media";
-                        }
-                    } catch { }
-
-                    if (msg.message.locationMessage) {
+                    if (msg.message?.conversation) {
+                        newMsg.message = msg;
+                        newMsg.messageType = "text";
+                    }
+                    if (
+                        msg.message?.audioMessage ||
+                        msg.message?.imageMessage ||
+                        msg.message?.videoMessage ||
+                        msg.message?.documentMessage
+                    ) {
+                        const mediaContent = await this.instance.conn?.downloadMediaMessage(
+                            msg
+                        );
+                        newMsg.message = msg;
+                        newMsg.message.base64 = mediaContent?.toString("base64");
+                        newMsg.messageType = "media";
+                    }
+                    if (msg.message?.locationMessage) {
                         newMsg.message = msg;
                         newMsg.messageType = "location";
                     }
@@ -115,10 +110,10 @@ class WhatsAppInstance {
     }
 
     getAllContacts() {
-        const chats = this.instance.conn.chats;
+        const chats = this.instance.conn?.chats;
         const toReturn = [];
 
-        for (const chat of chats.all()) {
+        for (const chat of chats?.all()) {
             (chat.messages) = undefined;
             toReturn.push(chat);
         }
@@ -137,7 +132,7 @@ class WhatsAppInstance {
         } catch (error) {
             return { error: true, message: error }
         }
-        const data = await this.instance.conn.sendMessage(
+        const data = await this.instance.conn?.sendMessage(
             this.getWhatsAppId(to),
             file.buffer,
             messageType,
@@ -159,7 +154,7 @@ class WhatsAppInstance {
         } catch (error) {
             return { error: true, message: error }
         }
-        const data = await this.instance.conn.sendMessage(
+        const data = await this.instance.conn?.sendMessage(
             this.getWhatsAppId(to),
             file.buffer,
             messageType,
@@ -177,7 +172,7 @@ class WhatsAppInstance {
         } catch (error) {
             return { error: true, message: error }
         }
-        const data = await this.instance.conn.sendMessage(
+        const data = await this.instance.conn?.sendMessage(
             this.getWhatsAppId(to),
             message,
             MessageType.text
@@ -191,7 +186,7 @@ class WhatsAppInstance {
         } catch (error) {
             return { error: true, message: error }
         }
-        const data = await this.instance.conn.sendMessage(
+        const data = await this.instance.conn?.sendMessage(
             this.getWhatsAppId(to),
             { degreesLatitude: lat, degreesLongitude: long },
             MessageType.location
@@ -220,7 +215,7 @@ class WhatsAppInstance {
             `TEL;type=CELL;type=VOICE;waid=${cardData.phoneNumber}:${cardData.phoneNumber}\n` +
             "END:VCARD";
 
-        const data = await this.instance.conn.sendMessage(
+        const data = await this.instance.conn?.sendMessage(
             this.getWhatsAppId(to),
             {
                 displayName: cardData.displayName,
@@ -252,7 +247,7 @@ class WhatsAppInstance {
     }
 
     async logout() {
-        await this.instance.conn.logout();
+        await this.instance.conn?.logout();
         this.instance.userData = {};
         return { status: 200, message: "logout successfull" };
     }
