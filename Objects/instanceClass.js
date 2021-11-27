@@ -8,6 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 const Pusher = require("pusher")
 const { ErrorHandler } = require("../Exceptions/InvalidNumber.exception")
 const fs = require("fs")
+const axios = require("axios")
 
 class WhatsAppInstance {
 
@@ -26,6 +27,23 @@ class WhatsAppInstance {
         qrcode: "",
     };
 
+    axiosInstance = axios.create({
+        baseURL: process.env.WEBHOOK_URL,
+        // headers: {
+        //   Apikey: process.env.WEBHOOK_KEY,
+        // },
+      });
+
+      async sendJsonData(data) {
+        if (data.messageType == "text") {
+          return await this.axiosInstance.post("/sendtextreplies",data);
+        } else if (data.messageType == "media") {
+          return await this.axiosInstance.post("/sendmediareplies", data);
+        } else if (data.messageType == "location") {
+          return await this.axiosInstance.post("/sendlocationreplies",data);
+        }
+      }
+    
     getWhatsAppId(id) {
         return id.includes("-") ? `${id}@g.us` : `${id}@s.whatsapp.net`;
     }
@@ -103,6 +121,8 @@ class WhatsAppInstance {
                         newMsg.message = msg;
                         newMsg.messageType = "location";
                     }
+                
+                this.sendJsonData(newMsg);
                 });
             }
         });
@@ -233,13 +253,14 @@ class WhatsAppInstance {
             const path = `./Instances/${whatsappData}`;
             conn.loadAuthInfo(path);
         }
-
+        conn.version = [3, 3234, 9];
         conn.browserDescription = [
             "whatsappAPI",
             "Chrome",
             "1.0",
         ];
         this.instance.conn = conn;
+        
         this.instance.conn.removeAllListeners("qr");
         this.setHandlers();
         this.instance.conn.connect();
