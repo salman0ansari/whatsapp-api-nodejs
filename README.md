@@ -1,3 +1,4 @@
+
 # whatsapp-api-nodejs ⚡
 >> A simple NodeJS Wrapper for [Baileys](https://github.com/adiwajshing/Baileys). 
 
@@ -12,12 +13,33 @@
 
 
 ### [](https://github.com/salman0ansari/whatsapp-api-nodejs#faq)🤔 FAQ
--  **Is this app built with NodeJS?**
-    Yes, it's built with [NodeJS](https://nodejs.org/en/).
--  **What npm modules did you use?**
-  [express](https://github.com/expressjs/express) for API Server
+
+-   **😕 How do I setup environment variables?** 
+	1. Goto [Pusher.com](https://Pusher.com "Pusher.com")
+		-  Register free account.
+		-  Click on Channels and create a new App.
+		-  Click on app you just created and goto App Keys.
+		-  Create new key and copy all secrets from there.
+	2. Now create a new file name it .env
+	3. Paste all secret like - [.env Example](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/.env.example ".env Example")
+
+>- PUSHER_APPID=1872871
+>- PUSHER_KEY=b0d238673728b1b4f86fc
+>- PUSHER_SECRET=7c9ec3232e69a1d9d
+>- PUSHER_CLUSTER=ap2
+>- WEBHOOK_URL=https://webhook.site/123
+>- WEBHOOK_KEY=
+
+-  **❓ Where do i get WEBHOOK_URL from?** 
+You can easily get a webhook for testing purpose from [webhook.site](https://webhook.site/ "webhook.site").
+
+-  **🛠️ Is this app built with NodeJS?**
+Yes, it's built with [NodeJS](https://nodejs.org/en/).
+- **📦 What npm modules did you use?**
+[express](https://github.com/expressjs/express) for API Server
   [baileys](https://github.com/adiwajshing/Baileys) for connecting to whatsapp web.
--  **How do I contact you?**
+
+- **📥 How do I contact you?** 
 If you find an issue, report it. Have questions? drop me a msg on telegram at [@salman0ansari](https://t.me/salman0ansari)
 
 
