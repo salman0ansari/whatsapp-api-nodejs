@@ -246,6 +246,16 @@ class WhatsAppInstance {
         return data;
     }
 
+    async sendButtonMessage(to, btnData) {
+        await this.verifyId(this.getWhatsAppId(to));
+        const data = await this.instance.conn?.sendMessage(
+          this.getWhatsAppId(to),
+          btnData,
+          MessageType.buttonsMessage
+        );
+        return data;
+      }
+
     init(whatsappData) {
         const conn = new WAConnection();
         conn.logger.level = 'warn';

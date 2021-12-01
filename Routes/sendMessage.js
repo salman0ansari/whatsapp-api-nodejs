@@ -99,4 +99,13 @@ router.post('/sendVCardMessage', InstanceKeyVerification, InstanceLoginVerificat
     });
 })
 
+router.post('/sendButtonMessage', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+    const instance = WhatsAppInstances[req.query.key];
+    const data = await instance.sendButtonMessage(req.body.msg_data.id, req.body.msg_data);
+    res.status(201).json({
+        error: false,
+        data: data,
+    });
+})
+
 module.exports = router;

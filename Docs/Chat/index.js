@@ -5,6 +5,7 @@ const audio = require("./audio")
 const documentt = require("./document")
 const location = require("./location")
 const vcard = require("./vcard")
+const button = require("./button")
 
 module.exports = {
         '/sendText':{
@@ -25,8 +26,12 @@ module.exports = {
         '/sendLocation':{
             ...location
         },
-        'sendVCard':{
+        '/sendVCard':{
             ...vcard
+        },
+        '/sendButton':{
+            ...button
         }
+
 
 }
