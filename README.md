@@ -47,3 +47,5 @@ If you find an issue, report it. Have questions? drop me a msg on telegram at [@
 - This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.
 - Use at your own risk.
 - Do not spam people with this.
+
+#### Thanks to [Manjit](https://github.com/Manjit2003) for instance class.
