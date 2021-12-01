@@ -225,6 +225,30 @@ module.exports = {
                     }
                 }
             },
+
+            "ButtonMessage": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "contentText": {
+                        "type": "string"
+                    },
+                    "footerText": {
+                        "type": "string"
+                    },
+                    "buttons": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Button"
+                        }
+                    },
+                    "headerType": {
+                        "type": "number"
+                    }
+                }
+            },
             "SendVCardData": {
                 "type": "object",
                 "properties": {
@@ -259,6 +283,29 @@ module.exports = {
                     }
                 }
             },
+            "Button":
+            {
+                "type": "object",
+                "properties": {
+                    "buttonId": {
+                        "type": "string"
+                    },
+                    "buttonText": {
+                        "$ref": "#/components/schemas/ButtonText"
+                    },
+                    "type": {
+                        "type": "number"
+                    }
+                }
+            },
+            "ButtonText": {
+                "type": "object",
+                "properties": {
+                    "displayText": {
+                        "type": "string"
+                    }
+                }
+            },
             "CreateGroupModel": {
                 "type": "object",
                 "properties": {
@@ -273,5 +320,6 @@ module.exports = {
                     }
                 }
             },
+        }
     }
-}}
+}
