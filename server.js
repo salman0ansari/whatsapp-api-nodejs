@@ -23,8 +23,10 @@ app.use(express.Router())
 
 const Instance = require("./Routes/Instance")
 const sendMessage = require("./Routes/sendMessage")
+const group = require("./Routes/group")
 
 app.use(Instance);
+app.use(group);
 app.use(sendMessage);
 
 app.get('/', (req, res) => {
