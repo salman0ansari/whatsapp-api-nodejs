@@ -150,7 +150,7 @@ class WhatsAppInstance {
         try {
             await this.verifyId(this.getWhatsAppId(to));
         } catch (error) {
-            return { error: true, message: error }
+            return { error: true, error }
         }
         const data = await this.instance.conn?.sendMessage(
             this.getWhatsAppId(to),
@@ -172,7 +172,7 @@ class WhatsAppInstance {
         try {
             await this.verifyId(this.getWhatsAppId(to));
         } catch (error) {
-            return { error: true, message: error }
+            return { error: true, error }
         }
         const data = await this.instance.conn?.sendMessage(
             this.getWhatsAppId(to),
@@ -190,7 +190,7 @@ class WhatsAppInstance {
         try {
             await this.verifyId(this.getWhatsAppId(to));
         } catch (error) {
-            return { error: true, message: error }
+            return { error: true, error }
         }
         const data = await this.instance.conn?.sendMessage(
             this.getWhatsAppId(to),
@@ -204,7 +204,7 @@ class WhatsAppInstance {
         try {
             await this.verifyId(this.getWhatsAppId(to));
         } catch (error) {
-            return { error: true, message: error }
+            return { error: true, error }
         }
         const data = await this.instance.conn?.sendMessage(
             this.getWhatsAppId(to),
@@ -225,7 +225,7 @@ class WhatsAppInstance {
         try {
             await this.verifyId(this.getWhatsAppId(to));
         } catch (error) {
-            return { error: true, message: error }
+            return { error: true, error }
         }
         const vcard =
             "BEGIN:VCARD\n" +
@@ -247,6 +247,11 @@ class WhatsAppInstance {
     }
 
     async sendButtonMessage(to, btnData) {
+        try {
+            await this.verifyId(this.getWhatsAppId(to));
+        } catch (error) {
+            return { error: true, error }
+        }
         await this.verifyId(this.getWhatsAppId(to));
         const data = await this.instance.conn?.sendMessage(
           this.getWhatsAppId(to),

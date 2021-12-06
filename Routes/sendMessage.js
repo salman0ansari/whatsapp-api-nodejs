@@ -13,6 +13,7 @@ router.post('/sendText', InstanceKeyVerification, InstanceLoginVerification, asy
         req.body.msg_data.id,
         req.body.msg_data.message
     );
+    if(data.error) return res.status(404).json(data)
     res.status(201).json({
         error: false,
         data: data
@@ -28,6 +29,7 @@ router.post('/sendImage', InstanceKeyVerification, InstanceLoginVerification,  u
         MessageType.image,
         req.file
     );
+    if(data.error) return res.status(404).json(data)
     res.status(201).json({
         error: false,
         data: data,
@@ -43,6 +45,7 @@ router.post('/sendVideo', InstanceKeyVerification, InstanceLoginVerification, up
         MessageType.video,
         req.file
     );
+    if(data.error) return res.status(404).json(data)
     res.status(201).json({
         error: false,
         data: data,
@@ -57,6 +60,7 @@ router.post('/sendAudio', InstanceKeyVerification, InstanceLoginVerification, up
         MessageType.audio,
         req.file
         );
+    if(data.error) return res.status(404).json(data)
     res.status(201).json({
         error: false,
         data: data,
@@ -71,6 +75,7 @@ router.post('/sendDocument', InstanceKeyVerification, InstanceLoginVerification,
         MessageType.document, 
         req.file
         );
+    if(data.error) return res.status(404).json(data)
     res.status(201).json({
         error: false,
         data: data,
@@ -84,6 +89,7 @@ router.post('/sendLocation', InstanceKeyVerification, InstanceLoginVerification,
         req.body.msg_data.coordinates.lat,
         req.body.msg_data.coordinates.long
     );
+    if(data.error) return res.status(404).json(data)
     res.status(201).json({
         error: false,
         data: data,
@@ -93,6 +99,7 @@ router.post('/sendLocation', InstanceKeyVerification, InstanceLoginVerification,
 router.post('/sendVCardMessage', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.sendVCardMessage(req.body.msg_data.id, req.body.msg_data);
+    if(data.error) return res.status(404).json(data)
     res.status(201).json({
         error: false,
         data: data,
@@ -102,9 +109,21 @@ router.post('/sendVCardMessage', InstanceKeyVerification, InstanceLoginVerificat
 router.post('/sendButtonMessage', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.sendButtonMessage(req.body.msg_data.id, req.body.msg_data);
+    if(data.error) return res.status(404).json(data)
     res.status(201).json({
         error: false,
         data: data,
+    });
+})
+
+router.post('/isonwhatsapp', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+    const instance = WhatsAppInstances[req.query.key];
+    const number = req.query.number
+    const data = await instance.isOnWhatsApp(number);
+    if(!data.exists) return res.status(401).json({error: true, data})
+    res.status(201).json({
+        error: false,
+        data,
     });
 })
 
