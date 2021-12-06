@@ -32,18 +32,18 @@ class WhatsAppInstance {
         // headers: {
         //   Apikey: process.env.WEBHOOK_KEY,
         // },
-      });
+    });
 
-      async sendJsonData(data) {
+    async sendJsonData(data) {
         if (data.messageType == "text") {
-          return await this.axiosInstance.post("/sendtextreplies",data);
+            return await this.axiosInstance.post("/sendtextreplies", data);
         } else if (data.messageType == "media") {
-          return await this.axiosInstance.post("/sendmediareplies", data);
+            return await this.axiosInstance.post("/sendmediareplies", data);
         } else if (data.messageType == "location") {
-          return await this.axiosInstance.post("/sendlocationreplies",data);
+            return await this.axiosInstance.post("/sendlocationreplies", data);
         }
-      }
-    
+    }
+
     getWhatsAppId(id) {
         return id.includes("-") ? `${id}@g.us` : `${id}@s.whatsapp.net`;
     }
@@ -121,8 +121,8 @@ class WhatsAppInstance {
                         newMsg.message = msg;
                         newMsg.messageType = "location";
                     }
-                
-                this.sendJsonData(newMsg);
+
+                    this.sendJsonData(newMsg);
                 });
             }
         });
@@ -254,12 +254,12 @@ class WhatsAppInstance {
         }
         await this.verifyId(this.getWhatsAppId(to));
         const data = await this.instance.conn?.sendMessage(
-          this.getWhatsAppId(to),
-          btnData,
-          MessageType.buttonsMessage
+            this.getWhatsAppId(to),
+            btnData,
+            MessageType.buttonsMessage
         );
         return data;
-      }
+    }
 
     init(whatsappData) {
         const conn = new WAConnection();
@@ -275,7 +275,7 @@ class WhatsAppInstance {
             "1.0",
         ];
         this.instance.conn = conn;
-        
+
         this.instance.conn.removeAllListeners("qr");
         this.setHandlers();
         this.instance.conn.connect();
@@ -285,12 +285,91 @@ class WhatsAppInstance {
     async logout() {
         await this.instance.conn?.logout();
         this.instance.userData = {};
-        return { status: 200, message: "logout successfull" };
+        return { error: false, message: "logout successfull" };
     }
 
     async resetSession() {
         await this.logout();
         return this.init();
+    }
+
+    //Group Functions
+    parseParticipants(participants) {
+        return participants.map((participant) => this.getWhatsAppId(participant));
+    }
+
+    async getAllGroups() {
+
+        const { chats } = this.instance.conn?.loadChats(1000, null);
+
+        const groups =
+            chats?.filter((c) =>
+                c.jid.includes("@g.us")
+            ) ?? [];
+
+        const finalGroups = [];
+        groups.map((g) => {
+            g.messages = undefined;
+            finalGroups.push(g);
+        });
+
+        return { groups: finalGroups };
+    }
+
+    async getGroupFromId(groupId) {
+        const id = this.getWhatsAppId(groupId);
+        const group = await this.instance.conn?.chats
+            .all()
+            .filter((chat) => chat.jid == id);
+        try {
+            if (group) return await this.instance.conn?.groupMetadata(id);
+        } catch (error) {
+            return { error: true, message: "requested group was not found" }
+        }
+    }
+
+    async getAdminGroups(withParticipants) {
+        const data = await this.instance.conn?.loadChats(1000, null);
+        const groups = data?.chats?.filter((c) => c.jid.includes("@g.us")) ?? [];
+        const groupsMetadataArray = [];
+        for (const g of groups) {
+            const metaData = (await this.instance.conn?.groupMetadata(
+                g.jid
+            ))
+            metaData.messages = undefined;
+            groupsMetadataArray.push(metaData);
+            await new Promise((r) => setTimeout(r, 1000));
+        }
+        const adminGroups = groupsMetadataArray.filter((c) =>
+            c.participants?.filter(
+                (p) => p.jid === this.instance.userData?.jid && p.isAdmin
+            ).length == 0
+                ? false
+                : true
+        );
+        const finalGroups = [];
+        adminGroups.map((g) => {
+            g.messages = undefined;
+            if (!withParticipants) {
+                g.participants = undefined;
+            }
+
+            finalGroups.push(g);
+        });
+
+        return { groups: finalGroups };
+    }
+
+    async addNewParticipant(data) {
+        try {
+            const res = await this.instance.conn?.groupAdd(
+                this.getWhatsAppId(data.group_id),
+                this.parseParticipants(data.participants)
+            );
+            return res;
+        } catch {
+            return { error: true, message: "unable to add participant, check if you are admin in group" }
+        }
     }
 
 }
