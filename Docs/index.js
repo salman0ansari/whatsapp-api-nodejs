@@ -3,6 +3,7 @@ const components = require('./components');
 const tags = require('./tags');
 const Instance = require('./Instance');
 const Chat = require('./Chat');
+const Group = require('./Group')
 
 
 module.exports = {
@@ -11,6 +12,7 @@ module.exports = {
     ...tags,
     "paths":{ 
         ...Instance,
-        ...Chat 
+        ...Chat,
+        ...Group
     }
 }
