@@ -5,25 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WhatsApp QrCode</title>
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script>
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher("<%= PUSHER_KEY %>", {
-            cluster: "ap2"
-        });
-        var channel = pusher.subscribe("<%= instance_key %>");
-        channel.bind("qrcode_update", function (data) {
-            console.log(data);
-            document.getElementById("qrcode_box").setAttribute("src", data.qrcode);
-        });
-        channel.bind("qrcode_scanned", function (data) {
-            console.log(data);
-            document.getElementById(
-                "scanned"
-            ).textContent = `Successfully signed in as ${data.number}`;
-        });
-    </script>
     <style>
         div {
             display: flex;

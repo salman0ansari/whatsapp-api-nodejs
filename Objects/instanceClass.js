@@ -4,8 +4,7 @@ const {
     WAConnection
 } = require("@adiwajshing/baileys")
 const QRCode = require("qrcode")
-const { v4: uuidv4 } = require('uuid');
-const Pusher = require("pusher")
+const { v4: uuidv4 } = require('uuid')
 const { ErrorHandler } = require("../Exceptions/InvalidNumber.exception")
 const fs = require("fs")
 const axios = require("axios")
@@ -13,14 +12,6 @@ const axios = require("axios")
 class WhatsAppInstance {
 
     key = uuidv4();
-
-    pusher = new Pusher({
-        appId: process.env.PUSHER_APPID,
-        key: process.env.PUSHER_KEY,
-        secret: process.env.PUSHER_SECRET,
-        cluster: process.env.PUSHER_CLUSTER,
-        useTLS: true,
-    });
 
     instance = {
         key: this.key,
@@ -45,7 +36,7 @@ class WhatsAppInstance {
     }
 
     getWhatsAppId(id) {
-        return id.includes("-") ? `${id}@g.us` : `${id}@s.whatsapp.net`;
+        return id?.includes("-") ? `${id}@g.us` : `${id}@s.whatsapp.net`;
     }
 
     async verifyId(id) {
@@ -72,9 +63,6 @@ class WhatsAppInstance {
     setHandlers() {
         this.instance.conn?.on("qr", async (qrcode) => {
             this.instance.qrcode = await QRCode.toDataURL(qrcode);
-            this.pusher.trigger(this.key, "qrcode_update", {
-                qrcode: this.instance.qrcode,
-            });
         });
 
         this.instance.conn?.on("open", (data) => {
@@ -86,9 +74,6 @@ class WhatsAppInstance {
             });
 
             this.instance.userData = data.user;
-            this.pusher.trigger(this.key, "qrcode_scanned", {
-                number: this.instance.userData.jid.replace("@s.whatsapp.net", ""),
-            });
         });
 
         this.instance.conn?.on("chat-update", async (data) => {
