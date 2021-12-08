@@ -3,6 +3,8 @@ const allGroup = require("./allGroups")
 const adminGroupWithParticipant = require("./adminGroupWithParticiapants")
 const adminGroups = require("./adminGroups")
 const addParticipant = require("./addParticipant")
+const makeAdmin = require("./makeAdmin")
+const demoteAdmin = require("./demoteAdmin")
 
 module.exports = {
         '/group':{
@@ -19,5 +21,11 @@ module.exports = {
         },
         '/addParticipant':{
             ...addParticipant
+        },
+        '/makeAdmin':{
+            ...makeAdmin
+        },
+        '/demoteAdmin':{
+            ...demoteAdmin
         }
 }
