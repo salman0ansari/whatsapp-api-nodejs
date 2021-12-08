@@ -34,7 +34,21 @@ router.get('/adminGroupsWithParticipants', InstanceKeyVerification, InstanceLogi
 router.post('/addParticipant', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.addNewParticipant(req.body.data);
-    if(data.error) return res.status(404).json(data)
+    if(data.error) return res.status(401).json(data)
+    return res.status(201).json(data);
+})
+
+router.post('/makeAdmin', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+    const instance = WhatsAppInstances[req.query.key];
+    const data = await instance.makeAdmin(req.body.data);
+    if(data.error) return res.status(401).json(data)
+    return res.status(201).json(data);
+})
+
+router.delete('/demoteAdmin', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+    const instance = WhatsAppInstances[req.query.key];
+    const data = await instance.demoteAdmin(datareq.body.data);
+    if(data.error) return res.status(401).json(data)
     return res.status(201).json(data);
 })
 

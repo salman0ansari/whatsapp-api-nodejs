@@ -357,6 +357,30 @@ class WhatsAppInstance {
         }
     }
 
+    async makeAdmin(data) {
+        try {
+            const res = await this.instance.conn?.groupMakeAdmin(
+                this.getWhatsAppId(data.group_id),
+                this.parseParticipants(data.participants)
+            );
+            return res;
+        } catch {
+            return { error: true, message: "unable to promote some participants, check if you are admin in group or participants exists" }
+        }
+    }
+
+    async demoteAdmin(data) {
+        try {
+            const res = await this.instance.conn?.groupDemoteAdmin(
+                this.getWhatsAppId(data.group_id),
+                this.parseParticipants(data.participants)
+            );
+            return res;
+        } catch {
+            return { error: true, message: "unable to demote some participants, check if you are admin in group or participants exists" }
+        }
+    }
+
 }
 
 exports.WhatsAppInstance = WhatsAppInstance
