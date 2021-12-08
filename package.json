@@ -8,7 +8,6 @@
     "url": "git+https://github.com/salman0ansari/whatsapp-api-nodejs.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "keywords": [
@@ -28,16 +27,13 @@
   "dependencies": {
     "@adiwajshing/baileys": "^3.5.1",
     "axios": "^0.24.0",
-    "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
     "express-rate-limit": "^5.4.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
-    "pusher": "^5.0.0",
     "qrcode": "^1.4.4",
     "swagger-jsdoc": "5.0.1",
     "swagger-ui-express": "^4.1.6",
