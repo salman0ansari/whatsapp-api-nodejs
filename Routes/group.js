@@ -47,9 +47,34 @@ router.post('/makeAdmin', InstanceKeyVerification, InstanceLoginVerification, as
 
 router.delete('/demoteAdmin', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
-    const data = await instance.demoteAdmin(datareq.body.data);
+    const data = await instance.demoteAdmin(req.body.data);
     if(data.error) return res.status(401).json(data)
     return res.status(201).json(data);
 })
+
+router.post('/createGroup', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+    const instance = WhatsAppInstances[req.query.key];
+    const data = await instance.createNewGroup(req.body.data);
+    if(data.error) return res.status(401).json(data)
+    return res.status(201).json(data);
+})
+
+
+router.delete('/leaveGroup', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+    const instance = WhatsAppInstances[req.query.key];
+    const data = await instance.leaveGroup(req.query.id);
+    if(data.error) return res.status(401).json(data)
+    return res.status(201).json(data);
+})
+
+
+router.get('/groupInviteCode', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+    const instance = WhatsAppInstances[req.query.key];
+    const data = await instance.getInviteCodeOfGroup(req.query.id);
+    if (data.error) return res.status(401).json(data)
+    return res.status(201).json(data);
+})
+
+
 
 module.exports = router;

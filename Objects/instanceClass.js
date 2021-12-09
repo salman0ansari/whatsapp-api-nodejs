@@ -381,6 +381,39 @@ class WhatsAppInstance {
         }
     }
 
+    async createNewGroup(data) {
+        try {
+            const res = await this.instance.conn?.groupCreate(
+                data.group_name,
+                this.parseParticipants(data.new_participants)
+            );
+            return res;
+        } catch {
+            return { error: true, message: "unable to create group, check if all participants have adding to group enabled" }
+        }
+    }
+
+    async leaveGroup(groupId) {
+        try {
+            const res = await this.instance.conn?.groupLeave(
+                this.getWhatsAppId(groupId)
+            );
+            return res;
+        } catch {
+            return { error: true, message: "unable to leave group, check if the group exists" }
+        }
+    }
+
+    async getInviteCodeOfGroup(groupId) {
+        try {
+            const res = await this.instance.conn?.groupInviteCode(
+                this.getWhatsAppId(groupId)
+            );
+            return res;
+        } catch {
+            return { error: true, message: "unable to get invite code, check if the group exists" }
+        }
+    }
 }
 
 exports.WhatsAppInstance = WhatsAppInstance
