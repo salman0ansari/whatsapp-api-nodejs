@@ -71,7 +71,7 @@ router.get('/instance', InstanceKeyVerification, InstanceLoginVerification, asyn
 // Logout a Instance
 router.delete('/logout', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
-    await instance.logout();
+    await instance.conn?.logout();
     res.json({
         error: false,
         message: "logout successfull"
@@ -82,7 +82,7 @@ router.delete('/logout', InstanceKeyVerification, InstanceLoginVerification, asy
 router.delete('/delete', InstanceKeyVerification, async (req, res) => {
     let instance_key = req.query.key
     const instance = WhatsAppInstances[instance_key];
-    await instance.logout();
+    await instance.conn?.logout();
     delete WhatsAppInstances[instance_key];
     try {
         fs.unlinkSync(`${path}${instance_key}.json`);
