@@ -5,6 +5,9 @@ const adminGroups = require("./adminGroups")
 const addParticipant = require("./addParticipant")
 const makeAdmin = require("./makeAdmin")
 const demoteAdmin = require("./demoteAdmin")
+const createGroup = require("./createGroup")
+const leaveGroup = require("./leaveGroup")
+const groupInviteCode = require("./groupInviteCode")
 
 module.exports = {
         '/group':{
@@ -27,5 +30,14 @@ module.exports = {
         },
         '/demoteAdmin':{
             ...demoteAdmin
+        },
+        '/createGroup': {
+            ...createGroup
+        },
+        '/leaveGroup':{
+            ...leaveGroup
+        },
+        '/groupInviteCode':{
+            ...groupInviteCode
         }
 }
