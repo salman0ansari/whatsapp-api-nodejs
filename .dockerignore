@@ -1,4 +1,3 @@
 node_modules
 /Logs/access.log
-Instance/*
 !Instances/.keep 
