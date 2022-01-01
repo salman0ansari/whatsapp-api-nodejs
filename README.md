@@ -36,7 +36,17 @@ If you find an issue, report it. Have questions? drop me a msg on telegram at [@
 
 ### [](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/README.md#legal)⚖️ Legal
 - This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.
-- Use at your own risk.
+- The official WhatsApp website can be found at https://whatsapp.com. "WhatsApp" as well as related names, marks, emblems and images are registered trademarks of their respective owners.
+- This is an independent and unofficial software Use at your own risk.
 - Do not spam people with this.
+
+### [](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/README.md#contributing) :busts_in_silhouette: Contributing
+- Contributing is simple as cloning, making changes and submitting a pull request.
+- If you would like to contribute, here are a few starters:
+- Bug Hunts.
+- More sorts of examples.
+- Make code clean.
+- Additional features/ More integrations.
+- TS support.
 
 #### Thanks to [Manjit](https://github.com/Manjit2003) for instance class.
