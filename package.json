@@ -36,7 +36,7 @@
     "multer": "^1.4.3",
     "qrcode": "^1.4.4",
     "swagger-jsdoc": "5.0.1",
-    "swagger-ui-express": "^3.0.10",
+    "swagger-ui-express": "^4.3.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
