@@ -1,7 +1,8 @@
 require('dotenv').config()
 const {
     MessageType,
-    WAConnection
+    WAConnection,
+    Mimetype
 } = require("@adiwajshing/baileys")
 const QRCode = require("qrcode")
 const { v4: uuidv4 } = require('uuid')
@@ -147,6 +148,49 @@ class WhatsAppInstance {
             }
         );
         return data;
+    }
+
+    async sendMediaURL(
+        to,
+        type,
+        caption,
+        fileurl
+    ) {
+        try {
+            await this.verifyId(this.getWhatsAppId(to));
+        } catch (error) {
+            return { error: true, error }
+        }
+
+        let msgType;
+        let mimType;
+
+        switch (type) {
+            case "image":
+                msgType = MessageType.image
+                mimType = Mimetype.jpeg
+                break;
+            case "video":
+                msgType = MessageType.video
+                mimType = Mimetype.mp4
+                break;
+            default:
+                return { error: true, msg: "msgtype should be video or image" }
+        }
+
+        try {
+            const data = await this.instance.conn?.sendMessage(
+                this.getWhatsAppId(to),
+                { url: fileurl },
+                msgType,
+                {
+                    mimetype: mimType,
+                    caption: caption
+                });
+            return data;
+        } catch (error) {
+            return { error: true, error }
+        }
     }
 
     async sendDocument(

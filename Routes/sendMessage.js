@@ -127,4 +127,19 @@ router.post('/isonwhatsapp', InstanceKeyVerification, InstanceLoginVerification,
     });
 })
 
+router.post('/sendMediaUrl', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+    const instance = WhatsAppInstances[req.query.key];
+    const data = await instance.sendMediaURL(
+        req.body.msg_data.id,
+        req.body.msg_data.msgtype,
+        req.body.msg_data.caption,
+        req.body.msg_data.fileurl
+    );
+    if(data.error) return res.status(404).json(data)
+    res.status(201).json({
+        error: false,
+        data: data,
+    });
+})
+
 module.exports = router;
