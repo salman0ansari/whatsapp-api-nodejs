@@ -245,7 +245,8 @@ module.exports = {
                         }
                     },
                     "headerType": {
-                        "type": "number"
+                        "type": "number",
+                        "default": 1
                     }
                 }
             },
@@ -294,7 +295,8 @@ module.exports = {
                         "$ref": "#/components/schemas/ButtonText"
                     },
                     "type": {
-                        "type": "number"
+                        "type": "number",
+                        "default": 1
                     }
                 }
             },

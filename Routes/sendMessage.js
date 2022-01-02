@@ -96,7 +96,7 @@ router.post('/sendLocation', InstanceKeyVerification, InstanceLoginVerification,
     });
 })
 
-router.post('/sendVCardMessage', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+router.post('/sendVCard', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.sendVCardMessage(req.body.msg_data.id, req.body.msg_data);
     if(data.error) return res.status(404).json(data)
@@ -106,7 +106,7 @@ router.post('/sendVCardMessage', InstanceKeyVerification, InstanceLoginVerificat
     });
 })
 
-router.post('/sendButtonMessage', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
+router.post('/sendButton', InstanceKeyVerification, InstanceLoginVerification, async (req, res) => {
     const instance = WhatsAppInstances[req.query.key];
     const data = await instance.sendButtonMessage(req.body.msg_data.id, req.body.msg_data);
     if(data.error) return res.status(404).json(data)
