@@ -6,6 +6,7 @@ const documentt = require("./document")
 const location = require("./location")
 const vcard = require("./vcard")
 const button = require("./button")
+const sendMedia = require("./sendMedia")
 
 module.exports = {
         '/sendText':{
@@ -16,6 +17,9 @@ module.exports = {
         },
         '/sendVideo':{
             ...video
+        },
+        '/sendMediaUrl': {
+            ...sendMedia
         },
         '/sendAudio':{
             ...audio

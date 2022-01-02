@@ -308,6 +308,23 @@ module.exports = {
                     }
                 }
             },
+            "MediaMessage": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "msgtype": {
+                        "type": "string"
+                    },
+                    "caption": {
+                        "type": "string"
+                    },
+                    "fileurl": {
+                        "type": "string"
+                    }
+                }
+            },
             "CreateGroupModel": {
                 "type": "object",
                 "properties": {
