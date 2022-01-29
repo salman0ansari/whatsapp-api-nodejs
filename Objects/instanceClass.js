@@ -9,11 +9,12 @@ const { v4: uuidv4 } = require('uuid')
 const { ErrorHandler } = require("../Exceptions/InvalidNumber.exception")
 const fs = require("fs")
 const axios = require("axios")
-
+const yargs = require('yargs/yargs')
+global.options = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse())
 class WhatsAppInstance {
-
+    
     key = uuidv4();
-
+    
     instance = {
         key: this.key,
         qrcode: "",
@@ -107,8 +108,9 @@ class WhatsAppInstance {
                         newMsg.message = msg;
                         newMsg.messageType = "location";
                     }
-
-                    this.sendJsonData(newMsg);
+                    if (options['webhook']) {
+                        this.sendJsonData(newMsg);
+                    }
                 });
             }
         });
