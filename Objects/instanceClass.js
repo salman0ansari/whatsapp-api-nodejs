@@ -101,8 +101,10 @@ class WhatsAppInstance {
                             msg
                         );
                         newMsg.message = msg;
-                        newMsg.message.base64 = mediaContent?.toString("base64");
                         newMsg.messageType = "media";
+                        if(options['fullsize']) {
+                            newMsg.base64 = mediaContent?.toString("base64");
+                        }
                     }
                     if (msg.message?.locationMessage) {
                         newMsg.message = msg;
