@@ -6,7 +6,7 @@
 • [FAQs](#-faqs)
 • [Legal](#-legal)
 • [Contributing](#-contributing)
-### [📃 /api-docs](https://api.mdsalman.tech/api-docs/)
+### [📃 /api-docs](https://whatsap-i.herokuapp.com/api-docs/)
 
 ### [🧐 Why use this?](#-why-use-this)
 - 🌠 Fast : This project uses Baileys which does not require Selenium or any other browser to be interface with WhatsApp Web, it does so directly using a WebSocket. Not running Selenium or Chromimum saves you like half a gig of ram :/
