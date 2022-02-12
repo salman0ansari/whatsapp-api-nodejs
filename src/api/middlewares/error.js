@@ -1,17 +1,19 @@
 const httpStatus = require('http-status');
-const APIError = require('../errors/api-error');
+const APIError = require('../../api/errors/api.error');
 
 
 const handler = (err, req, res, next) => {
+  const statusCode = err.statusCode ? err.statusCode : 500
+
   const response = {
-    code: err.status,
-    message: err.message || httpStatus[err.status],
-    errors: err.errors,
+    code: statusCode,
+    message: err.message || httpStatus[statusCode]
   };
 
-  res.status(err.status);
+  res.status(statusCode);
   res.json(response);
 };
+
 exports.handler = handler;
 
 exports.notFound = (req, res, next) => {

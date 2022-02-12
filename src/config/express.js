@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path")
 const app = express()
+const error = require("../api/middlewares/error")
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json({ limit: '50mb' }));
