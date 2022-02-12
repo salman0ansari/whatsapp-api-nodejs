@@ -1,4 +1,5 @@
 const { WhatsAppInstance } = require("../class/instance")
+const fs = require("fs")
 
 exports.init = async (req, res) => {
         const instance = new WhatsAppInstance();
@@ -25,4 +26,43 @@ exports.qr = async (req, res) => {
             qrcode: "",
         });
     }
+}
+
+exports.info = async (req, res) => {
+    instance_key = req.query.key
+    const instance = WhatsAppInstances[instance_key];
+    let data = ""
+    console.log(data)
+    try {
+        data = await instance.getInstanceDetail();
+    }
+    catch (error){
+        data = {}
+    }
+    res.json({
+        error: false,
+        message: "Instance fetched successfully",
+        instance_data: data,
+    });
+}
+
+exports.restore = async (req, res) => {
+    const restored = [];
+    const instances = fs.readdirSync("./api/sessiondata");
+    instances.forEach((instanceData) => {
+        if (instanceData == ".gitkeep") {
+            return;
+        }
+        const key = instanceData.split(".")[0];
+        const instance = new WhatsAppInstance();
+        instance.key = key;
+        instance.init(instanceData);
+        WhatsAppInstances[key] = instance;
+        restored.push(key);
+    });
+
+    res.json({
+        error: false,
+        message: "All instances restored",
+    });
 }
