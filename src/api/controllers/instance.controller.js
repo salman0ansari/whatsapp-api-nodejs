@@ -2,24 +2,21 @@ const { WhatsAppInstance } = require("../class/instance")
 const fs = require("fs")
 
 exports.init = async (req, res) => {
-        const instance = new WhatsAppInstance();
-        const data = await instance.init();
-        WhatsAppInstances[data.key] = instance;
-        res.json({
-            error: false,
-            message: "Initializing successfull",
-            key: data.key
-        });
+    const instance = new WhatsAppInstance();
+    const data = await instance.init();
+    WhatsAppInstances[data.key] = instance;
+    res.json({
+        error: false,
+        message: "Initializing successfull",
+        key: data.key
+    });
 }
 
 exports.qr = async (req, res) => {
-    const instance = WhatsAppInstances[req.query.key];
     try {
-        const qrcode = await instance.instance.qrcode;
-        const instance_key = instance.key;
+        const qrcode = await WhatsAppInstances[req.query.key].instance.qrcode;
         res.render('qrcode', {
             qrcode: qrcode,
-            instance_key: instance_key
         })
     } catch {
         res.json({
@@ -29,17 +26,15 @@ exports.qr = async (req, res) => {
 }
 
 exports.info = async (req, res) => {
-    instance_key = req.query.key
-    const instance = WhatsAppInstances[instance_key];
+    const instance = WhatsAppInstances[req.query.key];
     let data = ""
-    console.log(data)
     try {
         data = await instance.getInstanceDetail();
     }
-    catch (error){
+    catch (error) {
         data = {}
     }
-    res.json({
+    return res.json({
         error: false,
         message: "Instance fetched successfully",
         instance_data: data,
@@ -61,8 +56,34 @@ exports.restore = async (req, res) => {
         restored.push(key);
     });
 
-    res.json({
+    return res.json({
         error: false,
         message: "All instances restored",
     });
 }
+
+exports.logout = async (req, res) => {
+    try {
+        await WhatsAppInstances[req.query.key].instance.conn?.logout();
+    } catch (error) {
+        console.log(error)
+    }
+    return res.json({
+        error: false,
+        message: "logout successfull"
+    })
+}
+
+exports.delete = async (req, res) => {
+    try {
+        await WhatsAppInstances[req.query.key].instance.conn?.logout();
+        delete WhatsAppInstances[instance_key];
+    } catch (error) {
+        console.log(error)
+    }
+    return res.json({
+        error: false,
+        message: "Instance deleted successfully",
+    });
+}
+

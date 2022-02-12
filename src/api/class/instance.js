@@ -27,7 +27,7 @@ class WhatsAppInstance {
         let conn = makeWASocket({
             auth: state,
             logger: pino({
-                level: 'error'
+                level: 'debug'
             }),
             printQRInTerminal: false
         });
@@ -47,24 +47,25 @@ class WhatsAppInstance {
                 }
                 if (lastDisconnect.error?.output?.statusCode === 401) {
                     if (fs.existsSync(path.join(__dirname, `../sessiondata/${this.key}.json`))) {
-                        fs.unlinkSync(path.join(__dirname, `../sessiondata/${this.key}.json`));
+                        fs.unlinkSync(path.join(__dirname, `../sessiondata/${this.key}.json`))
                         this.instance.online = false
                     }
                 }
                 // if (lastDisconnect.error?.output?.statusCode === 411) {
                 //     join multi device error
                 // }
-            }   else if(connection === 'open') {
+            } else if (connection === 'open') {
                 console.log('opened connection')
                 this.instance.online = true
+                console.log(this.instance.conn.logout)
             }
-            
+
         });
 
         this.instance.conn?.ev.on('auth-state.update', async () => {
             const session = this.instance.conn?.authState;
-            await fs.writeFileSync(path.join(__dirname, `../sessiondata/${this.key}.json`),
-                JSON.stringify(session, BufferJSON.replacer, 2));
+            await fs.writeFileSync(path.join(__dirname, `../sessiondata/${this.key}.json`) 
+            ,JSON.stringify(session, BufferJSON.replacer, 2));
         });
 
         //
@@ -112,7 +113,7 @@ class WhatsAppInstance {
         return this.instance;
     }
 
-    getInstanceDetail() {
+    async getInstanceDetail() {
         return {
             instance_key: this.key,
             phone_connected: this.instance?.online,
@@ -121,5 +122,6 @@ class WhatsAppInstance {
                 : {},
         };
     }
+
 }
 exports.WhatsAppInstance = WhatsAppInstance
