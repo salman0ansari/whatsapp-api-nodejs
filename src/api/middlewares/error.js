@@ -5,13 +5,13 @@ const APIError = require('../../api/errors/api.error');
 const handler = (err, req, res, next) => {
   const statusCode = err.statusCode ? err.statusCode : 500
 
-  const response = {
-    code: statusCode,
-    message: err.message || httpStatus[statusCode]
-  };
-
-  res.status(statusCode);
-  res.json(response);
+    res.setHeader('Content-Type', 'application/json');
+    res.status(statusCode);
+    res.json({
+      error: true,
+      code: statusCode,
+      message: err.message
+    });
 };
 
 exports.handler = handler;

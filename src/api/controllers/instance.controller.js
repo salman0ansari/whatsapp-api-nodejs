@@ -1,5 +1,6 @@
 const { WhatsAppInstance } = require("../class/instance")
 const fs = require("fs")
+const path = require("path")
 
 exports.init = async (req, res) => {
     const instance = new WhatsAppInstance();
@@ -41,9 +42,10 @@ exports.info = async (req, res) => {
     });
 }
 
-exports.restore = async (req, res) => {
-    const restored = [];
-    const instances = fs.readdirSync("./api/sessiondata");
+exports.restore = async (req, res, next) => {
+    try {
+        const restored = [];
+    const instances = fs.readdirSync(path.join(__dirname,  '../sessiondata'));
     instances.forEach((instanceData) => {
         if (instanceData == ".gitkeep") {
             return;
@@ -55,16 +57,19 @@ exports.restore = async (req, res) => {
         WhatsAppInstances[key] = instance;
         restored.push(key);
     });
-
     return res.json({
         error: false,
         message: "All instances restored",
     });
+    } catch (error) {
+        next(error)
+    }
+    
 }
 
 exports.logout = async (req, res) => {
     try {
-        await WhatsAppInstances[req.query.key].instance.conn?.logout();
+        await WhatsAppInstances[req.query.key].instance.sock?.logout();
     } catch (error) {
         console.log(error)
     }
@@ -76,7 +81,7 @@ exports.logout = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
-        await WhatsAppInstances[req.query.key].instance.conn?.logout();
+        await WhatsAppInstances[req.query.key].instance.sock?.logout();
         delete WhatsAppInstances[instance_key];
     } catch (error) {
         console.log(error)

@@ -9,9 +9,11 @@ const {
 const fs = require("fs");
 const { v4: uuidv4 } = require('uuid')
 const path = require("path")
+// const APIError = require("../errors/api.error")
+// const httpStatus = require('http-status');
+// var httpError = require('express-exception-handler').exception
 
 // http://localhost:3333/instance/qr?key=
-
 class WhatsAppInstance {
 
     key = uuidv4();
@@ -24,7 +26,7 @@ class WhatsAppInstance {
 
     async init() {
         let { state, saveState } = useSingleFileAuthState(path.join(__dirname, `../sessiondata/${this.key}.json`));
-        let conn = makeWASocket({
+        let sock = makeWASocket({
             auth: state,
             logger: pino({
                 level: 'debug'
@@ -32,9 +34,9 @@ class WhatsAppInstance {
             printQRInTerminal: false
         });
 
-        this.instance.conn = conn;
+        this.instance.sock = sock;
 
-        this.instance.conn?.ev.on('connection.update', async (update) => {
+        this.instance.sock?.ev.on('connection.update', async (update) => {
             const { connection, lastDisconnect, qr } = update;
             if (qr) {
                 let qrcode = await QRCode.toDataURL(qr);
@@ -57,24 +59,24 @@ class WhatsAppInstance {
             } else if (connection === 'open') {
                 console.log('opened connection')
                 this.instance.online = true
-                console.log(this.instance.conn.logout)
+                // console.log(this.instance)
             }
 
         });
 
-        this.instance.conn?.ev.on('auth-state.update', async () => {
-            const session = this.instance.conn?.authState;
+        this.instance.sock?.ev.on('auth-state.update', async () => {
+            const session = this.instance.sock?.authState;
             await fs.writeFileSync(path.join(__dirname, `../sessiondata/${this.key}.json`) 
             ,JSON.stringify(session, BufferJSON.replacer, 2));
         });
 
         //
-        // this.instance.conn?.ev.on("chats.update", async (data) => {
+        // this.instance.sock?.ev.on("chats.update", async (data) => {
         //     if (data.messages) {
         //         data.messages?.all().forEach(async (msg) => {
         //             const newMsg = {
         //                 instance_key: this.key,
-        //                 phone: this.instance.conn?.user.jid,
+        //                 phone: this.instance.sock?.user.jid,
         //                 messageType: "",
         //                 message: msg,
         //             };
@@ -88,7 +90,7 @@ class WhatsAppInstance {
         //                 msg.message?.videoMessage ||
         //                 msg.message?.documentMessage
         //             ) {
-        //                 const mediaContent = await this.instance.conn?.downloadMediaMessage(
+        //                 const mediaContent = await this.instance.sock?.downloadMediaMessage(
         //                     msg
         //                 );
         //                 newMsg.message = msg;
@@ -109,7 +111,7 @@ class WhatsAppInstance {
         //         })
         //     }
         // })
-        this.instance.conn?.ev.on('creds.update', saveState);
+        this.instance.sock?.ev.on('creds.update', saveState);
         return this.instance;
     }
 
@@ -118,10 +120,28 @@ class WhatsAppInstance {
             instance_key: this.key,
             phone_connected: this.instance?.online,
             user: this.instance?.online
-                ? this.instance.conn?.user
+                ? this.instance.sock?.user
                 : {},
         };
     }
+    
+    getWhatsAppId(id) {
+        return id?.includes("-") ? `${id}@g.us` : `${id}@s.whatsapp.net`;
+    }
 
+    async verifyId(id) {
+        if (id.includes("@g.us")) return true
+        const [result] = await this.instance.sock?.onWhatsApp(id);
+        if (result?.exists) return true;
+        throw new Error("no account exists");
+    }
+
+    async sendTextMessage(to, message) {
+        await this.verifyId(this.getWhatsAppId(to));
+        const data = await this.instance.sock?.sendMessage(
+            this.getWhatsAppId(to),
+            {text: message});
+        return data;
+    }
 }
 exports.WhatsAppInstance = WhatsAppInstance
