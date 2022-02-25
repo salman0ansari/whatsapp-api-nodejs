@@ -149,7 +149,7 @@ class WhatsAppInstance {
 
     async verifyId(id) {
         if (id.includes('@g.us')) return true
-        const [result] = await this.instance?.sock?.onWhatsApp(id)
+        const [result] = await this.instance.sock?.onWhatsApp(id)
         if (result?.exists) return true
         throw new Error('no account exists')
     }
@@ -173,6 +173,22 @@ class WhatsAppInstance {
                 [type]: file.buffer,
                 caption: caption,
                 ptt: type === 'audio' ? true : false,
+            }
+        )
+        return data
+    }
+
+    async sendUrlMediaFile(to, url, caption = '', type, mimeType) {
+        await this.verifyId(this.getWhatsAppId(to))
+
+        const data = await this.instance.sock?.sendMessage(
+            this.getWhatsAppId(to),
+            {
+                [type]: {
+                    url: url,
+                },
+                caption: caption,
+                mimetype: mimeType,
             }
         )
         return data
