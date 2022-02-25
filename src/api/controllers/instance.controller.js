@@ -69,7 +69,7 @@ exports.restore = async (req, res, next) => {
 
 exports.logout = async (req, res) => {
     try {
-        await WhatsAppInstances[req.query.key].instance.sock?.logout();
+        await WhatsAppInstances[req.query.key].instance?.sock?.logout();
     } catch (error) {
         console.log(error)
     }
@@ -81,7 +81,7 @@ exports.logout = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
-        await WhatsAppInstances[req.query.key].instance.sock?.logout();
+        await WhatsAppInstances[req.query.key].instance?.sock?.logout();
         delete WhatsAppInstances[instance_key];
     } catch (error) {
         console.log(error)
