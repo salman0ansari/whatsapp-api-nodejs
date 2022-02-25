@@ -31,7 +31,9 @@ class WhatsAppInstance {
             logger: pino({
                 level: 'debug'
             }),
-            printQRInTerminal: false
+            printQRInTerminal: false,
+            version: [2,2204,13],
+            browser: [ 'Whatsapp MD', '', '3.0' ]
         });
 
         this.instance.sock = sock;
@@ -66,8 +68,8 @@ class WhatsAppInstance {
 
         this.instance.sock?.ev.on('auth-state.update', async () => {
             const session = this.instance.sock?.authState;
-            await fs.writeFileSync(path.join(__dirname, `../sessiondata/${this.key}.json`) 
-            ,JSON.stringify(session, BufferJSON.replacer, 2));
+            await fs.writeFileSync(path.join(__dirname, `../sessiondata/${this.key}.json`)
+                , JSON.stringify(session, BufferJSON.replacer, 2));
         });
 
         //
@@ -124,7 +126,7 @@ class WhatsAppInstance {
                 : {},
         };
     }
-    
+
     getWhatsAppId(id) {
         return id?.includes("-") ? `${id}@g.us` : `${id}@s.whatsapp.net`;
     }
@@ -140,8 +142,23 @@ class WhatsAppInstance {
         await this.verifyId(this.getWhatsAppId(to));
         const data = await this.instance.sock?.sendMessage(
             this.getWhatsAppId(to),
-            {text: message});
+            { text: message });
+        return data;
+    }
+
+    async sendMediaFile(to, caption = "", file, type) {
+        await this.verifyId(this.getWhatsAppId(to));
+        // console.log([type]);
+        const data = await this.instance.sock?.sendMessage(
+            this.getWhatsAppId(to),
+            {   mimetype: file.mimetype,
+                [type]: file.buffer,
+                caption: caption,
+                ptt: type === "audio" ? true : false,
+            }
+        );
         return data;
     }
 }
+
 exports.WhatsAppInstance = WhatsAppInstance
