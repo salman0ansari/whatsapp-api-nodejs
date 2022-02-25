@@ -2,8 +2,8 @@ exports.Text = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendTextMessage(
         req.query.id,
         req.query.message
-    );
-    return res.status(201).json({ error: false, data: data });
+    )
+    return res.status(201).json({ error: false, data: data })
 }
 
 exports.Image = async (req, res) => {
@@ -11,9 +11,9 @@ exports.Image = async (req, res) => {
         req.query.id,
         req.query?.caption,
         req.file,
-        "image"
-    );
-    return res.status(201).json({ error: false, data: data });
+        'image'
+    )
+    return res.status(201).json({ error: false, data: data })
 }
 
 exports.Video = async (req, res) => {
@@ -21,9 +21,9 @@ exports.Video = async (req, res) => {
         req.query.id,
         req.query?.caption,
         req.file,
-        "video"
-    );
-    return res.status(201).json({ error: false, data: data });
+        'video'
+    )
+    return res.status(201).json({ error: false, data: data })
 }
 
 exports.Audio = async (req, res) => {
@@ -31,9 +31,9 @@ exports.Audio = async (req, res) => {
         req.query.id,
         req.query?.caption,
         req.file,
-        "audio"
-    );
-    return res.status(201).json({ error: false, data: data });
+        'audio'
+    )
+    return res.status(201).json({ error: false, data: data })
 }
 
 exports.document = async (req, res) => {
@@ -41,8 +41,7 @@ exports.document = async (req, res) => {
         req.query.id,
         req.query?.caption,
         req.file,
-        "document"
-    );
-    return res.status(201).json({ error: false, data: data });
+        'document'
+    )
+    return res.status(201).json({ error: false, data: data })
 }
-
