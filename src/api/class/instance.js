@@ -193,6 +193,15 @@ class WhatsAppInstance {
         )
         return data
     }
+
+    async DownloadProfile(of) {
+        await this.verifyId(this.getWhatsAppId(of))
+        const ppUrl = await this.instance.sock?.profilePictureUrl(
+            this.getWhatsAppId(of),
+            'image'
+        )
+        return ppUrl
+    }
 }
 
 exports.WhatsAppInstance = WhatsAppInstance
