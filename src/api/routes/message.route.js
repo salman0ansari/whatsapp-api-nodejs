@@ -12,8 +12,7 @@ router.route('/text').post(keyVerify, loginVerify, controller.Text)
 router.route('/image').post(keyVerify, loginVerify, upload, controller.Image)
 router.route('/video').post(keyVerify, loginVerify, upload, controller.Video)
 router.route('/audio').post(keyVerify, loginVerify, upload, controller.Audio)
-router
-    .route('/document')
-    .post(keyVerify, loginVerify, upload, controller.Document)
+router.route('/doc').post(keyVerify, loginVerify, upload, controller.Document)
+router.route('/mediaurl').post(keyVerify, loginVerify, controller.mediaurl)
 
 module.exports = router

@@ -36,12 +36,23 @@ exports.Audio = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.document = async (req, res) => {
+exports.Document = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
         req.query.id,
         req.query?.caption,
         req.file,
         'document'
+    )
+    return res.status(201).json({ error: false, data: data })
+}
+
+exports.mediaurl = async (req, res) => {
+    const data = await WhatsAppInstances[req.query.key].sendUrlMediaFile(
+        req.query.id,
+        req.query.url,
+        req.query.caption,
+        req.type, // Types are [image, video, audio, document]
+        req.mimeType // mimeType of mediaFile / Common mimetypes `https://mzl.la/3si3and`
     )
     return res.status(201).json({ error: false, data: data })
 }
