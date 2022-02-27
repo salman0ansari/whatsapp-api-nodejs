@@ -29,7 +29,6 @@ exports.Video = async (req, res) => {
 exports.Audio = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
         req.query.id,
-        req.query?.caption,
         req.file,
         'audio'
     )
@@ -39,7 +38,6 @@ exports.Audio = async (req, res) => {
 exports.Document = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
         req.query.id,
-        req.query?.caption,
         req.file,
         'document'
     )
@@ -51,8 +49,8 @@ exports.mediaurl = async (req, res) => {
         req.query.id,
         req.query.url,
         req.query.caption,
-        req.type, // Types are [image, video, audio, document]
-        req.mimeType // mimeType of mediaFile / Common mimetypes `https://mzl.la/3si3and`
+        req.query.type, // Types are [image, video, audio, document]
+        req.query.mimetype // mimeType of mediaFile / Common mimetypes `https://mzl.la/3si3and`
     )
     return res.status(201).json({ error: false, data: data })
 }
