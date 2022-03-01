@@ -54,3 +54,12 @@ exports.mediaurl = async (req, res) => {
     )
     return res.status(201).json({ error: false, data: data })
 }
+
+exports.button = async (req, res) => {
+    // console.log(res.body)
+    const data = await WhatsAppInstances[req.query.key].sendButtonMessage(
+        req.query.id,
+        req.body.btndata
+    )
+    return res.status(201).json({ error: false, data: data })
+}
