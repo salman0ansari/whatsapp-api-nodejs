@@ -248,6 +248,16 @@ class WhatsAppInstance {
         )
         return result
     }
+
+    // Group Methods
+    
+    async createNewGroup(name, users) {
+        const group = await this.instance.sock?.groupCreate(
+            name,
+            users.map(this.getWhatsAppId)
+        )
+        return group
+    }
 }
 
 exports.WhatsAppInstance = WhatsAppInstance
