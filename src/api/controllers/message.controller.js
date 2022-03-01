@@ -44,7 +44,7 @@ exports.Document = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.mediaurl = async (req, res) => {
+exports.Mediaurl = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendUrlMediaFile(
         req.query.id,
         req.query.url,
@@ -55,7 +55,7 @@ exports.mediaurl = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.button = async (req, res) => {
+exports.Button = async (req, res) => {
     // console.log(res.body)
     const data = await WhatsAppInstances[req.query.key].sendButtonMessage(
         req.query.id,
@@ -64,10 +64,18 @@ exports.button = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.contact = async (req, res) => {
+exports.Contact = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendContactMessage(
         req.query.id,
         req.body.vcard
+    )
+    return res.status(201).json({ error: false, data: data })
+}
+
+exports.List = async (req, res) => {
+    const data = await WhatsAppInstances[req.query.key].sendListMessage(
+        req.query.id,
+        req.body.msgdata
     )
     return res.status(201).json({ error: false, data: data })
 }

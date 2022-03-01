@@ -13,8 +13,9 @@ router.route('/image').post(keyVerify, loginVerify, upload, controller.Image)
 router.route('/video').post(keyVerify, loginVerify, upload, controller.Video)
 router.route('/audio').post(keyVerify, loginVerify, upload, controller.Audio)
 router.route('/doc').post(keyVerify, loginVerify, upload, controller.Document)
-router.route('/mediaurl').post(keyVerify, loginVerify, controller.mediaurl)
-router.route('/button').post(keyVerify, loginVerify, controller.button)
-router.route('/contact').post(keyVerify, loginVerify, controller.contact)
+router.route('/mediaurl').post(keyVerify, loginVerify, controller.Mediaurl)
+router.route('/button').post(keyVerify, loginVerify, controller.Button)
+router.route('/contact').post(keyVerify, loginVerify, controller.Contact)
+router.route('/list').post(keyVerify, loginVerify, controller.List)
 
 module.exports = router
