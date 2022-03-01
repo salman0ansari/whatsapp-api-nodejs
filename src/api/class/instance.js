@@ -10,6 +10,7 @@ const {
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid')
 const path = require('path')
+const processButton = require('../helper/processbtn')
 // const APIError = require("../errors/api.error")
 // const httpStatus = require('http-status');
 // var httpError = require('express-exception-handler').exception
@@ -144,8 +145,8 @@ class WhatsAppInstance {
     }
 
     getWhatsAppId(id) {
-        if (id.includes("@g.us") || id.includes("@s.whatsapp.net")) return id
-        return id.includes("-") ? `${id}@g.us` : `${id}@s.whatsapp.net`
+        if (id.includes('@g.us') || id.includes('@s.whatsapp.net')) return id
+        return id.includes('-') ? `${id}@g.us` : `${id}@s.whatsapp.net`
     }
 
     async verifyId(id) {
@@ -202,6 +203,19 @@ class WhatsAppInstance {
             'image'
         )
         return ppUrl
+    }
+
+    async sendButtonMessage(to, data) {
+        await this.verifyId(this.getWhatsAppId(to))
+        const result = await this.instance.sock?.sendMessage(
+            this.getWhatsAppId(to),
+            {
+                templateButtons: processButton(data.buttons),
+                text: data.text ?? '',
+                footer: data.footerText ?? '',
+            }
+        )
+        return result
     }
 }
 
