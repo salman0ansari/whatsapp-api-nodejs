@@ -11,6 +11,7 @@ const fs = require('fs')
 const { v4: uuidv4 } = require('uuid')
 const path = require('path')
 const processButton = require('../helper/processbtn')
+const generateVC = require('../helper/genVc')
 // const APIError = require("../errors/api.error")
 // const httpStatus = require('http-status');
 // var httpError = require('express-exception-handler').exception
@@ -213,6 +214,21 @@ class WhatsAppInstance {
                 templateButtons: processButton(data.buttons),
                 text: data.text ?? '',
                 footer: data.footerText ?? '',
+            }
+        )
+        return result
+    }
+
+    async sendContactMessage(to, data) {
+        await this.verifyId(this.getWhatsAppId(to))
+        const vcard = generateVC(data)
+        const result = await this.instance.sock?.sendMessage(
+            await this.getWhatsAppId(to),
+            {
+                contacts: {
+                    displayName: data.fullName,
+                    contacts: [{ displayName: data.fullName, vcard }],
+                },
             }
         )
         return result
