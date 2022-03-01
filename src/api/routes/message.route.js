@@ -15,5 +15,6 @@ router.route('/audio').post(keyVerify, loginVerify, upload, controller.Audio)
 router.route('/doc').post(keyVerify, loginVerify, upload, controller.Document)
 router.route('/mediaurl').post(keyVerify, loginVerify, controller.mediaurl)
 router.route('/button').post(keyVerify, loginVerify, controller.button)
+router.route('/contact').post(keyVerify, loginVerify, controller.contact)
 
 module.exports = router
