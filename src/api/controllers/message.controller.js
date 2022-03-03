@@ -79,3 +79,11 @@ exports.List = async (req, res) => {
     )
     return res.status(201).json({ error: false, data: data })
 }
+
+exports.MediaButton = async (req, res) => {
+    const data = await WhatsAppInstances[req.query.key].sendMediaButtonMessage(
+        req.query.id,
+        req.body.btndata
+    )
+    return res.status(201).json({ error: false, data: data })
+}

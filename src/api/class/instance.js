@@ -249,8 +249,26 @@ class WhatsAppInstance {
         return result
     }
 
+    async sendMediaButtonMessage(to, data) {
+        await this.verifyId(this.getWhatsAppId(to))
+
+        const result = await this.instance.sock?.sendMessage(
+            this.getWhatsAppId(to),
+            {
+                [data.mediaType]: {
+                    url: data.image,
+                },
+                footer: data.footerText ?? '',
+                caption: data.text,
+                templateButtons: processButton(data.buttons),
+                mimetype: data.mimeType,
+            }
+        )
+        return result
+    }
+
     // Group Methods
-    
+
     async createNewGroup(name, users) {
         const group = await this.instance.sock?.groupCreate(
             name,
