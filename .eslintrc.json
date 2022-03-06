@@ -1,7 +1,7 @@
 {
     "root": true,
     "parserOptions": {
-        "ecmaVersion": 12,
+        "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "extends": ["eslint:recommended", "prettier"],
@@ -10,7 +10,9 @@
         "node": true
     },
     "rules": {
-        "no-console": "off"
+        "no-console": "warn",
+        "no-undefined": "warn",
+        "no-unused-vars": "warn"
     },
     "globals": {
         "WhatsAppInstances": true
