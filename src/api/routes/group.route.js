@@ -6,5 +6,6 @@ const loginVerify = require('../middlewares/loginCheck')
 const router = express.Router()
 
 router.route('/create').post(keyVerify, loginVerify, controller.create)
+router.route('/listall').get(keyVerify, loginVerify, controller.ListAll)
 
 module.exports = router
