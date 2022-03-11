@@ -12,6 +12,8 @@ const path = require('path')
 const processButton = require('../helper/processbtn')
 const generateVC = require('../helper/genVc')
 // const Chat = require("../models/chat.model")
+const axios = require('axios')
+const config = require('../../config/config')
 
 class WhatsAppInstance {
     socketConfig = {
@@ -26,12 +28,24 @@ class WhatsAppInstance {
         chats: [],
         qr: '',
     }
+
+    axiosInstance = axios.create({
+        baseURL: config.webhookUrl,
+    })
+
     constructor(key, allowWebhook = false) {
         this.key = key ? key : uuidv4()
         this.allowWebhook = allowWebhook
         this.authState = useSingleFileAuthState(
             path.join(__dirname, `../sessiondata/${this.key}.json`)
         )
+    }
+
+    async SendWebhook(data) {
+        if (!this.allowWebhook) return
+        this.axiosInstance.post('', data).catch((error) => {
+            return
+        })
     }
 
     async init() {
@@ -75,6 +89,12 @@ class WhatsAppInstance {
             if (qr) {
                 QRCode.toDataURL(qr).then((url) => {
                     this.instance.qr = url
+                    this.SendWebhook({
+                        type: 'update',
+                        message: 'Recived QR Code',
+                        key: this.key,
+                        qrcode: url,
+                    })
                 })
             }
         })

@@ -3,7 +3,9 @@ const fs = require('fs')
 const path = require('path')
 
 exports.init = async (req, res) => {
-    const instance = new WhatsAppInstance()
+    const key = req.query.key
+    const webhook = req.query.webhook === undefined ? false : req.query.webhook
+    const instance = new WhatsAppInstance(key, webhook)
     const data = await instance.init()
     WhatsAppInstances[data.key] = instance
     res.json({
