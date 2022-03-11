@@ -27,6 +27,7 @@ class WhatsAppInstance {
         key: this.key,
         chats: [],
         qr: '',
+        messages: [],
     }
 
     axiosInstance = axios.create({
@@ -91,7 +92,7 @@ class WhatsAppInstance {
                     this.instance.qr = url
                     this.SendWebhook({
                         type: 'update',
-                        message: 'Recived QR Code',
+                        message: 'Received QR Code',
                         key: this.key,
                         qrcode: url,
                     })
@@ -101,7 +102,7 @@ class WhatsAppInstance {
 
         // on receive all chats
         sock?.ev.on('chats.set', async ({ chats }) => {
-            console.log('recived all chat')
+            console.log('Received all chat')
             const recivedChats = chats.map((chat) => {
                 return {
                     ...chat,
@@ -116,7 +117,7 @@ class WhatsAppInstance {
 
         // on recive new chat
         sock?.ev.on('chats.upsert', (newChat) => {
-            // console.log("recived new chat")
+            // console.log("Received new chat")
             const chats = newChat.map((chat) => {
                 return {
                     ...chat,
@@ -147,6 +148,40 @@ class WhatsAppInstance {
                     (c) => c.id === chat
                 )
                 this.instance.chats.splice(index, 1)
+            })
+        })
+
+        // on new mssage
+        sock?.ev.on('messages.upsert', (m) => {
+            if (m.type == 'prepend')
+                this.instance.messages.unshift(...m.messages)
+            if (m.type != 'notify') return
+
+            this.instance.messages.unshift(...m.messages)
+
+            m.messages.map(async (msg) => {
+                if (!msg.message) return
+                if (msg.key.fromMe) return
+                
+                const messageType = Object.keys(msg.message)[0]
+                if (
+                    [
+                        'protocolMessage',
+                        'senderKeyDistributionMessage',
+                    ].includes(messageType)
+                )
+                    return
+
+                const webhookData = {
+                    // type: 'update',
+                    key: this.key,
+                    ...msg,
+                }
+
+                if (messageType === 'conversation') {
+                    webhookData['text'] = m
+                }
+                this.SendWebhook(webhookData)
             })
         })
     }
