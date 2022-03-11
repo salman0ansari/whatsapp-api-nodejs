@@ -3,143 +3,137 @@ const QRCode = require('qrcode')
 const pino = require('pino')
 const {
     default: makeWASocket,
-    BufferJSON,
     useSingleFileAuthState,
     DisconnectReason,
 } = require('@adiwajshing/baileys')
-const fs = require('fs')
+const { unlinkSync } = require('fs')
 const { v4: uuidv4 } = require('uuid')
 const path = require('path')
 const processButton = require('../helper/processbtn')
 const generateVC = require('../helper/genVc')
-// const APIError = require("../errors/api.error")
-// const httpStatus = require('http-status');
-// var httpError = require('express-exception-handler').exception
+// const Chat = require("../models/chat.model")
 
-// http://localhost:3333/instance/qr?key=
 class WhatsAppInstance {
-    constructor() {
-        this.key = uuidv4()
-        this.instance = {
-            key: this.key,
-            qrcode: '',
-            online: false,
-        }
+    socketConfig = {
+        printQRInTerminal: false,
+        browser: ['Whatsapp MD', '', '3.0'],
+    }
+    key = ''
+    authState
+    allowWebhook = false
+    instance = {
+        key: this.key,
+        chats: [],
+        qr: '',
+    }
+    constructor(key, allowWebhook = false) {
+        this.key = key ? key : uuidv4()
+        this.allowWebhook = allowWebhook
+        this.authState = useSingleFileAuthState(
+            path.join(__dirname, `../sessiondata/${this.key}.json`)
+        )
     }
 
     async init() {
-        let { state, saveState } = useSingleFileAuthState(
-            path.join(__dirname, `../sessiondata/${this.key}.json`)
-        )
-        let sock = makeWASocket({
-            auth: state,
-            logger: pino({
-                level: 'debug',
-            }),
-            printQRInTerminal: false,
-            version: [2, 2204, 13],
-            browser: ['Whatsapp MD', '', '3.0'],
-        })
+        this.socketConfig.auth = this.authState.state
+        this.instance.sock = makeWASocket(this.socketConfig)
+        this.setHandler()
+        // this.instance.sock = sock
+        return this
+        // return this.instance
+    }
 
-        this.instance.sock = sock
+    setHandler() {
+        const sock = this.instance.sock
+        // on credentials update save state
+        sock?.ev.on('creds.update', this.authState.saveState)
 
-        this.instance.sock?.ev.on('connection.update', async (update) => {
+        // on socket closed, opened, connecting
+        sock?.ev.on('connection.update', async (update) => {
             const { connection, lastDisconnect, qr } = update
-            if (qr) {
-                let qrcode = await QRCode.toDataURL(qr)
-                this.instance.qrcode = qrcode
-            }
+
+            if (connection == 'connecting') return
+
             if (connection === 'close') {
-                const shouldReconnect =
-                    lastDisconnect.error?.output?.statusCode !==
+                // reconnect if not logged out
+                if (
+                    lastDisconnect?.error?.output?.statusCode !==
                     DisconnectReason.loggedOut
-                if (shouldReconnect) {
-                    this.init()
+                ) {
+                    await this.init()
+                } else {
+                    unlinkSync(
+                        path.join(__dirname, `../sessiondata/${this.key}.json`)
+                    )
+                    this.instance.online = false
                 }
-                if (lastDisconnect.error?.output?.statusCode === 401) {
-                    if (
-                        fs.existsSync(
-                            path.join(
-                                __dirname,
-                                `../sessiondata/${this.key}.json`
-                            )
-                        )
-                    ) {
-                        fs.unlinkSync(
-                            path.join(
-                                __dirname,
-                                `../sessiondata/${this.key}.json`
-                            )
-                        )
-                        this.instance.online = false
-                    }
-                }
-                // if (lastDisconnect.error?.output?.statusCode === 411) {
-                //     join multi device error
-                // }
             } else if (connection === 'open') {
                 console.log('opened connection')
                 this.instance.online = true
-                // console.log(this.instance)
+            }
+
+            if (qr) {
+                QRCode.toDataURL(qr).then((url) => {
+                    this.instance.qr = url
+                })
             }
         })
 
-        this.instance.sock?.ev.on('auth-state.update', async () => {
-            const session = this.instance.sock?.authState
-            await fs.writeFileSync(
-                path.join(__dirname, `../sessiondata/${this.key}.json`),
-                JSON.stringify(session, BufferJSON.replacer, 2)
-            )
+        // on receive all chats
+        sock?.ev.on('chats.set', async ({ chats }) => {
+            console.log('recived all chat')
+            const recivedChats = chats.map((chat) => {
+                return {
+                    ...chat,
+                    messages: [],
+                }
+            })
+            this.instance.chats.push(...recivedChats)
+            //    const db = await Chat({key: this.key, chat: this.instance.chats})
+            //    await db.save()
+            //    console.log(db)
         })
 
-        //
-        // this.instance.sock?.ev.on("chats.update", async (data) => {
-        //     if (data.messages) {
-        //         data.messages?.all().forEach(async (msg) => {
-        //             const newMsg = {
-        //                 instance_key: this.key,
-        //                 phone: this.instance.sock?.user.jid,
-        //                 messageType: "",
-        //                 message: msg,
-        //             };
-        //             if (msg.message?.conversation) {
-        //                 newMsg.message = msg;
-        //                 newMsg.messageType = "text";
-        //             }
-        //             if (
-        //                 msg.message?.audioMessage ||
-        //                 msg.message?.imageMessage ||
-        //                 msg.message?.videoMessage ||
-        //                 msg.message?.documentMessage
-        //             ) {
-        //                 const mediaContent = await this.instance.sock?.downloadMediaMessage(
-        //                     msg
-        //                 );
-        //                 newMsg.message = msg;
-        //                 newMsg.messageType = "media";
-        //                 if (options['fullsize']) {
-        //                     newMsg.base64 = mediaContent?.toString("base64");
-        //                 }
-        //             }
-        //             if (msg.message?.locationMessage) {
-        //                 newMsg.message = msg;
-        //                 newMsg.messageType = "location";
-        //             }
-        //             if (options['webhook']) {
-        //                 this.sendJsonData(newMsg);
-        //             }
+        // on recive new chat
+        sock?.ev.on('chats.upsert', (newChat) => {
+            // console.log("recived new chat")
+            const chats = newChat.map((chat) => {
+                return {
+                    ...chat,
+                    messages: [],
+                }
+            })
+            this.instance.chats.push(...chats)
+        })
 
-        //             // return true;
-        //         })
-        //     }
-        // })
-        this.instance.sock?.ev.on('creds.update', saveState)
-        return this.instance
+        // on chat change
+        sock?.ev.on('chats.update', (changedChat) => {
+            changedChat.map((chat) => {
+                const index = this.instance.chats.findIndex(
+                    (pc) => pc.id === chat.id
+                )
+                const PrevChat = this.instance.chats[index]
+                this.instance.chats[index] = {
+                    ...PrevChat,
+                    ...chat,
+                }
+            })
+        })
+
+        // on chat delete
+        sock?.ev.on('chats.delete', (deletedChats) => {
+            deletedChats.map((chat) => {
+                const index = this.instance.chats.findIndex(
+                    (c) => c.id === chat
+                )
+                this.instance.chats.splice(index, 1)
+            })
+        })
     }
 
-    async getInstanceDetail() {
+    async getInstanceDetail(key) {
         return {
-            instance_key: this.key,
+            instance_key: key,
             phone_connected: this.instance?.online,
             user: this.instance?.online ? this.instance.sock?.user : {},
         }
@@ -275,6 +269,11 @@ class WhatsAppInstance {
             users.map(this.getWhatsAppId)
         )
         return group
+    }
+
+    async getAllGroups() {
+        // let AllChat = await Chat.findOne({key: key}).exec();
+        return this.instance.chats.filter((c) => c.id.includes('@g.us'))
     }
 }
 
