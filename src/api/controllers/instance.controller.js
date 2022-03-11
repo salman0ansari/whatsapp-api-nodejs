@@ -15,7 +15,7 @@ exports.init = async (req, res) => {
 
 exports.qr = async (req, res) => {
     try {
-        const qrcode = await WhatsAppInstances[req.query.key].instance.qrcode
+        const qrcode = await WhatsAppInstances[req.query.key].instance.qr
         res.render('qrcode', {
             qrcode: qrcode,
         })
@@ -30,35 +30,36 @@ exports.info = async (req, res) => {
     const instance = WhatsAppInstances[req.query.key]
     let data = ''
     try {
-        data = await instance.getInstanceDetail()
+        data = await instance.getInstanceDetail(req.query.key)
     } catch (error) {
         data = {}
     }
     return res.json({
         error: false,
         message: 'Instance fetched successfully',
+        // instance_data: data,
         instance_data: data,
     })
 }
 
 exports.restore = async (req, res, next) => {
     try {
-        const restored = []
-        const instances = fs.readdirSync(path.join(__dirname, '../sessiondata'))
-        instances.forEach((instanceData) => {
-            if (instanceData == '.gitkeep') {
-                return
+        let restoredSessions = []
+        const instances = fs.readdirSync(path.join(__dirname, `../sessiondata`))
+        instances.map((file) => {
+            if (file.includes('.json')) {
+                restoredSessions.push(file.replace('.json', ''))
             }
-            const key = instanceData.split('.')[0]
-            const instance = new WhatsAppInstance()
-            instance.key = key
-            instance.init(instanceData)
+        })
+        restoredSessions.map((key) => {
+            const instance = new WhatsAppInstance(key)
+            instance.init()
             WhatsAppInstances[key] = instance
-            restored.push(key)
         })
         return res.json({
             error: false,
             message: 'All instances restored',
+            data: restoredSessions,
         })
     } catch (error) {
         next(error)
@@ -66,26 +67,30 @@ exports.restore = async (req, res, next) => {
 }
 
 exports.logout = async (req, res) => {
+    let errormsg
     try {
         await WhatsAppInstances[req.query.key].instance?.sock?.logout()
     } catch (error) {
-        console.log(error)
+        errormsg = error
     }
     return res.json({
         error: false,
         message: 'logout successfull',
+        errormsg: errormsg ? errormsg : null,
     })
 }
 
 exports.delete = async (req, res) => {
+    let errormsg
     try {
         await WhatsAppInstances[req.query.key].instance?.sock?.logout()
         delete WhatsAppInstances[req.query.key]
     } catch (error) {
-        console.log(error)
+        errormsg = error
     }
     return res.json({
         error: false,
         message: 'Instance deleted successfully',
+        data: errormsg ? errormsg : null,
     })
 }
