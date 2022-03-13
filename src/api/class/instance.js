@@ -330,6 +330,12 @@ class WhatsAppInstance {
         // let AllChat = await Chat.findOne({key: key}).exec();
         return this.instance.chats.filter((c) => c.id.includes('@g.us'))
     }
+
+    async leaveGroup(id) {
+        const group = this.instance.chats.find((c) => c.id === id);
+        if (!group) throw new Error("no group exists");
+        return await this.instance.sock?.groupLeave(id);
+      }
 }
 
 exports.WhatsAppInstance = WhatsAppInstance
