@@ -1,12 +1,7 @@
-const httpStatus = require('http-status')
 const ExtendableError = require('../errors/extendable.error')
 
 class APIError extends ExtendableError {
-    constructor({
-        message,
-        errors,
-        status = httpStatus.INTERNAL_SERVER_ERROR,
-    }) {
+    constructor({ message, errors, status = 500 }) {
         super({
             message,
             errors,

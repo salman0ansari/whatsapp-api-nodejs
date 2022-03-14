@@ -162,7 +162,7 @@ class WhatsAppInstance {
             m.messages.map(async (msg) => {
                 if (!msg.message) return
                 if (msg.key.fromMe) return
-                
+
                 const messageType = Object.keys(msg.message)[0]
                 if (
                     [
@@ -332,10 +332,10 @@ class WhatsAppInstance {
     }
 
     async leaveGroup(id) {
-        const group = this.instance.chats.find((c) => c.id === id);
-        if (!group) throw new Error("no group exists");
-        return await this.instance.sock?.groupLeave(id);
-      }
+        const group = this.instance.chats.find((c) => c.id === id)
+        if (!group) throw new Error('no group exists')
+        return await this.instance.sock?.groupLeave(id)
+    }
 }
 
 exports.WhatsAppInstance = WhatsAppInstance

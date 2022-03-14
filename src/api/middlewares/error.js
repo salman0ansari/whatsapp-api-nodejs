@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-const httpStatus = require('http-status')
 const APIError = require('../../api/errors/api.error')
 
 const handler = (err, req, res, next) => {
@@ -19,7 +18,7 @@ exports.handler = handler
 exports.notFound = (req, res, next) => {
     const err = new APIError({
         message: 'Not found',
-        status: httpStatus.NOT_FOUND,
+        status: 404,
     })
     return handler(err, req, res)
 }
