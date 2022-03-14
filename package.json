@@ -4,6 +4,7 @@
     "description": "whatsapp-api-nodejs is built on top of Baileys-MD.",
     "main": "server.js",
     "scripts": {
+        "start": "node src/server.js",
         "format:check": "prettier --check .",
         "format:write": "prettier --write .",
         "lint:check": "eslint .",
@@ -16,13 +17,10 @@
         "@adiwajshing/baileys": "^4.0.0",
         "ejs": "^3.1.6",
         "express": "^4.17.2",
-        "express-async-handler": "^1.2.0",
         "express-exception-handler": "^1.3.5",
-        "http-status": "^1.5.0",
         "mongoose": "^6.2.5",
         "multer": "^1.4.4",
         "qrcode": "^1.5.0",
-        "qrcode-terminal": "^0.12.0",
         "sharp": "^0.30.1",
         "uuid": "^8.3.2"
     },
