@@ -1,4 +1,2 @@
 node_modules
-.env
-/Logs/access.log
-/Instances/
+sessiondata

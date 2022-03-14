@@ -1,52 +1,85 @@
+<h1 align="center"> whatsapp-api-nodejs Multi Device</h1>
+</p>
+<p align="center">
+<a href="#"><img title="skynet" src="https://img.shields.io/badge/whatsapp api nodejs Multi Device-black?style=for-the-badge"></a>
+</p>
+<p align="center">
+<a href="https://github.com/salman0ansari"><img title="Author" src="https://img.shields.io/badge/Author-Mohd Salman Ansari-black.svg?style=for-the-badge&logo=github"></a>
+</p>
+<p align="center">
+<a href="https://github.com/salman0ansari/whatsapp-api-nodejs"><img title="Followers" src="https://img.shields.io/github/followers/salman0ansari?color=black&style=flat-square"></a>
+<a href="https://github.com/salman0ansari/whatsapp-api-nodejs"><img title="Stars" src="https://img.shields.io/github/stars/salman0ansari/whatsapp-api-nodejs?color=black&style=flat-square"></a>
+<a href="https://github.com/salman0ansari/whatsapp-api-nodejs/network/members"><img title="Forks" src="https://img.shields.io/github/forks/salman0ansari/whatsapp-api-nodejs?color=black&style=flat-square"></a>
 
-# whatsapp-api-nodejs ⚡
->> A simple NodeJS Wrapper for [Baileys](https://github.com/adiwajshing/Baileys). 
+---
+An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a simple RESTful API service with multi device support just `download`, `install`, and `start` using, `simple` as that.
+# Libraries Used
+- [Baileys](https://github.com/adiwajshing/Baileys/)
+- [Express](https://github.com/expressjs/express)
+# Installation
 
-• [Why use this?](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/README.md#whyuse) 
-• [FAQ](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/README.md#faq) 
-• [Legal](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/README.md#legal) 
-### [📃 /api-docs](https://api.mdsalman.tech/api-docs/)
+1. Download or clone this repo.
+2. Enter to the project directory.
+3. Execute `yarn install` or `npm install` to install the dependencies.
 
-### [](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/README.md#whyuse)🧐 Why use this?
-- 🌠 Fast : This project uses Baileys which does not require Selenium or any other browser to be interface with WhatsApp Web, it does so directly using a WebSocket. Not running Selenium or Chromimum saves you like half a gig of ram :/
-- 🔑 Safe : Does not mess with user’s data
+# Configuration
 
+Edit this constant in `src/config/config.js`
 
-### [](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/README.md#faq)🤔 FAQ
+```js
+// Port number
+const PORT = '3333'
+// URL of Mongo DB
+const MONGODB_URL = 'mongodb://127.0.0.1:27017/WhatsAppInstance'
+// Webhook URL
+const WEBHOOK_URL = 'https://webhook.site/d0122a66-18a3-432d-b63f-4772b190dd72'
+```
 
--   **😕 How do I setup environment variables?** 
-	1. Create a new file name it .env
-	2. Copy/Paste your secrets in .env file - [.env Example](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/.env.example ".env Example")
+# Usage
 
->- WEBHOOK_URL=https://webhook.site/123
->- WEBHOOK_KEY=
+1. You can start the server by executing `npm run start` or `yarn start`  
+## Generate Key
+To generate an Instance Key  
+Using the route:
+```bash
+curl --location --request GET 'localhost:3333/instance/init' \
+--data-raw ''
+```
 
--  **❓ Where do i get WEBHOOK_URL from?** 
-You can easily get a webhook for testing purpose from [webhook.site](https://webhook.site/ "webhook.site").
+Response:
+```json
+{
+    "error": false,
+    "message": "Initializing successfull",
+    "key": "d7e2abff-3ac8-44a9-a738-1b28e0fca8a5"
+}
+```
 
--  **🛠️ Is this app built with NodeJS?**
-Yes, it's built with [NodeJS](https://nodejs.org/en/).
-- **📦 What npm modules did you use?**
-[express](https://github.com/expressjs/express) for API Server
-  [baileys](https://github.com/adiwajshing/Baileys) for connecting to whatsapp web.
+# Using Key
+Save the value of the `key` from response. Then use this value to call all the routes.
 
-- **📥 How do I contact you?** 
-If you find an issue, report it. Have questions? drop me a msg on telegram at [@salman0ansari](https://t.me/salman0ansari)
+## Examples
 
+```sh
+#Get qrcode
+# /instance/qr?key=KEY
 
-### [](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/README.md#legal)⚖️ Legal
-- This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.
-- The official WhatsApp website can be found at https://whatsapp.com. "WhatsApp" as well as related names, marks, emblems and images are registered trademarks of their respective owners.
-- This is an independent and unofficial software Use at your own risk.
-- Do not spam people with this.
+curl --location --request GET 'localhost:3333/instance/qr?key=123'
+```
+```sh
+#Send Message
+# /message/text?key=KEY&id=ID&message=MESSAGE
 
-### [](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/README.md#contributing) :busts_in_silhouette: Contributing
-- Contributing is simple as cloning, making changes and submitting a pull request.
-- If you would like to contribute, here are a few starters:
-- Bug Hunts.
-- More sorts of examples.
-- Make code clean.
-- Additional features/ More integrations.
-- TS support.
+curl --location --request POST 'localhost:3333/message/text?key=123&id=919999999999&message=Hello World'
+```
+See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-api-nodejs/src/api/routes)
 
-#### Thanks to [Manjit](https://github.com/Manjit2003) for instance class.
+## Swagger Docs
+- WIP
+
+# Legal
+
+-   This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.
+-   The official WhatsApp website can be found at https://whatsapp.com. "WhatsApp" as well as related names, marks, emblems and images are registered trademarks of their respective owners.
+-   This is an independent and unofficial software Use at your own risk.
+-   Do not spam people with this.
