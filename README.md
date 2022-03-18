@@ -77,6 +77,9 @@ See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-a
 ## Swagger Docs
 - WIP
 
+## Postman Docs V1.0.0
+<a href="https://documenter.getpostman.com/view/6033139/UVsPPjSH" target="_blank"> View Postman Docs</a>
+
 # Legal
 
 -   This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.
