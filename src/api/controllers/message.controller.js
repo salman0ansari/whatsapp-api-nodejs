@@ -1,15 +1,15 @@
 exports.Text = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendTextMessage(
-        req.query.id,
-        req.query.message
+        req.body.id,
+        req.body.message
     )
     return res.status(201).json({ error: false, data: data })
 }
 
 exports.Image = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
-        req.query.id,
-        req.query?.caption,
+        req.body.id,
+        req.body?.caption,
         req.file,
         'image'
     )
@@ -18,8 +18,8 @@ exports.Image = async (req, res) => {
 
 exports.Video = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
-        req.query.id,
-        req.query?.caption,
+        req.body.id,
+        req.body?.caption,
         req.file,
         'video'
     )
@@ -28,7 +28,7 @@ exports.Video = async (req, res) => {
 
 exports.Audio = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
-        req.query.id,
+        req.body.id,
         req.file,
         'audio'
     )
@@ -37,7 +37,7 @@ exports.Audio = async (req, res) => {
 
 exports.Document = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
-        req.query.id,
+        req.body.id,
         req.file,
         'document'
     )
@@ -46,11 +46,11 @@ exports.Document = async (req, res) => {
 
 exports.Mediaurl = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendUrlMediaFile(
-        req.query.id,
-        req.query.url,
-        req.query.caption,
-        req.query.type, // Types are [image, video, audio, document]
-        req.query.mimetype // mimeType of mediaFile / Common mimetypes `https://mzl.la/3si3and`
+        req.body.id,
+        req.body.url,
+        req.body.caption,
+        req.body.type, // Types are [image, video, audio, document]
+        req.body.mimetype // mimeType of mediaFile / Check Common mimetypes in `https://mzl.la/3si3and`
     )
     return res.status(201).json({ error: false, data: data })
 }
@@ -58,7 +58,7 @@ exports.Mediaurl = async (req, res) => {
 exports.Button = async (req, res) => {
     // console.log(res.body)
     const data = await WhatsAppInstances[req.query.key].sendButtonMessage(
-        req.query.id,
+        req.body.id,
         req.body.btndata
     )
     return res.status(201).json({ error: false, data: data })
@@ -66,7 +66,7 @@ exports.Button = async (req, res) => {
 
 exports.Contact = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendContactMessage(
-        req.query.id,
+        req.body.id,
         req.body.vcard
     )
     return res.status(201).json({ error: false, data: data })
@@ -74,7 +74,7 @@ exports.Contact = async (req, res) => {
 
 exports.List = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendListMessage(
-        req.query.id,
+        req.body.id,
         req.body.msgdata
     )
     return res.status(201).json({ error: false, data: data })
@@ -82,7 +82,7 @@ exports.List = async (req, res) => {
 
 exports.MediaButton = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaButtonMessage(
-        req.query.id,
+        req.body.id,
         req.body.btndata
     )
     return res.status(201).json({ error: false, data: data })
