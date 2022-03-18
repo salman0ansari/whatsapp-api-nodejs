@@ -28,10 +28,11 @@ exports.qr = async (req, res) => {
     }
 }
 
-exports.qrcode = async (req, res) => {
+exports.qrbase64 = async (req, res) => {
     try {
         const qrcode = await WhatsAppInstances[req.query.key].instance.qr
         res.json({
+            error: false,
             qrcode: qrcode,
         })
     } catch {
