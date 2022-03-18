@@ -28,6 +28,21 @@ exports.qr = async (req, res) => {
     }
 }
 
+exports.qrbase64 = async (req, res) => {
+    try {
+        const qrcode = await WhatsAppInstances[req.query.key].instance.qr
+        res.json({
+            error: false,
+            message: 'QR Base64 fetched successfully',
+            qrcode: qrcode,
+        })
+    } catch {
+        res.json({
+            qrcode: '',
+        })
+    }
+}
+
 exports.info = async (req, res) => {
     const instance = WhatsAppInstances[req.query.key]
     let data = ''
