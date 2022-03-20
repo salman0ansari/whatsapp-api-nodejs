@@ -19,6 +19,9 @@ class WhatsAppInstance {
     socketConfig = {
         printQRInTerminal: false,
         browser: ['Whatsapp MD', '', '3.0'],
+        logger: pino({
+            level: 'silent',
+        }),
     }
     key = ''
     authState
@@ -53,9 +56,7 @@ class WhatsAppInstance {
         this.socketConfig.auth = this.authState.state
         this.instance.sock = makeWASocket(this.socketConfig)
         this.setHandler()
-        // this.instance.sock = sock
         return this
-        // return this.instance
     }
 
     setHandler() {
@@ -83,7 +84,6 @@ class WhatsAppInstance {
                     this.instance.online = false
                 }
             } else if (connection === 'open') {
-                console.log('opened connection')
                 this.instance.online = true
             }
 
@@ -102,7 +102,6 @@ class WhatsAppInstance {
 
         // on receive all chats
         sock?.ev.on('chats.set', async ({ chats }) => {
-            console.log('Received all chat')
             const recivedChats = chats.map((chat) => {
                 return {
                     ...chat,
@@ -173,7 +172,6 @@ class WhatsAppInstance {
                     return
 
                 const webhookData = {
-                    // type: 'update',
                     key: this.key,
                     ...msg,
                 }
@@ -217,7 +215,6 @@ class WhatsAppInstance {
 
     async sendMediaFile(to, caption = '', file, type) {
         await this.verifyId(this.getWhatsAppId(to))
-        // console.log([type]);
         const data = await this.instance.sock?.sendMessage(
             this.getWhatsAppId(to),
             {
