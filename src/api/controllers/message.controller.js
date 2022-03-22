@@ -9,9 +9,9 @@ exports.Text = async (req, res) => {
 exports.Image = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
         req.body.id,
-        req.body?.caption,
         req.file,
-        'image'
+        'image',
+        req.body?.caption
     )
     return res.status(201).json({ error: false, data: data })
 }
@@ -19,9 +19,9 @@ exports.Image = async (req, res) => {
 exports.Video = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
         req.body.id,
-        req.body?.caption,
         req.file,
-        'video'
+        'video',
+        req.body?.caption
     )
     return res.status(201).json({ error: false, data: data })
 }
@@ -48,9 +48,9 @@ exports.Mediaurl = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendUrlMediaFile(
         req.body.id,
         req.body.url,
-        req.body.caption,
         req.body.type, // Types are [image, video, audio, document]
-        req.body.mimetype // mimeType of mediaFile / Check Common mimetypes in `https://mzl.la/3si3and`
+        req.body.mimetype, // mimeType of mediaFile / Check Common mimetypes in `https://mzl.la/3si3and`
+        req.body.caption
     )
     return res.status(201).json({ error: false, data: data })
 }
