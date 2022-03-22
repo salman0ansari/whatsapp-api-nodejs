@@ -80,7 +80,10 @@ curl --location --request GET 'localhost:3333/instance/qr?key=123'
 #Send Message
 # /message/text?key=KEY&id=ID&message=MESSAGE
 
-curl --location --request POST 'localhost:3333/message/text?key=123&id=919999999999&message=Hello World'
+curl --location --request POST 'localhost:3333/message/text?key=123' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'id=919999999999' \
+--data-urlencode 'message=Hello World'
 ```
 
 See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-api-nodejs/tree/main/src/api/routes)
