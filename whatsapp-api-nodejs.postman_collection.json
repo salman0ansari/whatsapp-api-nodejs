@@ -29,12 +29,12 @@
                                 {
                                     "key": "key",
                                     "value": "123",
-                                    "description": "(Optional) Custom Key"
+                                    "description": "Custom Key\n(Optional) "
                                 },
                                 {
                                     "key": "webhook",
                                     "value": "true",
-                                    "description": "(Optional) Allow Webhook",
+                                    "description": "Allow Webhook\n(Optional) ",
                                     "disabled": true
                                 }
                             ]
@@ -155,13 +155,13 @@
                             "urlencoded": [
                                 {
                                     "key": "id",
-                                    "value": "919999999999",
+                                    "value": "",
                                     "description": "Recipient Id or Group Id\n(Required)",
                                     "type": "text"
                                 },
                                 {
                                     "key": "message",
-                                    "value": "hello world",
+                                    "value": "",
                                     "description": "Message to Send\n(Required)",
                                     "type": "text"
                                 }
@@ -283,6 +283,9 @@
                 },
                 {
                     "name": "Send Audio Message",
+                    "protocolProfileBehavior": {
+                        "disabledSystemHeaders": {}
+                    },
                     "request": {
                         "method": "POST",
                         "header": [],
@@ -373,20 +376,25 @@
                                 },
                                 {
                                     "key": "url",
-                                    "value": "https://i.picsum.photos/id/253/536/354.jpg?hmac=ZIoCd-QQy15IvYrIWm1sRPGUNYRdU0FcmWxW37Ty0Tc",
-                                    "description": "Direct URL or Media File\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "caption",
                                     "value": "",
-                                    "description": "Message Caption\n(Optional) ",
+                                    "description": "Direct URL or Media File\n(Required)",
                                     "type": "text"
                                 },
                                 {
                                     "key": "type",
                                     "value": "",
                                     "description": "Message Type\n(Required)",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "mimetype",
+                                    "value": "",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "caption",
+                                    "value": "",
+                                    "description": "Message Caption\n(Optional) ",
                                     "type": "text"
                                 }
                             ]
@@ -425,7 +433,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"btndata\": {\n        \"text\": \"title Head\",\n        \"buttons\": [\n            {\n                \"type\": \"replyButton\",\n                \"title\": \"Reply this text (REPLY)\"\n            },\n            {\n                \"type\": \"urlButton\",\n                \"title\": \"Click me (URL)\",\n                \"payload\": \"https://google.com\"\n            },\n            {\n                \"type\": \"callButton\",\n                \"title\": \"Click to call (CALL)\",\n                \"payload\": \"918788889688\"\n            }\n        ],\n        \"footerText\": \"title footer\"\n    }\n}",
+                            "raw": "{   \n    \"id\": \"\",\n    \"btndata\": {\n        \"text\": \"title Head\",\n        \"buttons\": [\n            {\n                \"type\": \"replyButton\",\n                \"title\": \"Reply this text (REPLY)\"\n            },\n            {\n                \"type\": \"urlButton\",\n                \"title\": \"Click me (URL)\",\n                \"payload\": \"https://google.com\"\n            },\n            {\n                \"type\": \"callButton\",\n                \"title\": \"Click to call (CALL)\",\n                \"payload\": \"918788889688\"\n            }\n        ],\n        \"footerText\": \"title footer\"\n    }\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -433,7 +441,7 @@
                             }
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/message/button?key={{instance_key}}&id",
+                            "raw": "{{baseUrl}}/message/button?key={{instance_key}}",
                             "host": ["{{baseUrl}}"],
                             "path": ["message", "button"],
                             "query": [
@@ -441,11 +449,6 @@
                                     "key": "key",
                                     "value": "{{instance_key}}",
                                     "description": "Instance Key\n(Required)"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": null,
-                                    "description": "Recipient Id or Group Id\n(Required)"
                                 }
                             ]
                         },
@@ -460,7 +463,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"vcard\": {\n        \"fullName\": \"john doe\",\n        \"displayName\": \"johndoe\",\n        \"organization\": \"Men In Black\",\n        \"phoneNumber\": \"919999999999\"\n    }\n}",
+                            "raw": "{   \n    \"id\": \"\",\n    \"vcard\": {\n        \"fullName\": \"john doe\",\n        \"displayName\": \"johndoe\",\n        \"organization\": \"Men In Black\",\n        \"phoneNumber\": \"919999999999\"\n    }\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -468,7 +471,7 @@
                             }
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/message/contact?key={{instance_key}}&id=",
+                            "raw": "{{baseUrl}}/message/contact?key={{instance_key}}",
                             "host": ["{{baseUrl}}"],
                             "path": ["message", "contact"],
                             "query": [
@@ -476,11 +479,6 @@
                                     "key": "key",
                                     "value": "{{instance_key}}",
                                     "description": "Instance Key\n(Required)"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Recipient Id or Group Id\n(Required)"
                                 }
                             ]
                         },
@@ -495,7 +493,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"msgdata\": {\n    \"buttonText\": \"Button Text\",\n    \"text\": \"Middle Text\",\n    \"title\": \"Head Title\",\n    \"description\": \"Footer Description\",\n    \"sections\": [\n      {\n        \"title\": \"title\",\n        \"rows\": [\n          {\n            \"title\": \"Title Option 1\",\n            \"description\": \"Option Description\",\n            \"rowId\": \"string\"\n          }\n        ]\n      }\n    ],\n    \"listType\": 0\n  }\n}",
+                            "raw": "{\n  \"id\": \"\",\n  \"msgdata\": {\n    \"buttonText\": \"Button Text\",\n    \"text\": \"Middle Text\",\n    \"title\": \"Head Title\",\n    \"description\": \"Footer Description\",\n    \"sections\": [\n      {\n        \"title\": \"title\",\n        \"rows\": [\n          {\n            \"title\": \"Title Option 1\",\n            \"description\": \"Option Description\",\n            \"rowId\": \"string\"\n          }\n        ]\n      }\n    ],\n    \"listType\": 0\n  }\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -503,7 +501,7 @@
                             }
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/message/list?key={{instance_key}}&id=14634656943",
+                            "raw": "{{baseUrl}}/message/list?key={{instance_key}}",
                             "host": ["{{baseUrl}}"],
                             "path": ["message", "list"],
                             "query": [
@@ -511,11 +509,6 @@
                                     "key": "key",
                                     "value": "{{instance_key}}",
                                     "description": "Instance Key\n(Required)"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": "14634656943",
-                                    "description": "Recipient Id or Group Id\n(Required)"
                                 }
                             ]
                         },
@@ -530,7 +523,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"btndata\": {\n        \"text\": \"Title of Message\",\n        \"buttons\": [\n            {\n                \"type\": \"replyButton\",\n                \"title\": \"this button reply\"\n            },\n            {\n                \"type\": \"callButton\",\n                \"title\": \"this button calls\",\n                \"payload\": \"91999999999\"\n            }\n        ],\n        \"footerText\": \"Footer text\",\n        \"image\": \"https://picsum.photos/536/354\",\n        \"mediaType\": \"image\",\n        \"mimeType\": \"image/jpeg\"\n    }\n}",
+                            "raw": "{\n    \"id\": \"\",\n    \"btndata\": {\n        \"text\": \"Title of Message\",\n        \"buttons\": [\n            {\n                \"type\": \"replyButton\",\n                \"title\": \"this button reply\"\n            },\n            {\n                \"type\": \"callButton\",\n                \"title\": \"this button calls\",\n                \"payload\": \"91999999999\"\n            }\n        ],\n        \"footerText\": \"Footer text\",\n        \"image\": \"https://picsum.photos/536/354\",\n        \"mediaType\": \"image\",\n        \"mimeType\": \"image/jpeg\"\n    }\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -538,14 +531,19 @@
                             }
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/message/MediaButton?id={{instance_key}}",
+                            "raw": "{{baseUrl}}/message/MediaButton?key={{instance_key}}",
                             "host": ["{{baseUrl}}"],
                             "path": ["message", "MediaButton"],
                             "query": [
                                 {
-                                    "key": "id",
+                                    "key": "key",
                                     "value": "{{instance_key}}",
                                     "description": "Recipient Id or Group Id\n(Required)"
+                                },
+                                {
+                                    "key": "",
+                                    "value": null,
+                                    "disabled": true
                                 }
                             ]
                         },
@@ -564,13 +562,18 @@
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "{{baseUrl}}/misc/onwhatsapp?id={{instance_key}}",
+                            "raw": "{{baseUrl}}/misc/onwhatsapp?key={{instance_key}}&id=",
                             "host": ["{{baseUrl}}"],
                             "path": ["misc", "onwhatsapp"],
                             "query": [
                                 {
-                                    "key": "id",
+                                    "key": "key",
                                     "value": "{{instance_key}}",
+                                    "description": "Instance Key\n(Required)"
+                                },
+                                {
+                                    "key": "id",
+                                    "value": "",
                                     "description": "User Whatsapp Id\n(Required)"
                                 }
                             ]
@@ -617,7 +620,7 @@
                         "header": [],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"MD API\",\n    \"users\": [\n        \"14634656941\"\n    ]\n}",
+                            "raw": "{\n    \"name\": \"Whatsapp Node.js API\",\n    \"users\": [\n        \"919999999999\"\n    ]\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
