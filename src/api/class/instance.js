@@ -252,6 +252,13 @@ class WhatsAppInstance {
         return ppUrl
     }
 
+    async getUserStatus(of) {
+        await this.verifyId(this.getWhatsAppId(of))
+        const status  = await this.instance.sock?.fetchStatus(
+            this.getWhatsAppId(of))
+        return status 
+    }
+
     async sendButtonMessage(to, data) {
         await this.verifyId(this.getWhatsAppId(to))
         const result = await this.instance.sock?.sendMessage(
