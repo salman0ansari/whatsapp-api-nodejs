@@ -19,3 +19,14 @@ exports.getStatus = async (req, res) => {
     )
     return res.status(201).json({ error: false, data: data })
 }
+
+exports.blockUsers = async (req, res) => {
+    const data = await WhatsAppInstances[req.query.key]?.blockUnblock(
+        req.query.id,
+        req.query.block_status
+    )
+    if(req.query.block_status == "block"){
+        return res.status(201).json({ error: false, message: "Contact Blocked" })
+    } else 
+    return res.status(201).json({ error: false, message: "Contact Unblocked" })
+}

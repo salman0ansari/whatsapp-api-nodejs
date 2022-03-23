@@ -259,6 +259,13 @@ class WhatsAppInstance {
         return status 
     }
 
+    async blockUnblock(to, data) {
+        await this.verifyId(this.getWhatsAppId(to))
+        const status  = await this.instance.sock?.updateBlockStatus(
+            this.getWhatsAppId(to), data)
+        return status 
+    }
+
     async sendButtonMessage(to, data) {
         await this.verifyId(this.getWhatsAppId(to))
         const result = await this.instance.sock?.sendMessage(
