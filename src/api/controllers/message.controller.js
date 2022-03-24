@@ -39,7 +39,9 @@ exports.Document = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendMediaFile(
         req.body.id,
         req.file,
-        'document'
+        'document',
+        '',
+        req.body.filename
     )
     return res.status(201).json({ error: false, data: data })
 }

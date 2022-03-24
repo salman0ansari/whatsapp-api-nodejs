@@ -213,7 +213,7 @@ class WhatsAppInstance {
         return data
     }
 
-    async sendMediaFile(to, file, type, caption = '') {
+    async sendMediaFile(to, file, type, caption = '', filename) {
         await this.verifyId(this.getWhatsAppId(to))
         const data = await this.instance.sock?.sendMessage(
             this.getWhatsAppId(to),
@@ -222,6 +222,7 @@ class WhatsAppInstance {
                 [type]: file.buffer,
                 caption: caption,
                 ptt: type === 'audio' ? true : false,
+                fileName: filename ? filename : file.originalname,
             }
         )
         return data
