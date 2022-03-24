@@ -25,8 +25,12 @@ exports.blockUsers = async (req, res) => {
         req.query.id,
         req.query.block_status
     )
-    if(req.query.block_status == "block"){
-        return res.status(201).json({ error: false, message: "Contact Blocked" })
-    } else 
-    return res.status(201).json({ error: false, message: "Contact Unblocked" })
+    if (req.query.block_status == 'block') {
+        return res
+            .status(201)
+            .json({ error: false, message: 'Contact Blocked' })
+    } else
+        return res
+            .status(201)
+            .json({ error: false, message: 'Contact Unblocked' })
 }

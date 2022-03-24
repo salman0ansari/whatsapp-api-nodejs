@@ -254,16 +254,19 @@ class WhatsAppInstance {
 
     async getUserStatus(of) {
         await this.verifyId(this.getWhatsAppId(of))
-        const status  = await this.instance.sock?.fetchStatus(
-            this.getWhatsAppId(of))
-        return status 
+        const status = await this.instance.sock?.fetchStatus(
+            this.getWhatsAppId(of)
+        )
+        return status
     }
 
     async blockUnblock(to, data) {
         await this.verifyId(this.getWhatsAppId(to))
-        const status  = await this.instance.sock?.updateBlockStatus(
-            this.getWhatsAppId(to), data)
-        return status 
+        const status = await this.instance.sock?.updateBlockStatus(
+            this.getWhatsAppId(to),
+            data
+        )
+        return status
     }
 
     async sendButtonMessage(to, data) {
