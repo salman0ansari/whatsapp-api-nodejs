@@ -22,19 +22,20 @@
                             "raw": ""
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/instance/init?key=123",
+                            "raw": "{{baseUrl}}/instance/init",
                             "host": ["{{baseUrl}}"],
                             "path": ["instance", "init"],
                             "query": [
                                 {
-                                    "key": "key",
-                                    "value": "123",
-                                    "description": "Custom Key\n(Optional) "
-                                },
-                                {
                                     "key": "webhook",
                                     "value": "true",
                                     "description": "Allow Webhook\n(Optional) ",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "key",
+                                    "value": "123",
+                                    "description": "Custom Instance Key\n(Optional)",
                                     "disabled": true
                                 }
                             ]
@@ -61,6 +62,26 @@
                             ]
                         },
                         "description": "Get an instance QrCode"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get QR in Base64",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/instance/qrbase64?key={{instance_key}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["instance", "qrbase64"],
+                            "query": [
+                                {
+                                    "key": "key",
+                                    "value": "{{instance_key}}",
+                                    "description": "Instance Key\n(Required)"
+                                }
+                            ]
+                        }
                     },
                     "response": []
                 },
@@ -341,6 +362,13 @@
                                     "value": "",
                                     "description": "Recipient Id or Group Id\n(Required)",
                                     "type": "text"
+                                },
+                                {
+                                    "key": "filename",
+                                    "value": "",
+                                    "description": "Custom File Name\n(Optional)",
+                                    "type": "text",
+                                    "disabled": true
                                 }
                             ]
                         },
@@ -605,6 +633,52 @@
                             ]
                         },
                         "description": "Download Profile pic of an WhatsApp user"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get User Status",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/misc/getStatus?key={{instance_key}}&id=",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["misc", "getStatus"],
+                            "query": [
+                                {
+                                    "key": "key",
+                                    "value": "{{instance_key}}"
+                                },
+                                {
+                                    "key": "id",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Block/Unblock User",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/misc/blockUser?key={{instance_key}}&id",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["misc", "blockUser"],
+                            "query": [
+                                {
+                                    "key": "key",
+                                    "value": "{{instance_key}}"
+                                },
+                                {
+                                    "key": "id",
+                                    "value": null
+                                }
+                            ]
+                        }
                     },
                     "response": []
                 }
