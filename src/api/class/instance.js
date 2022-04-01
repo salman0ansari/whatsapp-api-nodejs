@@ -332,6 +332,9 @@ class WhatsAppInstance {
     }
 
     // Group Methods
+    parseParticipants(users) {
+        return users.map((users) => this.getWhatsAppId(users))
+    }
 
     async createNewGroup(name, users) {
         const group = await this.instance.sock?.groupCreate(
@@ -339,6 +342,54 @@ class WhatsAppInstance {
             users.map(this.getWhatsAppId)
         )
         return group
+    }
+
+    async addNewParticipant(id, users) {
+        try {
+            const res = await this.instance.sock?.groupAdd(
+                this.getWhatsAppId(id),
+                this.parseParticipants(users)
+            )
+            return res
+        } catch {
+            return {
+                error: true,
+                message:
+                    'Unable to add participant, you must be an admin in this group',
+            }
+        }
+    }
+
+    async makeAdmin(id, users) {
+        try {
+            const res = await this.instance.sock?.groupMakeAdmin(
+                this.getWhatsAppId(id),
+                this.parseParticipants(users)
+            )
+            return res
+        } catch {
+            return {
+                error: true,
+                message:
+                    'unable to promote some participants, check if you are admin in group or participants exists',
+            }
+        }
+    }
+
+    async demoteAdmin(id, users) {
+        try {
+            const res = await this.instance.sock?.groupDemoteAdmin(
+                this.getWhatsAppId(id),
+                this.parseParticipants(users)
+            )
+            return res
+        } catch {
+            return {
+                error: true,
+                message:
+                    'unable to demote some participants, check if you are admin in group or participants exists',
+            }
+        }
     }
 
     async getAllGroups() {
@@ -350,6 +401,15 @@ class WhatsAppInstance {
         const group = this.instance.chats.find((c) => c.id === id)
         if (!group) throw new Error('no group exists')
         return await this.instance.sock?.groupLeave(id)
+    }
+
+    async getInviteCodeGroup(id) {
+        const group = this.instance.chats.find((c) => c.id === id)
+        if (!group)
+            throw new Error(
+                'unable to get invite code, check if the group exists'
+            )
+        return await this.instance.sock?.groupInviteCode(id)
     }
 }
 
