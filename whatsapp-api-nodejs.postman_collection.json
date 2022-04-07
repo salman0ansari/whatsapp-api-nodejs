@@ -160,6 +160,28 @@
                         "description": "Logout WhatsApp session from mobile"
                     },
                     "response": []
+                },
+                {
+                    "name": "List All Sessions",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/instance/list",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["instance", "list"],
+                            "query": [
+                                {
+                                    "key": "active",
+                                    "value": "true",
+                                    "description": "List Active Instances\n(Optional) ",
+                                    "disabled": true
+                                }
+                            ]
+                        },
+                        "description": "List all Instances"
+                    },
+                    "response": []
                 }
             ]
         },
@@ -367,8 +389,7 @@
                                     "key": "filename",
                                     "value": "",
                                     "description": "Custom File Name\n(Optional)",
-                                    "type": "text",
-                                    "disabled": true
+                                    "type": "text"
                                 }
                             ]
                         },
@@ -655,7 +676,8 @@
                                     "value": ""
                                 }
                             ]
-                        }
+                        },
+                        "description": "Get user status (about)."
                     },
                     "response": []
                 },
@@ -678,7 +700,8 @@
                                     "value": null
                                 }
                             ]
-                        }
+                        },
+                        "description": "Block Or Unblock User."
                     },
                     "response": []
                 }
@@ -718,6 +741,32 @@
                     "response": []
                 },
                 {
+                    "name": "Leave Group",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/group/leave?key={{instance_key}}&id",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["group", "leave"],
+                            "query": [
+                                {
+                                    "key": "key",
+                                    "value": "{{instance_key}}",
+                                    "description": "Instance Key\n(Required)"
+                                },
+                                {
+                                    "key": "id",
+                                    "value": null,
+                                    "description": "Group Id\n(Required)"
+                                }
+                            ]
+                        },
+                        "description": "Leave a group by its ID"
+                    },
+                    "response": []
+                },
+                {
                     "name": "Get All Group",
                     "request": {
                         "method": "GET",
@@ -734,7 +783,154 @@
                                 }
                             ]
                         },
-                        "description": "List all groups in which you are in."
+                        "description": "List all groups in which you are in"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Invite User",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "id",
+                                    "value": "",
+                                    "description": "Group Id\n(Required)",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "users",
+                                    "value": "",
+                                    "description": "Users Id\n(Required)",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/group/inviteuser?key={{instance_key}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["group", "inviteuser"],
+                            "query": [
+                                {
+                                    "key": "key",
+                                    "value": "{{instance_key}}",
+                                    "description": "Instance Key\n(Required)"
+                                }
+                            ]
+                        },
+                        "description": "Invite Users to Group"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Make Admin",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "id",
+                                    "value": "",
+                                    "description": "Group Id\n(Required)",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "users",
+                                    "value": "",
+                                    "description": "User Id\n(Required)",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/group/makeadmin?key={{instance_key}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["group", "makeadmin"],
+                            "query": [
+                                {
+                                    "key": "key",
+                                    "value": "{{instance_key}}",
+                                    "description": "Instance Key\n(Required)"
+                                }
+                            ]
+                        },
+                        "description": "Promote group users to admin"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Demote Admin",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "id",
+                                    "value": "",
+                                    "description": "Group Id\n(Required)",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "users",
+                                    "value": "",
+                                    "description": "User Id\n(Required)",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/group/demoteadmin?key={{instance_key}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["group", "demoteadmin"],
+                            "query": [
+                                {
+                                    "key": "key",
+                                    "value": "{{instance_key}}",
+                                    "description": "Instance Key\n(Required)"
+                                }
+                            ]
+                        },
+                        "description": "Demote group admin"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Group Invite Code",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": []
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/group/getinvitecode?key={{instance_key}}&id",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["group", "getinvitecode"],
+                            "query": [
+                                {
+                                    "key": "key",
+                                    "value": "{{instance_key}}",
+                                    "description": "Instance Key\n(Required)"
+                                },
+                                {
+                                    "key": "id",
+                                    "value": null,
+                                    "description": "Group Id\n(Required)"
+                                }
+                            ]
+                        },
+                        "description": "Get invite link of a group"
                     },
                     "response": []
                 }
