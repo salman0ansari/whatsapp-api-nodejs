@@ -14,6 +14,7 @@ const generateVC = require('../helper/genVc')
 // const Chat = require("../models/chat.model")
 const axios = require('axios')
 const config = require('../../config/config')
+const downloadMessage = require('../helper/downloadMsg')
 
 class WhatsAppInstance {
     socketConfig = {
@@ -179,6 +180,32 @@ class WhatsAppInstance {
                 if (messageType === 'conversation') {
                     webhookData['text'] = m
                 }
+                if (config.webhookBase64) {
+                    switch (messageType) {
+                        case 'imageMessage':
+                            webhookData['msgContent'] = await downloadMessage(
+                                msg.message.imageMessage,
+                                'image'
+                            )
+                            break
+                        case 'videoMessage':
+                            webhookData['msgContent'] = await downloadMessage(
+                                msg.message.videoMessage,
+                                'video'
+                            )
+                            break
+                        case 'audioMessage':
+                            webhookData['msgContent'] = await downloadMessage(
+                                msg.message.audioMessage,
+                                'audio'
+                            )
+                            break
+                        default:
+                            webhookData['msgContent'] = ''
+                            break
+                    }
+                }
+
                 this.SendWebhook(webhookData)
             })
         })
