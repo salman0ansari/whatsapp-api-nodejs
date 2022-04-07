@@ -111,3 +111,30 @@ exports.delete = async (req, res) => {
         data: errormsg ? errormsg : null,
     })
 }
+
+exports.list = async (req, res) => {
+    if (req.query.active) {
+        let instance = Object.keys(WhatsAppInstances).map(async (key) =>
+            WhatsAppInstances[key].getInstanceDetail(key)
+        )
+        let data = await Promise.all(instance)
+        return res.json({
+            error: false,
+            message: 'All active instance',
+            data: data,
+        })
+    } else {
+        let instance = []
+        const sessions = fs.readdirSync(path.join(__dirname, `../sessiondata`))
+        sessions.map((file) => {
+            if (file.includes('.json')) {
+                instance.push(file.replace('.json', ''))
+            }
+        })
+        return res.json({
+            error: false,
+            message: 'All instance listed',
+            data: instance,
+        })
+    }
+}
