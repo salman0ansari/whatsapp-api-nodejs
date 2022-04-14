@@ -56,13 +56,23 @@ WEBHOOK_BASE64=false
 1. `DEVELOPMENT:` Execute `npm run dev` or `yarn dev`
 2. `PRODUCTION:` Execute `npm run start` or `yarn start`
 
-## Generate Key
+## Generate basic instance using random key
 
 To generate an Instance Key  
 Using the route:
 
 ```bash
 curl --location --request GET 'localhost:3333/instance/init' \
+--data-raw ''
+```
+
+## Generate custom instance with custom key and custom webhook
+
+To generate a Custom Instance  
+Using the route:
+
+```bash
+curl --location --request GET 'http://localhost:3000/instance/init?key=CUSTOM_INSTANCE_KEY_HERE&webhook=true&webhookUrl=https://webhook.site/d7114704-97f6-4562-9a47-dcf66b07266d' \
 --data-raw ''
 ```
 
