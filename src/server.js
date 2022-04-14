@@ -1,12 +1,18 @@
-const app = require('./config/express')
-// const mongoose = require('mongoose')
-const config = require('./config/config')
+const dotenv = require('dotenv')
+const mongoose = require('mongoose')
 const logger = require('pino')()
+dotenv.config()
+
+const app = require('./config/express')
+const config = require('./config/config')
+
 let server
 
-// mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-//     logger.info('Connected to MongoDB')
-// })
+if (config.mongoose.enabled) {
+    mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
+        logger.info('Connected to MongoDB')
+    })
+}
 
 server = app.listen(config.port, () => {
     logger.info(`Listening to port ${config.port}`)
