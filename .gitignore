@@ -1,7 +1,12 @@
+# NODE
 node_modules
-sessiondata
-.vscode/settings.json
-
 package-lock.json
-
 yarn.lock
+
+# APPLICATION
+.env
+sessiondata
+
+# IDEs
+.vscode/settings.json
+.idea

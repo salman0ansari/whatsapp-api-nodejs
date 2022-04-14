@@ -25,23 +25,36 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 1. Download or clone this repo.
 2. Enter to the project directory.
 3. Execute `yarn install` or `npm install` to install the dependencies.
+3. Copy `.env.example` to `.env` for set environment variables.
 
 # Configuration
 
-Edit this constant in `src/config/config.js`
+Edit environment variables on `.env`
 
-```js
-// Port number
-const PORT = '3333'
-// URL of Mongo DB
-const MONGODB_URL = 'mongodb://127.0.0.1:27017/WhatsAppInstance'
-// Webhook URL
-const WEBHOOK_URL = 'https://webhook.site/d0122a66-18a3-432d-b63f-4772b190dd72'
+```env
+# ==================================
+# APPLICATION CONFIGURATION
+# ==================================
+PORT=3000
+
+# ==================================
+# DATABASE CONFIGURATION
+# ==================================
+MONGODB_ENABLED=false
+MONGODB_URL=mongodb://127.0.0.1:27017/whatsapp_api
+
+# ==================================
+# WEBHOOK CONFIGURATION
+# ==================================
+WEBHOOK_ENABLED=false
+WEBHOOK_URL=https://webhook.site/d0122a66-18a3-432d-b63f-4772b190dd72
+WEBHOOK_BASE64=false
 ```
 
 # Usage
 
-1. You can start the server by executing `npm run start` or `yarn start`
+1. `DEVELOPMENT:` Execute `npm run dev` or `yarn dev`
+2. `PRODUCTION:` Execute `npm run start` or `yarn start`
 
 ## Generate Key
 
