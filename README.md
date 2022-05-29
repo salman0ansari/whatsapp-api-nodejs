@@ -25,7 +25,7 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 1. Download or clone this repo.
 2. Enter to the project directory.
 3. Execute `yarn install` or `npm install` to install the dependencies.
-3. Copy `.env.example` to `.env` for set environment variables.
+4. Copy `.env.example` to `.env` for set environment variables.
 
 # Configuration
 
