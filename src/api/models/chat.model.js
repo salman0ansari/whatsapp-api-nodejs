@@ -3,12 +3,11 @@ const mongoose = require('mongoose')
 const chatSchema = new mongoose.Schema({
     key: {
         type: String,
-        required: true,
+        required: [true, 'key is missing'],
         unique: true,
     },
     chat: {
-        type: Object,
-        required: false,
+        type: Array,
     },
 })
 
