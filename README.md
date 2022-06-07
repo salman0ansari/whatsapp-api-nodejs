@@ -75,16 +75,6 @@ curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_TOKEN_H
 --data-raw ''
 ```
 
-## Generate custom instance with custom key and custom webhook
-
-To generate a Custom Instance  
-Using the route:
-
-```bash
-curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_TOKEN_HERE&key=CUSTOM_INSTANCE_KEY_HERE&webhook=true&webhookUrl=https://webhook.site/d7114704-97f6-4562-9a47-dcf66b07266d' \
---data-raw ''
-```
-
 Response:
 
 ```json
@@ -95,17 +85,29 @@ Response:
 }
 ```
 
+## Generate custom instance with custom key and custom webhook
+
+To generate a Custom Instance  
+Using the route:
+
+```bash
+curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_TOKEN_HERE&key=CUSTOM_INSTANCE_KEY_HERE&webhook=true&webhookUrl=https://webhook.site/d7114704-97f6-4562-9a47-dcf66b07266d' \
+--data-raw ''
+```
+
 # Using Key
 
 Save the value of the `key` from response. Then use this value to call all the routes.
 
 ## Examples
 
-```sh
-# Get QR Code
-# /instance/qr?key=KEY
+Visit [http://localhost:3333/instance/qr?key=123](http://localhost:3333/instance/qr?key=123) to view the QR Code on the browser. If you take too long to scan the QR Code, you will have to refresh the page.
 
-curl --location --request GET 'localhost:3333/instance/qr?key=123'
+```sh
+# Get QR Code in base64 format
+# /instance/qrbase64?key=KEY
+
+curl --location --request GET 'localhost:3333/instance/qrbase64?key=123'
 ```
 
 ```sh
