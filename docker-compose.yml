@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  server:
+    image: node:17.2.0-alpine
+    user: "node"
+    restart: unless-stopped
+    working_dir: /home/node/app
+    environment:
+      - TOKEN=${TOKEN}
+      - PORT=${PORT}
+      - MONGODB_ENABLED=${MONGODB_ENABLED}
+      - MONGODB_URL=${MONGODB_URL}
+      - WEBHOOK_ENABLED=${WEBHOOK_ENABLED}
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - WEBHOOK_BASE64=${WEBHOOK_BASE64}
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - .env
+    command: "npm start"
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb:/data/db
+volumes:
+  mongodb:
