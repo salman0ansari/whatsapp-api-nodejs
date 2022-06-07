@@ -31,11 +31,20 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 
 Edit environment variables on `.env`
 
+```
+Important: You must set TOKEN= to a random string to protect the init route.
+```
+
 ```env
+# ==================================
+# SECURITY CONFIGURATION
+# ==================================
+TOKEN=RANDOM_TOKEN_HERE
+
 # ==================================
 # APPLICATION CONFIGURATION
 # ==================================
-PORT=3000
+PORT=3333
 
 # ==================================
 # DATABASE CONFIGURATION
@@ -62,7 +71,7 @@ To generate an Instance Key
 Using the route:
 
 ```bash
-curl --location --request GET 'localhost:3333/instance/init' \
+curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_TOKEN_HERE' \
 --data-raw ''
 ```
 
@@ -72,7 +81,7 @@ To generate a Custom Instance
 Using the route:
 
 ```bash
-curl --location --request GET 'http://localhost:3000/instance/init?key=CUSTOM_INSTANCE_KEY_HERE&webhook=true&webhookUrl=https://webhook.site/d7114704-97f6-4562-9a47-dcf66b07266d' \
+curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_TOKEN_HERE&key=CUSTOM_INSTANCE_KEY_HERE&webhook=true&webhookUrl=https://webhook.site/d7114704-97f6-4562-9a47-dcf66b07266d' \
 --data-raw ''
 ```
 
@@ -93,15 +102,15 @@ Save the value of the `key` from response. Then use this value to call all the r
 ## Examples
 
 ```sh
-#Get qrcode
+# Get QR Code
 # /instance/qr?key=KEY
 
 curl --location --request GET 'localhost:3333/instance/qr?key=123'
 ```
 
 ```sh
-#Send Message
-# /message/text?key=KEY&id=ID&message=MESSAGE
+# Send Message
+# /message/text?key=KEY&id=PHONE-NUMBER-WITH-COUNTRY-CODE&message=MESSAGE
 
 curl --location --request POST 'localhost:3333/message/text?key=123' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
