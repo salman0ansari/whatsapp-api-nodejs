@@ -21,7 +21,7 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 -   [Express](https://github.com/expressjs/express)
 
 # Note
-I can't guarantee or can be held responsible if get blocked by using this software. WhatsApp does not allow bots using unofficial methods on their platform, so this shouldn't be considered totally safe.
+I can't guarantee or can be held responsible if you get blocked or banned by using this software. WhatsApp does not allow bots using unofficial methods on their platform, so this shouldn't be considered totally safe.
 
 # Installation
 
