@@ -1,5 +1,6 @@
 // Port number
 const PORT = process.env.PORT || '3333'
+const TOKEN = process.env.TOKEN || ''
 // Enable or disable mongodb
 const MONGODB_ENABLED = !!(
     process.env.MONGODB_ENABLED && process.env.MONGODB_ENABLED === 'true'
@@ -22,6 +23,7 @@ const WEBHOOK_BASE64 = !!(
 
 module.exports = {
     port: PORT,
+    token: TOKEN,
     mongoose: {
         enabled: MONGODB_ENABLED,
         url: MONGODB_URL,
