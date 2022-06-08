@@ -95,6 +95,31 @@ exports.restore = async (req, res, next) => {
     }
 }
 
+exports.restoreone = async (req, res, next) => {
+    try {
+        let restoredSessions = []
+        const instances = fs.readdirSync(path.join(__dirname, `../sessiondata`))
+        instances.map((file) => {
+            if (file.includes('.json')) {
+                if(req.query.key == file.replace('.json', ''))
+                restoredSessions.push(file.replace('.json', ''))
+            }
+        })
+        restoredSessions.map((key) => {
+            const instance = new WhatsAppInstance(key,req.query.webhook, req.query.webhookUrl)
+            instance.init()
+            WhatsAppInstances[key] = instance
+        })
+        return res.json({
+            error: false,
+            message: req.query.key+' instance restored',
+            data: restoredSessions,
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 exports.logout = async (req, res) => {
     let errormsg
     try {
