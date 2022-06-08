@@ -20,18 +20,35 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 -   [Baileys](https://github.com/adiwajshing/Baileys/)
 -   [Express](https://github.com/expressjs/express)
 
+# Note
+I can't guarantee or can be held responsible if get blocked by using this software. WhatsApp does not allow bots using unofficial methods on their platform, so this shouldn't be considered totally safe.
+
 # Installation
 
 1. Download or clone this repo.
 2. Enter to the project directory.
 3. Execute `yarn install` or `npm install` to install the dependencies.
-4. Copy `.env.example` to `.env` for set environment variables.
+4. Copy `.env.example` to `.env` and set the environment variables.
+
+# Docker Compose
+
+1. Follow the [Installation](#markdown-header-installation) procedure
+2. Update `.env` and set 
+```
+MONGODB_ENABLED=true
+MONGODB_URL=mongodb://mongodb:27017/whatsapp_api
+```
+3. Set your `TOKEN=` to a random string.
+4. Execute 
+```
+docker-compose up -d
+```
 
 # Configuration
 
 Edit environment variables on `.env`
 
-```
+```a
 Important: You must set TOKEN= to a random string to protect the init route.
 ```
 
@@ -39,25 +56,7 @@ Important: You must set TOKEN= to a random string to protect the init route.
 # ==================================
 # SECURITY CONFIGURATION
 # ==================================
-TOKEN=RANDOM_TOKEN_HERE
-
-# ==================================
-# APPLICATION CONFIGURATION
-# ==================================
-PORT=3333
-
-# ==================================
-# DATABASE CONFIGURATION
-# ==================================
-MONGODB_ENABLED=false
-MONGODB_URL=mongodb://127.0.0.1:27017/whatsapp_api
-
-# ==================================
-# WEBHOOK CONFIGURATION
-# ==================================
-WEBHOOK_ENABLED=false
-WEBHOOK_URL=https://webhook.site/d0122a66-18a3-432d-b63f-4772b190dd72
-WEBHOOK_BASE64=false
+TOKEN=RANDOM_STRING_HERE
 ```
 
 # Usage
@@ -71,7 +70,7 @@ To generate an Instance Key
 Using the route:
 
 ```bash
-curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_TOKEN_HERE' \
+curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_STRING_HERE' \
 --data-raw ''
 ```
 
@@ -91,30 +90,40 @@ To generate a Custom Instance
 Using the route:
 
 ```bash
-curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_TOKEN_HERE&key=CUSTOM_INSTANCE_KEY_HERE&webhook=true&webhookUrl=https://webhook.site/d7114704-97f6-4562-9a47-dcf66b07266d' \
+curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_STRING_HERE&key=CUSTOM_INSTANCE_KEY_HERE&webhook=true&webhookUrl=https://webhook.site/d7114704-97f6-4562-9a47-dcf66b07266d' \
 --data-raw ''
+```
+
+Response:
+
+```json
+{
+    "error": false,
+    "message": "Initializing successfull",
+    "key": "CUSTOM_INSTANCE_KEY_HERE"
+}
 ```
 
 # Using Key
 
 Save the value of the `key` from response. Then use this value to call all the routes.
 
-## Examples
+## Postman Docs
 
-Visit [http://localhost:3333/instance/qr?key=123](http://localhost:3333/instance/qr?key=123) to view the QR Code on the browser. If you take too long to scan the QR Code, you will have to refresh the page.
+All routes are available as a postman collection.
+
+-   https://documenter.getpostman.com/view/12514774/UVsPQkBq
+
+## QR Code
+
+Visit [http://localhost:3333/instance/qr?key=INSTANCE_KEY_HERE](http://localhost:3333/instance/qr?key=INSTANCE_KEY_HERE) to view the QR Code and scan with your device. If you take too long to scan the QR Code, you will have to refresh the page.
+
+## Send Message
 
 ```sh
-# Get QR Code in base64 format
-# /instance/qrbase64?key=KEY
+# /message/text?key=INSTANCE_KEY_HERE&id=PHONE-NUMBER-WITH-COUNTRY-CODE&message=MESSAGE
 
-curl --location --request GET 'localhost:3333/instance/qrbase64?key=123'
-```
-
-```sh
-# Send Message
-# /message/text?key=KEY&id=PHONE-NUMBER-WITH-COUNTRY-CODE&message=MESSAGE
-
-curl --location --request POST 'localhost:3333/message/text?key=123' \
+curl --location --request POST 'localhost:3333/message/text?key=INSTANCE_KEY_HERE' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'id=919999999999' \
 --data-urlencode 'message=Hello World'
@@ -122,13 +131,9 @@ curl --location --request POST 'localhost:3333/message/text?key=123' \
 
 See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-api-nodejs/tree/main/src/api/routes)
 
-## Postman Docs
-
--   https://documenter.getpostman.com/view/12514774/UVsPQkBq
-
 # Legal
 
--   This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.
+-   This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA (WhatsApp) or any of its affiliates or subsidiaries.
 -   The official WhatsApp website can be found at https://whatsapp.com. "WhatsApp" as well as related names, marks, emblems and images are registered trademarks of their respective owners.
 -   This is an independent and unofficial software Use at your own risk.
 -   Do not spam people with this.
