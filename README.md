@@ -20,9 +20,6 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 -   [Baileys](https://github.com/adiwajshing/Baileys/)
 -   [Express](https://github.com/expressjs/express)
 
-# Note
-I can't guarantee or can be held responsible if you get blocked or banned by using this software. WhatsApp does not allow bots using unofficial methods on their platform, so this shouldn't be considered totally safe.
-
 # Installation
 
 1. Download or clone this repo.
@@ -130,6 +127,9 @@ curl --location --request POST 'localhost:3333/message/text?key=INSTANCE_KEY_HER
 ```
 
 See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-api-nodejs/tree/main/src/api/routes)
+
+# Note
+I can't guarantee or can be held responsible if you get blocked or banned by using this software. WhatsApp does not allow bots using unofficial methods on their platform, so this shouldn't be considered totally safe.
 
 # Legal
 
