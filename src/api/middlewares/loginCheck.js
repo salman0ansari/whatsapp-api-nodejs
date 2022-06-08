@@ -1,4 +1,4 @@
-function loginVerifcation(req, res, next) {
+function loginVerification(req, res, next) {
     const key = req.query['key']?.toString()
     if (!key) {
         return res
@@ -14,4 +14,4 @@ function loginVerifcation(req, res, next) {
     next()
 }
 
-module.exports = loginVerifcation
+module.exports = loginVerification
