@@ -15,9 +15,9 @@ class Session {
                 }
             })
 
-            restoredSessions.map((key) => {
+            restoredSessions.map(async (key) => {
                 const instance = new WhatsAppInstance(key)
-                instance.init()
+                await instance.init()
                 WhatsAppInstances[key] = instance
             })
         } catch (e) {

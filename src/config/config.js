@@ -1,7 +1,10 @@
 // Port number
 const PORT = process.env.PORT || '3333'
 const TOKEN = process.env.TOKEN || ''
-const RESTORE_SESSIONS_ON_START_UP = process.env.RESTORE_SESSIONS_ON_START_UP || false
+
+const RESTORE_SESSIONS_ON_START_UP = !!(
+  process.env.RESTORE_SESSIONS_ON_START_UP && process.env.RESTORE_SESSIONS_ON_START_UP === 'true'
+)
 
 const CLIENT_PLATFORM = process.env.CLIENT_PLATFORM || 'Whatsapp MD'
 const CLIENT_BROWSER = process.env.CLIENT_BROWSER || ''
