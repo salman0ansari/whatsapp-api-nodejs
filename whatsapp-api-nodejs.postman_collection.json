@@ -1,966 +1,1147 @@
 {
-    "info": {
-        "_postman_id": "9db85f5b-971f-4218-8f0b-7eca66651a01",
-        "name": "whatsapp-api-nodejs",
-        "description": "## **API** Documentation\n\n### whatsapp-api-nodejs\n\n[https://github.com/salman0ansari/whatsapp-api-nodejs](https://github.com/salman0ansari/whatsapp-api-nodejs)\n\nAn implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a simple RESTful API service with multi device support just `download`, `install`, and `start` using, `simple` as that.\n\nBuild with NodeJs + Express\n\n* * *\n\n## Legal Notice\n\n*   This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.\n*   The official WhatsApp website can be found at [https://whatsapp.com](https://whatsapp.com). \"WhatsApp\" as well as related names, marks, emblems and images are registered trademarks of their respective owners.\n*   This is an independent and unofficial software Use at your own risk.\n*   Do not spam people with this.\n    \n\n* * *\n\n## Contact\n\nDeveloper: [https://github.com/salman0ansari](https://github.com/salman0ansari)\n\nEmail: salman0ansari@pm.me\n\nTelegram: @salman0ansari",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-    },
-    "item": [
-        {
-            "name": "Instance",
-            "item": [
-                {
-                    "name": "Init Instance",
-                    "protocolProfileBehavior": {
-                        "disableBodyPruning": true
-                    },
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": ""
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/instance/init",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["instance", "init"],
-                            "query": [
-                                {
-                                    "key": "webhook",
-                                    "value": "true",
-                                    "description": "Allow Webhook\n(Optional) ",
-                                    "disabled": true
-                                },
-                                {
-                                    "key": "key",
-                                    "value": "123",
-                                    "description": "Custom Instance Key\n(Optional)",
-                                    "disabled": true
-                                }
-                            ]
-                        },
-                        "description": "Init a new WhatsApp instance"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Scan QR",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/instance/qr?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["instance", "qr"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Get an instance QrCode"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Get QR in Base64",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/instance/qrbase64?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["instance", "qrbase64"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Instance Info",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/instance/info?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["instance", "info"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Get an instance info"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Restore All Instances",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/instance/restore",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["instance", "restore"]
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Delete Instance",
-                    "request": {
-                        "method": "DELETE",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/instance/delete?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["instance", "delete"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Delete an instance"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Logout Instance",
-                    "request": {
-                        "method": "DELETE",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/instance/logout?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["instance", "logout"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Logout WhatsApp session from mobile"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "List All Sessions",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/instance/list",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["instance", "list"],
-                            "query": [
-                                {
-                                    "key": "active",
-                                    "value": "true",
-                                    "description": "List Active Instances\n(Optional) ",
-                                    "disabled": true
-                                }
-                            ]
-                        },
-                        "description": "List all Instances"
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
-            "name": "Message",
-            "item": [
-                {
-                    "name": "Send Text Message",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": [
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Recipient Id or Group Id\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "message",
-                                    "value": "",
-                                    "description": "Message to Send\n(Required)",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/text?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "text"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Send a text message to WhatsApp User or Group"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Send Image Message",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "file",
-                                    "description": "Image you want to send\n(Required) \n",
-                                    "type": "file",
-                                    "src": []
-                                },
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Recipient Id or Group Id\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "caption",
-                                    "value": "",
-                                    "description": "Message Caption\n(Optional) ",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/image?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "image"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "disabled": true
-                                },
-                                {
-                                    "key": "caption",
-                                    "value": "",
-                                    "disabled": true
-                                }
-                            ]
-                        },
-                        "description": "Send an image message to WhatsApp User"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Send Video Message",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "file",
-                                    "description": "Video You Want to Send\n(Required)",
-                                    "type": "file",
-                                    "src": []
-                                },
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Recipient Id or Group Id\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "caption",
-                                    "value": "",
-                                    "description": "Message Caption\n(Optional) ",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/video?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "video"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Send a video message to WhatsApp User"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Send Audio Message",
-                    "protocolProfileBehavior": {
-                        "disabledSystemHeaders": {}
-                    },
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "file",
-                                    "description": "Audio You Want to Send\n(Required)",
-                                    "type": "file",
-                                    "src": []
-                                },
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Recipient Id or Group Id\n(Required)",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/audio?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "audio"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Send an audio message to WhatsApp User"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Send Document Message",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "file",
-                                    "description": "Document You Want to Send\n(Required)",
-                                    "type": "file",
-                                    "src": []
-                                },
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Recipient Id or Group Id\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "filename",
-                                    "value": "",
-                                    "description": "Custom File Name\n(Optional)",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/doc?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "doc"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Send a document message to WhatsApp User"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Send File URL",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Recipient Id or Group Id\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "url",
-                                    "value": "",
-                                    "description": "Direct URL or Media File\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "type",
-                                    "value": "",
-                                    "description": "Message Type\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "mimetype",
-                                    "value": "",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "caption",
-                                    "value": "",
-                                    "description": "Message Caption\n(Optional) ",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/mediaurl?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "mediaurl"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Send a media message via a URL\n\n*   Image\n*   Video\n*   Document"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Send Button(Template) Message",
-                    "protocolProfileBehavior": {
-                        "disabledSystemHeaders": {
-                            "content-type": true
-                        }
-                    },
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json",
-                                "type": "text"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{   \n    \"id\": \"\",\n    \"btndata\": {\n        \"text\": \"title Head\",\n        \"buttons\": [\n            {\n                \"type\": \"replyButton\",\n                \"title\": \"Reply this text (REPLY)\"\n            },\n            {\n                \"type\": \"urlButton\",\n                \"title\": \"Click me (URL)\",\n                \"payload\": \"https://google.com\"\n            },\n            {\n                \"type\": \"callButton\",\n                \"title\": \"Click to call (CALL)\",\n                \"payload\": \"918788889688\"\n            }\n        ],\n        \"footerText\": \"title footer\"\n    }\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/button?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "button"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Send an interactive template message to an WhatsApp User"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Send Contact Message",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{   \n    \"id\": \"\",\n    \"vcard\": {\n        \"fullName\": \"john doe\",\n        \"displayName\": \"johndoe\",\n        \"organization\": \"Men In Black\",\n        \"phoneNumber\": \"919999999999\"\n    }\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/contact?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "contact"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Send an contact(vcard) message to an WhatsApp User"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Send List Message",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"id\": \"\",\n  \"msgdata\": {\n    \"buttonText\": \"Button Text\",\n    \"text\": \"Middle Text\",\n    \"title\": \"Head Title\",\n    \"description\": \"Footer Description\",\n    \"sections\": [\n      {\n        \"title\": \"title\",\n        \"rows\": [\n          {\n            \"title\": \"Title Option 1\",\n            \"description\": \"Option Description\",\n            \"rowId\": \"string\"\n          }\n        ]\n      }\n    ],\n    \"listType\": 0\n  }\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/list?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "list"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Send an list button message to WhatsApp User"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Send Button With Media",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"id\": \"\",\n    \"btndata\": {\n        \"text\": \"Title of Message\",\n        \"buttons\": [\n            {\n                \"type\": \"replyButton\",\n                \"title\": \"this button reply\"\n            },\n            {\n                \"type\": \"callButton\",\n                \"title\": \"this button calls\",\n                \"payload\": \"91999999999\"\n            }\n        ],\n        \"footerText\": \"Footer text\",\n        \"image\": \"https://picsum.photos/536/354\",\n        \"mediaType\": \"image\",\n        \"mimeType\": \"image/jpeg\"\n    }\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/message/MediaButton?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["message", "MediaButton"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Recipient Id or Group Id\n(Required)"
-                                },
-                                {
-                                    "key": "",
-                                    "value": null,
-                                    "disabled": true
-                                }
-                            ]
-                        },
-                        "description": "Send an interactive template message with media to WhatsApp User"
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
-            "name": "Misc",
-            "item": [
-                {
-                    "name": "Is On Whatsapp?",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/misc/onwhatsapp?key={{instance_key}}&id=",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["misc", "onwhatsapp"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "User Whatsapp Id\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Check if a number is registered on WhatsApp"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Download Profile Pic",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/misc/downProfile?key={{instance_key}}&id=",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["misc", "downProfile"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "User Whatsapp Id\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Download Profile pic of an WhatsApp user"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Get User Status",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/misc/getStatus?key={{instance_key}}&id=",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["misc", "getStatus"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": ""
-                                }
-                            ]
-                        },
-                        "description": "Get user status (about)."
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Block/Unblock User",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/misc/blockUser?key={{instance_key}}&id",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["misc", "blockUser"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": null
-                                }
-                            ]
-                        },
-                        "description": "Block Or Unblock User."
-                    },
-                    "response": []
-                }
-            ]
-        },
-        {
-            "name": "Group",
-            "item": [
-                {
-                    "name": "Create Group",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"name\": \"Whatsapp Node.js API\",\n    \"users\": [\n        \"919999999999\"\n    ]\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/group/create?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["group", "create"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Create a group"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Leave Group",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/group/leave?key={{instance_key}}&id",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["group", "leave"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": null,
-                                    "description": "Group Id\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Leave a group by its ID"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Get All Group",
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/group/listall?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["group", "listall"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "List all groups in which you are in"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Invite User",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": [
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Group Id\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "users",
-                                    "value": "",
-                                    "description": "Users Id\n(Required)",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/group/inviteuser?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["group", "inviteuser"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Invite Users to Group"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Make Admin",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": [
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Group Id\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "users",
-                                    "value": "",
-                                    "description": "User Id\n(Required)",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/group/makeadmin?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["group", "makeadmin"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Promote group users to admin"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Demote Admin",
-                    "request": {
-                        "method": "POST",
-                        "header": [],
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": [
-                                {
-                                    "key": "id",
-                                    "value": "",
-                                    "description": "Group Id\n(Required)",
-                                    "type": "text"
-                                },
-                                {
-                                    "key": "users",
-                                    "value": "",
-                                    "description": "User Id\n(Required)",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/group/demoteadmin?key={{instance_key}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["group", "demoteadmin"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Demote group admin"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Get Group Invite Code",
-                    "protocolProfileBehavior": {
-                        "disableBodyPruning": true
-                    },
-                    "request": {
-                        "method": "GET",
-                        "header": [],
-                        "body": {
-                            "mode": "urlencoded",
-                            "urlencoded": []
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/group/getinvitecode?key={{instance_key}}&id",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["group", "getinvitecode"],
-                            "query": [
-                                {
-                                    "key": "key",
-                                    "value": "{{instance_key}}",
-                                    "description": "Instance Key\n(Required)"
-                                },
-                                {
-                                    "key": "id",
-                                    "value": null,
-                                    "description": "Group Id\n(Required)"
-                                }
-                            ]
-                        },
-                        "description": "Get invite link of a group"
-                    },
-                    "response": []
-                }
-            ]
-        }
-    ],
-    "event": [
-        {
-            "listen": "prerequest",
-            "script": {
-                "type": "text/javascript",
-                "exec": [""]
-            }
-        },
-        {
-            "listen": "test",
-            "script": {
-                "type": "text/javascript",
-                "exec": [""]
-            }
-        }
-    ],
-    "variable": [
-        {
-            "key": "baseUrl",
-            "value": "localhost:3333"
-        },
-        {
-            "key": "instance_key",
-            "value": "123"
-        }
-    ]
+	"info": {
+		"_postman_id": "04a02caf-6959-4a41-adb7-43e54568e3e1",
+		"name": "whatsapp-api-nodejs",
+		"description": "## **API** Documentation\n\n### whatsapp-api-nodejs\n\n[https://github.com/salman0ansari/whatsapp-api-nodejs](https://github.com/salman0ansari/whatsapp-api-nodejs)\n\nAn implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a simple RESTful API service with multi device support just `download`, `install`, and `start` using, `simple` as that.\n\nBuild with NodeJs + Express\n\n* * *\n\n## Legal Notice\n\n*   This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.\n*   The official WhatsApp website can be found at [https://whatsapp.com](https://whatsapp.com). \"WhatsApp\" as well as related names, marks, emblems and images are registered trademarks of their respective owners.\n*   This is an independent and unofficial software Use at your own risk.\n*   Do not spam people with this.\n    \n\n* * *\n\n## Contact\n\nDeveloper: [https://github.com/salman0ansari](https://github.com/salman0ansari)\n\nEmail: salman0ansari@pm.me\n\nTelegram: @salman0ansari",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12901"
+	},
+	"item": [
+		{
+			"name": "Instance",
+			"item": [
+				{
+					"name": "Init Instance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"instance_key\", pm.response.json().key)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/instance/init?token={{token}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"instance",
+								"init"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"description": "API Token from .env"
+								},
+								{
+									"key": "webhook",
+									"value": "true",
+									"description": "Allow Webhook (Optional)",
+									"disabled": true
+								},
+								{
+									"key": "key",
+									"value": "123",
+									"description": "Custom Instance Key (Optional)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Init a new WhatsApp instance"
+					},
+					"response": []
+				},
+				{
+					"name": "Scan QR",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/instance/qr?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"instance",
+								"qr"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Get an instance QrCode"
+					},
+					"response": []
+				},
+				{
+					"name": "Get QR in Base64",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/instance/qrbase64?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"instance",
+								"qrbase64"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Instance Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/instance/info?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"instance",
+								"info"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Get an instance info"
+					},
+					"response": []
+				},
+				{
+					"name": "Restore All Instances",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/instance/restore?token={{token}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"instance",
+								"restore"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Instance",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/instance/delete?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"instance",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Delete an instance"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout Instance",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/instance/logout?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"instance",
+								"logout"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Logout WhatsApp session from mobile"
+					},
+					"response": []
+				},
+				{
+					"name": "List All Sessions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/instance/list?token={{token}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"instance",
+								"list"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"description": "List Active Instances\n(Optional) "
+								},
+								{
+									"key": "active",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List all Instances"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "Send Text Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Recipient Id or Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "message",
+									"value": "",
+									"description": "Message to Send\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/text?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"text"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Send a text message to WhatsApp User or Group"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Image Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "Image you want to send\n(Required) \n",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "id",
+									"value": "",
+									"description": "Recipient Id or Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "caption",
+									"value": "Yo",
+									"description": "Message Caption\n(Optional) ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/image?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"image"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "id",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "caption",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Send an image message to WhatsApp User"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Video Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "Video You Want to Send\n(Required)",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "id",
+									"value": "",
+									"description": "Recipient Id or Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "caption",
+									"value": "",
+									"description": "Message Caption\n(Optional) ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/video?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"video"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Send a video message to WhatsApp User"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Audio Message",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "Audio You Want to Send\n(Required)",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "id",
+									"value": "",
+									"description": "Recipient Id or Group Id\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/audio?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"audio"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Send an audio message to WhatsApp User"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Document Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"description": "Document You Want to Send\n(Required)",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "id",
+									"value": "",
+									"description": "Recipient Id or Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "filename",
+									"value": "",
+									"description": "Custom File Name\n(Optional)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/doc?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"doc"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Send a document message to WhatsApp User"
+					},
+					"response": []
+				},
+				{
+					"name": "Send File URL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Recipient Id or Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "url",
+									"value": "",
+									"description": "Direct URL or Media File\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "",
+									"description": "Message Type\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "mimetype",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "caption",
+									"value": "",
+									"description": "Message Caption\n(Optional) ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/mediaurl?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"mediaurl"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Send a media message via a URL\n\n*   Image\n*   Video\n*   Document"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Button(Template) Message",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"id\": \"\",\n    \"btndata\": {\n        \"text\": \"title Head\",\n        \"buttons\": [\n            {\n                \"type\": \"replyButton\",\n                \"title\": \"Reply this text (REPLY)\"\n            },\n            {\n                \"type\": \"urlButton\",\n                \"title\": \"Click me (URL)\",\n                \"payload\": \"https://google.com\"\n            },\n            {\n                \"type\": \"callButton\",\n                \"title\": \"Click to call (CALL)\",\n                \"payload\": \"918788889688\"\n            }\n        ],\n        \"footerText\": \"title footer\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/button?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"button"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Send an interactive template message to an WhatsApp User"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Contact Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"id\": \"\",\n    \"vcard\": {\n        \"fullName\": \"john doe\",\n        \"displayName\": \"johndoe\",\n        \"organization\": \"Men In Black\",\n        \"phoneNumber\": \"919999999999\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/contact?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"contact"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Send an contact(vcard) message to an WhatsApp User"
+					},
+					"response": []
+				},
+				{
+					"name": "Send List Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"\",\n  \"msgdata\": {\n    \"buttonText\": \"Button Text\",\n    \"text\": \"Middle Text\",\n    \"title\": \"Head Title\",\n    \"description\": \"Footer Description\",\n    \"sections\": [\n      {\n        \"title\": \"title\",\n        \"rows\": [\n          {\n            \"title\": \"Title Option 1\",\n            \"description\": \"Option Description\",\n            \"rowId\": \"string\"\n          }\n        ]\n      }\n    ],\n    \"listType\": 0\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/list?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"list"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Send an list button message to WhatsApp User"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Button With Media",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"\",\n    \"btndata\": {\n        \"text\": \"Title of Message\",\n        \"buttons\": [\n            {\n                \"type\": \"replyButton\",\n                \"title\": \"this button reply\"\n            },\n            {\n                \"type\": \"callButton\",\n                \"title\": \"this button calls\",\n                \"payload\": \"91999999999\"\n            }\n        ],\n        \"footerText\": \"Footer text\",\n        \"image\": \"https://picsum.photos/536/354\",\n        \"mediaType\": \"image\",\n        \"mimeType\": \"image/jpeg\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/message/MediaButton?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"MediaButton"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Recipient Id or Group Id\n(Required)"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Send an interactive template message with media to WhatsApp User"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Misc",
+			"item": [
+				{
+					"name": "Is On Whatsapp?",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/misc/onwhatsapp?key={{instance_key}}&id=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"misc",
+								"onwhatsapp"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "id",
+									"value": "",
+									"description": "User Whatsapp Id\n(Required)"
+								}
+							]
+						},
+						"description": "Check if a number is registered on WhatsApp"
+					},
+					"response": []
+				},
+				{
+					"name": "Download Profile Pic",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/misc/downProfile?key={{instance_key}}&id=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"misc",
+								"downProfile"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "id",
+									"value": "",
+									"description": "User Whatsapp Id\n(Required)"
+								}
+							]
+						},
+						"description": "Download Profile pic of an WhatsApp user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/misc/getStatus?key={{instance_key}}&id=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"misc",
+								"getStatus"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}"
+								},
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Get user status (about)."
+					},
+					"response": []
+				},
+				{
+					"name": "Block/Unblock User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/misc/blockUser?key={{instance_key}}&id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"misc",
+								"blockUser"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}"
+								},
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Block Or Unblock User."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Group",
+			"item": [
+				{
+					"name": "Create Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Whatsapp Node.js API\",\n    \"users\": [\n        \"919999999999\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/create?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"create"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Create a group"
+					},
+					"response": []
+				},
+				{
+					"name": "Leave Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/group/leave?key={{instance_key}}&id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"leave"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "id",
+									"value": "",
+									"description": "Group Id\n(Required)"
+								}
+							]
+						},
+						"description": "Leave a group by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/group/listall?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"listall"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "List all groups in which you are in"
+					},
+					"response": []
+				},
+				{
+					"name": "Invite User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "users",
+									"value": "",
+									"description": "Users Id\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/inviteuser?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"inviteuser"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Invite Users to Group"
+					},
+					"response": []
+				},
+				{
+					"name": "Make Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "users",
+									"value": "",
+									"description": "User Id\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/makeadmin?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"makeadmin"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Promote group users to admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Demote Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "users",
+									"value": "",
+									"description": "User Id\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/demoteadmin?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"demoteadmin"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Demote group admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Group Invite Code",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/getinvitecode?key={{instance_key}}&id=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"getinvitecode"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "id",
+									"value": "",
+									"description": "Group Id\n(Required)"
+								}
+							]
+						},
+						"description": "Get invite link of a group"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:3333"
+		},
+		{
+			"key": "instance_key",
+			"value": "123"
+		},
+		{
+			"key": "token",
+			"value": "RANDOM_STRING_HERE",
+			"type": "string"
+		}
+	]
 }
