@@ -2,6 +2,11 @@
 const PORT = process.env.PORT || '3333'
 const TOKEN = process.env.TOKEN || ''
 const RESTORE_SESSIONS_ON_START_UP = process.env.RESTORE_SESSIONS_ON_START_UP || false
+
+const CLIENT_PLATFORM = process.env.CLIENT_PLATFORM || 'Whatsapp MD'
+const CLIENT_BROWSER = process.env.CLIENT_BROWSER || ''
+const CLIENT_VERSION = process.env.CLIENT_VERSION || '3.0'
+
 // Enable or disable mongodb
 const MONGODB_ENABLED = !!(
     process.env.MONGODB_ENABLED && process.env.MONGODB_ENABLED === 'true'
@@ -34,6 +39,11 @@ module.exports = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         },
+    },
+    browser: {
+        platform: CLIENT_PLATFORM,
+        browser: CLIENT_BROWSER,
+        version: CLIENT_VERSION
     },
     webhookEnabled: WEBHOOK_ENABLED,
     webhookUrl: WEBHOOK_URL,

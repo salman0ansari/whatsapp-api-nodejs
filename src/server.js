@@ -17,7 +17,7 @@ if (config.mongoose.enabled) {
 }
 
 server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`)
+    logger.info(`Listening on port ${config.port}`)
 
     if (config.restoreSessionsOnStartup) {
         logger.info(`Restoring Sessions`)

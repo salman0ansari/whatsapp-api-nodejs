@@ -15,6 +15,14 @@ exports.init = async (req, res) => {
         error: false,
         message: 'Initializing successfully',
         key: data.key,
+        webhook: {
+            enabled: webhook,
+            webhookUrl: webhookUrl,
+        },
+        qrcode: {
+            url: req.protocol + '://' + req.headers.host + '/instance/qr?key=' + data.key,
+        },
+        browser: config.browser
     })
 }
 
