@@ -89,3 +89,18 @@ exports.MediaButton = async (req, res) => {
     )
     return res.status(201).json({ error: false, data: data })
 }
+
+exports.SetStatus = async (req, res) => {
+    const presenceList = ['unavailable', 'available', 'composing', 'recording', 'paused']
+    if (presenceList.indexOf(req.body.status) === -1) {
+        return res.status(400).json({
+            error: true, message: 'status parameter must be one of ' + presenceList.join(', ')
+        })
+    }
+
+    const data = await WhatsAppInstances[req.query.key]?.setStatus(
+      req.body.status,
+      req.body.id
+    )
+    return res.status(201).json({ error: false, data: data })
+}
