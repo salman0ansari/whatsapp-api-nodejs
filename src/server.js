@@ -16,17 +16,17 @@ if (config.mongoose.enabled) {
     })
 }
 
-server = app.listen(config.port, () => {
+server = app.listen(config.port, async () => {
     logger.info(`Listening on port ${config.port}`)
 
     if (config.restoreSessionsOnStartup) {
         logger.info(`Restoring Sessions`)
         const session = new Session()
-        session.restoreSessions().then((restoreSessions) => {
-            logger.info(`${restoreSessions.length} Session(s) Restored`)
-        })
+        let restoreSessions = await session.restoreSessions()
+        logger.info(`${restoreSessions.length} Session(s) Restored`)
     }
 })
+
 const exitHandler = () => {
     if (server) {
         server.close(() => {
@@ -53,4 +53,4 @@ process.on('SIGTERM', () => {
     }
 })
 
-module.exports = app
+module.exports = server

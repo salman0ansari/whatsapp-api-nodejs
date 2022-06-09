@@ -9,7 +9,8 @@
         "format:check": "prettier --check .",
         "format:write": "prettier --write .",
         "lint:check": "eslint .",
-        "lint:fix": "eslint --fix ."
+        "lint:fix": "eslint --fix .",
+        "test": "mocha tests/*.test.js --exit"
     },
     "repository": "git@github.com:salman0ansari/whatsapp-api-nodejs.git",
     "author": "Mohd Salman Ansari <salman0ansariii@gmail.com>",
@@ -31,7 +32,9 @@
     "devDependencies": {
         "eslint": "^8.15.0",
         "eslint-config-prettier": "^8.5.0",
+        "mocha": "^10.0.0",
         "nodemon": "^2.0.16",
-        "prettier": "^2.6.2"
+        "prettier": "^2.6.2",
+        "supertest": "^6.2.3"
     }
 }

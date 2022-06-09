@@ -75,7 +75,7 @@ class WhatsAppInstance {
         sock?.ev.on('connection.update', async (update) => {
             const { connection, lastDisconnect, qr } = update
 
-            if (connection == 'connecting') return
+            if (connection === 'connecting') return
 
             if (connection === 'close') {
                 // reconnect if not logged out
@@ -91,12 +91,15 @@ class WhatsAppInstance {
                     this.instance.online = false
                 }
             } else if (connection === 'open') {
-                let alreadyThere = await Chat.findOne({ key: this.key }).exec()
-                // if a document already exist don't create new one
-                if (!alreadyThere) {
-                    const saveChat = new Chat({ key: this.key })
-                    await saveChat.save()
+                if (config.mongoose.enabled) {
+                    let alreadyThere = await Chat.findOne({key: this.key}).exec()
+                    // if a document already exist don't create new one
+                    if (!alreadyThere) {
+                        const saveChat = new Chat({key: this.key})
+                        await saveChat.save()
+                    }
                 }
+
                 this.instance.online = true
             }
 
