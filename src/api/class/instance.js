@@ -53,8 +53,7 @@ class WhatsAppInstance {
 
     async SendWebhook(data) {
         if (!this.allowWebhook) return
-        this.axiosInstance.post('', data).catch((error) => {
-            return
+        this.axiosInstance.post('', data).catch(() => {
         })
     }
 
@@ -75,7 +74,7 @@ class WhatsAppInstance {
         sock?.ev.on('connection.update', async (update) => {
             const { connection, lastDisconnect, qr } = update
 
-            if (connection == 'connecting') return
+            if (connection === 'connecting') return
 
             if (connection === 'close') {
                 // reconnect if not logged out
@@ -103,12 +102,6 @@ class WhatsAppInstance {
             if (qr) {
                 QRCode.toDataURL(qr).then((url) => {
                     this.instance.qr = url
-                    this.SendWebhook({
-                        type: 'update',
-                        message: 'Received QR Code',
-                        key: this.key,
-                        qrcode: url,
-                    })
                 })
             }
         })
@@ -163,9 +156,9 @@ class WhatsAppInstance {
 
         // on new mssage
         sock?.ev.on('messages.upsert', (m) => {
-            if (m.type == 'prepend')
+            if (m.type === 'prepend')
                 this.instance.messages.unshift(...m.messages)
-            if (m.type != 'notify') return
+            if (m.type !== 'notify') return
 
             this.instance.messages.unshift(...m.messages)
 
@@ -216,7 +209,7 @@ class WhatsAppInstance {
                     }
                 }
 
-                this.SendWebhook(webhookData)
+                await this.SendWebhook(webhookData)
             })
         })
     }
