@@ -20,7 +20,6 @@ const logger = require('pino')()
 class WhatsAppInstance {
     socketConfig = {
         printQRInTerminal: false,
-        browser: ['Whatsapp MD', '', '3.0'],
         logger: pino({
             level: 'silent',
         }),
@@ -61,6 +60,7 @@ class WhatsAppInstance {
 
     async init() {
         this.socketConfig.auth = this.authState.state
+        this.socketConfig.browser = Object.values(config.browser);
         this.instance.sock = makeWASocket(this.socketConfig)
         this.setHandler()
         return this
