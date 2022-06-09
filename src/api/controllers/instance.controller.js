@@ -5,27 +5,17 @@ const config = require('../../config/config')
 const {Session} = require('../class/session')
 
 exports.init = async (req, res) => {
-    const token = req.query.token
-    if (token !== config.token) {
-        res.status(403)
-        res.json({
-            error: true,
-            code: 403,
-            message: 'Unauthorized',
-        })
-    } else {
-        const key = req.query.key
-        const webhook = !req.query.webhook ? false : req.query.webhook
-        const webhookUrl = !req.query.webhookUrl ? null : req.query.webhookUrl
-        const instance = new WhatsAppInstance(key, webhook, webhookUrl)
-        const data = await instance.init()
-        WhatsAppInstances[data.key] = instance
-        res.json({
-            error: false,
-            message: 'Initializing successfully',
-            key: data.key,
-        })
-    }
+    const key = req.query.key
+    const webhook = !req.query.webhook ? false : req.query.webhook
+    const webhookUrl = !req.query.webhookUrl ? null : req.query.webhookUrl
+    const instance = new WhatsAppInstance(key, webhook, webhookUrl)
+    const data = await instance.init()
+    WhatsAppInstances[data.key] = instance
+    res.json({
+        error: false,
+        message: 'Initializing successfully',
+        key: data.key,
+    })
 }
 
 exports.qr = async (req, res) => {
