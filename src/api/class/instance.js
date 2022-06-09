@@ -368,6 +368,16 @@ class WhatsAppInstance {
         return result
     }
 
+    async setStatus(status, to) {
+        await this.verifyId(this.getWhatsAppId(to))
+
+        const result = await this.instance.sock?.sendPresenceUpdate(
+          status,
+          to
+        )
+        return result
+    }
+
     // Group Methods
     parseParticipants(users) {
         return users.map((users) => this.getWhatsAppId(users))

@@ -20,7 +20,7 @@ exports.init = async (req, res) => {
 
 exports.qr = async (req, res) => {
     try {
-        const qrcode = await WhatsAppInstances[req.query.key].instance.qr
+        const qrcode = await WhatsAppInstances[req.query.key]?.instance.qr
         res.render('qrcode', {
             qrcode: qrcode,
         })
@@ -33,7 +33,7 @@ exports.qr = async (req, res) => {
 
 exports.qrbase64 = async (req, res) => {
     try {
-        const qrcode = await WhatsAppInstances[req.query.key].instance.qr
+        const qrcode = await WhatsAppInstances[req.query.key]?.instance.qr
         res.json({
             error: false,
             message: 'QR Base64 fetched successfully',
@@ -107,7 +107,7 @@ exports.delete = async (req, res) => {
 exports.list = async (req, res) => {
     if (req.query.active) {
         let instance = Object.keys(WhatsAppInstances).map(async (key) =>
-            WhatsAppInstances[key].getInstanceDetail(key)
+          WhatsAppInstances[key].getInstanceDetail(key)
         )
         let data = await Promise.all(instance)
         return res.json({
