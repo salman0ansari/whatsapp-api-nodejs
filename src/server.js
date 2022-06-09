@@ -6,6 +6,8 @@ dotenv.config()
 const app = require('./config/express')
 const config = require('./config/config')
 
+const { Session } = require('./api/class/session')
+
 let server
 
 if (config.mongoose.enabled) {
@@ -16,6 +18,14 @@ if (config.mongoose.enabled) {
 
 server = app.listen(config.port, () => {
     logger.info(`Listening to port ${config.port}`)
+
+    if (config.restoreSessionsOnStartup) {
+        logger.info(`Restoring Sessions`)
+        const session = new Session()
+        session.restoreSessions().then((restoreSessions) => {
+            logger.info(`${restoreSessions.length} Session(s) Restored`)
+        })
+    }
 })
 const exitHandler = () => {
     if (server) {

@@ -1,6 +1,8 @@
 const { WhatsAppInstance } = require('../class/instance')
 const fs = require('fs')
 const path = require('path')
+const config = require('../../config/config')
+const {Session} = require('../class/session')
 
 exports.init = async (req, res) => {
     const key = req.query.key
@@ -46,7 +48,7 @@ exports.qrbase64 = async (req, res) => {
 
 exports.info = async (req, res) => {
     const instance = WhatsAppInstances[req.query.key]
-    let data = ''
+    let data
     try {
         data = await instance.getInstanceDetail(req.query.key)
     } catch (error) {
@@ -55,25 +57,14 @@ exports.info = async (req, res) => {
     return res.json({
         error: false,
         message: 'Instance fetched successfully',
-        // instance_data: data,
         instance_data: data,
     })
 }
 
 exports.restore = async (req, res, next) => {
     try {
-        let restoredSessions = []
-        const instances = fs.readdirSync(path.join(__dirname, `../sessiondata`))
-        instances.map((file) => {
-            if (file.includes('.json')) {
-                restoredSessions.push(file.replace('.json', ''))
-            }
-        })
-        restoredSessions.map((key) => {
-            const instance = new WhatsAppInstance(key)
-            instance.init()
-            WhatsAppInstances[key] = instance
-        })
+        const session = new Session
+        let restoredSessions = await session.restoreSessions()
         return res.json({
             error: false,
             message: 'All instances restored',

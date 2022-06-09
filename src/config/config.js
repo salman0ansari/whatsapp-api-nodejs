@@ -1,6 +1,7 @@
 // Port number
 const PORT = process.env.PORT || '3333'
 const TOKEN = process.env.TOKEN || ''
+const RESTORE_SESSIONS_ON_START_UP = process.env.RESTORE_SESSIONS_ON_START_UP || false
 // Enable or disable mongodb
 const MONGODB_ENABLED = !!(
     process.env.MONGODB_ENABLED && process.env.MONGODB_ENABLED === 'true'
@@ -24,6 +25,7 @@ const WEBHOOK_BASE64 = !!(
 module.exports = {
     port: PORT,
     token: TOKEN,
+    restoreSessionsOnStartup: RESTORE_SESSIONS_ON_START_UP,
     mongoose: {
         enabled: MONGODB_ENABLED,
         url: MONGODB_URL,
