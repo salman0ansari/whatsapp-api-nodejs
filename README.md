@@ -1,15 +1,14 @@
-<h1 align="center"> whatsapp-api-nodejs Multi Device</h1>
+<h1 style="text-align: center"> whatsapp-api-nodejs Multi Device</h1>
+<p style="text-align: center">
+<a href="#"><img title="skynet" src="https://img.shields.io/badge/whatsapp api nodejs Multi Device-black?style=for-the-badge" alt=""></a>
 </p>
-<p align="center">
-<a href="#"><img title="skynet" src="https://img.shields.io/badge/whatsapp api nodejs Multi Device-black?style=for-the-badge"></a>
+<p style="text-align: center">
+<a href="https://github.com/salman0ansari"><img title="Author" src="https://img.shields.io/badge/Author-Mohd Salman Ansari-black.svg?style=for-the-badge&logo=github" alt=""></a>
 </p>
-<p align="center">
-<a href="https://github.com/salman0ansari"><img title="Author" src="https://img.shields.io/badge/Author-Mohd Salman Ansari-black.svg?style=for-the-badge&logo=github"></a>
-</p>
-<p align="center">
-<a href="https://github.com/salman0ansari/whatsapp-api-nodejs"><img title="Followers" src="https://img.shields.io/github/followers/salman0ansari?color=black&style=flat-square"></a>
-<a href="https://github.com/salman0ansari/whatsapp-api-nodejs"><img title="Stars" src="https://img.shields.io/github/stars/salman0ansari/whatsapp-api-nodejs?color=black&style=flat-square"></a>
-<a href="https://github.com/salman0ansari/whatsapp-api-nodejs/network/members"><img title="Forks" src="https://img.shields.io/github/forks/salman0ansari/whatsapp-api-nodejs?color=black&style=flat-square"></a>
+<p style="text-align: center">
+<a href="https://github.com/salman0ansari/whatsapp-api-nodejs"><img title="Followers" src="https://img.shields.io/github/followers/salman0ansari?color=black&style=flat-square" alt=""></a>
+<a href="https://github.com/salman0ansari/whatsapp-api-nodejs"><img title="Stars" src="https://img.shields.io/github/stars/salman0ansari/whatsapp-api-nodejs?color=black&style=flat-square" alt=""></a>
+<a href="https://github.com/salman0ansari/whatsapp-api-nodejs/network/members"><img title="Forks" src="https://img.shields.io/github/forks/salman0ansari/whatsapp-api-nodejs?color=black&style=flat-square" alt=""></a>
 
 ---
 
@@ -24,12 +23,12 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 
 1. Download or clone this repo.
 2. Enter to the project directory.
-3. Execute `yarn install` or `npm install` to install the dependencies.
+3. Execute `yarn install` to install the dependencies.
 4. Copy `.env.example` to `.env` and set the environment variables.
 
 # Docker Compose
 
-1. Follow the [Installation](#markdown-header-installation) procedure
+1. Follow the [Installation](#installation) procedure
 2. Update `.env` and set 
 ```
 MONGODB_ENABLED=true
@@ -58,8 +57,8 @@ TOKEN=RANDOM_STRING_HERE
 
 # Usage
 
-1. `DEVELOPMENT:` Execute `npm run dev` or `yarn dev`
-2. `PRODUCTION:` Execute `npm run start` or `yarn start`
+1. `DEVELOPMENT:` Execute `yarn dev`
+2. `PRODUCTION:` Execute `yarn start`
 
 ## Generate basic instance using random key
 
