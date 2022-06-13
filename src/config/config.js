@@ -6,6 +6,8 @@ const RESTORE_SESSIONS_ON_START_UP = !!(
   process.env.RESTORE_SESSIONS_ON_START_UP && process.env.RESTORE_SESSIONS_ON_START_UP === 'true'
 )
 
+const APP_URL = process.env.APP_URL || false
+
 const CLIENT_PLATFORM = process.env.CLIENT_PLATFORM || 'Whatsapp MD'
 const CLIENT_BROWSER = process.env.CLIENT_BROWSER || ''
 const CLIENT_VERSION = process.env.CLIENT_VERSION || '3.0'
@@ -34,6 +36,7 @@ module.exports = {
     port: PORT,
     token: TOKEN,
     restoreSessionsOnStartup: RESTORE_SESSIONS_ON_START_UP,
+    appUrl: APP_URL,
     mongoose: {
         enabled: MONGODB_ENABLED,
         url: MONGODB_URL,
