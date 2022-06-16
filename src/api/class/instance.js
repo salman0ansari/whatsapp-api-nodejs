@@ -21,7 +21,7 @@ class WhatsAppInstance {
     socketConfig = {
         printQRInTerminal: false,
         logger: pino({
-            level: 'silent',
+            level: process.env.LOG_LEVEL
         }),
     }
     key = ''
@@ -32,6 +32,7 @@ class WhatsAppInstance {
         chats: [],
         qr: '',
         messages: [],
+        qrRetry: 0
     }
 
     axiosInstance = axios.create({
@@ -105,6 +106,15 @@ class WhatsAppInstance {
             if (qr) {
                 QRCode.toDataURL(qr).then((url) => {
                     this.instance.qr = url
+                    this.instance.qrRetry++
+                    if(this.instance.qrRetry >= 2) {
+                            // close WebSocket connection
+                            this.instance.sock.ws.close();
+                            // remove all events
+                            this.instance.sock.ev.removeAllListeners();
+                            this.instance.qr = " "
+                            logger.info('socket connection terminated')
+                    }
                 })
             }
         })
