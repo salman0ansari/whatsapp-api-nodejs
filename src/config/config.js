@@ -8,6 +8,10 @@ const RESTORE_SESSIONS_ON_START_UP = !!(
 
 const APP_URL = process.env.APP_URL || false
 
+const LOG_LEVEL = process.env.LOG_LEVEL
+
+const INSTANCE_MAX_RETRY_QR = process.env.INSTANCE_MAX_RETRY_QR || 2
+
 const CLIENT_PLATFORM = process.env.CLIENT_PLATFORM || 'Whatsapp MD'
 const CLIENT_BROWSER = process.env.CLIENT_BROWSER || ''
 const CLIENT_VERSION = process.env.CLIENT_VERSION || '3.0'
@@ -37,6 +41,12 @@ module.exports = {
     token: TOKEN,
     restoreSessionsOnStartup: RESTORE_SESSIONS_ON_START_UP,
     appUrl: APP_URL,
+    log: {
+        level: LOG_LEVEL
+    },
+    instance: {
+        max_retry_qr: INSTANCE_MAX_RETRY_QR
+    },
     mongoose: {
         enabled: MONGODB_ENABLED,
         url: MONGODB_URL,
