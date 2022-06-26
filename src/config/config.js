@@ -45,7 +45,7 @@ module.exports = {
         level: LOG_LEVEL
     },
     instance: {
-        max_retry_qr: INSTANCE_MAX_RETRY_QR
+        maxRetryQr: INSTANCE_MAX_RETRY_QR
     },
     mongoose: {
         enabled: MONGODB_ENABLED,
