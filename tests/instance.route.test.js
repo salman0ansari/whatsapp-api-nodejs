@@ -3,9 +3,9 @@ const assert = require('assert')
 const app = require('../src/server')
 
 describe('instance endpoints', () => {
-  it('should fail init with no token is present', (done) => {
+  it('should fail with no bearer token is present', (done) => {
     request(app)
-    .get('/instance/init')
+    .get('/status')
     .expect(403)
     .then(res => {
       assert(res.body.message, 'Initializing successfully')
@@ -14,32 +14,25 @@ describe('instance endpoints', () => {
     .catch(err => done(err))
   })
 
-  it('should fail restore with no token is present', (done) => {
+  it('should fail with bearer token is mismatch', (done) => {
     request(app)
-    .get('/instance/restore')
+    .get('/status')
+    .set('Authorization', `Bearer ${process.env.TOKEN}wrong`)
     .expect(403)
-    .then(() => {
+    .then(res => {
+      assert(res.body.message, 'invalid bearer token supplied')
       done()
     })
     .catch(err => done(err))
   })
 
-  it('should fail list with no token is present', (done) => {
+  it('should successfully when bearer token is present and matched', (done) => {
     request(app)
-    .get('/instance/list')
-    .expect(403)
-    .then(() => {
-      done()
-    })
-    .catch(err => done(err))
-  })
-
-  it('should successfully init when token is present', (done) => {
-    request(app)
-    .get('/instance/init?token=' + process.env.TOKEN)
+    .get('/status')
+    .set('Authorization', `Bearer ${process.env.TOKEN}`)
     .expect(200)
     .then(res => {
-      assert(res.body.message, 'Initializing successfully')
+      assert(res.body, 'OK')
       done()
     })
     .catch(err => done(err))
