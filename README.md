@@ -45,7 +45,7 @@ docker-compose up -d
 Edit environment variables on `.env`
 
 ```a
-Important: You must set TOKEN= to a random string to protect the init route.
+Important: You must set TOKEN= to a random string to protect the route.
 ```
 
 ```env
@@ -66,7 +66,8 @@ To generate an Instance Key
 Using the route:
 
 ```bash
-curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_STRING_HERE' \
+curl --location --request GET 'localhost:3333/instance/init' \
+--header 'Authorization: Bearer RANDOM_STRING_HERE' \
 --data-raw ''
 ```
 
@@ -120,6 +121,7 @@ Visit [http://localhost:3333/instance/qr?key=INSTANCE_KEY_HERE](http://localhost
 # /message/text?key=INSTANCE_KEY_HERE&id=PHONE-NUMBER-WITH-COUNTRY-CODE&message=MESSAGE
 
 curl --location --request POST 'localhost:3333/message/text?key=INSTANCE_KEY_HERE' \
+--header 'Authorization: Bearer RANDOM_STRING_HERE' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'id=919999999999' \
 --data-urlencode 'message=Hello World'
