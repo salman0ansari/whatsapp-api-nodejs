@@ -3,7 +3,6 @@ const QRCode = require('qrcode')
 const pino = require('pino')
 const {
     default: makeWASocket,
-    useSingleFileAuthState,
     DisconnectReason,
 } = require('@adiwajshing/baileys')
 const { unlinkSync } = require('fs')
@@ -16,12 +15,13 @@ const axios = require('axios')
 const config = require('../../config/config')
 const downloadMessage = require('../helper/downloadMsg')
 const logger = require('pino')()
+const useMongoDBAuthState = require('../helper/mongoAuthState')
 
 class WhatsAppInstance {
     socketConfig = {
         printQRInTerminal: false,
         logger: pino({
-            level: config.log.level
+            level: config.log.level,
         }),
     }
     key = ''
@@ -32,7 +32,7 @@ class WhatsAppInstance {
         chats: [],
         qr: '',
         messages: [],
-        qrRetry: 0
+        qrRetry: 0,
     }
 
     axiosInstance = axios.create({
@@ -47,20 +47,19 @@ class WhatsAppInstance {
                 baseURL: webhook,
             })
         }
-        this.authState = useSingleFileAuthState(
-            path.join(__dirname, `../sessiondata/${this.key}.json`)
-        )
     }
 
     async SendWebhook(data) {
         if (!this.allowWebhook) return
-        this.axiosInstance.post('', data).catch(() => {
-        })
+        this.axiosInstance.post('', data).catch(() => {})
     }
 
     async init() {
+        this.collection = mongoClient.db('whatsapp-api').collection(this.key)
+        const { state, saveCreds } = await useMongoDBAuthState(this.collection)
+        this.authState = { state: state, saveCreds: saveCreds }
         this.socketConfig.auth = this.authState.state
-        this.socketConfig.browser = Object.values(config.browser);
+        this.socketConfig.browser = Object.values(config.browser)
         this.instance.sock = makeWASocket(this.socketConfig)
         this.setHandler()
         return this
@@ -69,7 +68,7 @@ class WhatsAppInstance {
     setHandler() {
         const sock = this.instance.sock
         // on credentials update save state
-        sock?.ev.on('creds.update', this.authState.saveState)
+        sock?.ev.on('creds.update', this.authState.saveCreds)
 
         // on socket closed, opened, connecting
         sock?.ev.on('connection.update', async (update) => {
@@ -85,21 +84,21 @@ class WhatsAppInstance {
                 ) {
                     await this.init()
                 } else {
-                    unlinkSync(
-                        path.join(__dirname, `../sessiondata/${this.key}.json`)
-                    )
+                    await this.collection.drop().then((r) => {
+                        logger.info('STATE: Droped collection')
+                    })
                     this.instance.online = false
                 }
             } else if (connection === 'open') {
                 if (config.mongoose.enabled) {
-                    let alreadyThere = await Chat.findOne({key: this.key}).exec()
-                    // if a document already exist don't create new one
+                    let alreadyThere = await Chat.findOne({
+                        key: this.key,
+                    }).exec()
                     if (!alreadyThere) {
-                        const saveChat = new Chat({key: this.key})
+                        const saveChat = new Chat({ key: this.key })
                         await saveChat.save()
                     }
                 }
-
                 this.instance.online = true
             }
 
@@ -107,13 +106,13 @@ class WhatsAppInstance {
                 QRCode.toDataURL(qr).then((url) => {
                     this.instance.qr = url
                     this.instance.qrRetry++
-                    if(this.instance.qrRetry >= config.instance.maxRetryQr) {
-                            // close WebSocket connection
-                            this.instance.sock.ws.close();
-                            // remove all events
-                            this.instance.sock.ev.removeAllListeners();
-                            this.instance.qr = " "
-                            logger.info('socket connection terminated')
+                    if (this.instance.qrRetry >= config.instance.maxRetryQr) {
+                        // close WebSocket connection
+                        this.instance.sock.ws.close()
+                        // remove all events
+                        this.instance.sock.ev.removeAllListeners()
+                        this.instance.qr = ' '
+                        logger.info('socket connection terminated')
                     }
                 })
             }
@@ -377,10 +376,7 @@ class WhatsAppInstance {
     async setStatus(status, to) {
         await this.verifyId(this.getWhatsAppId(to))
 
-        const result = await this.instance.sock?.sendPresenceUpdate(
-          status,
-          to
-        )
+        const result = await this.instance.sock?.sendPresenceUpdate(status, to)
         return result
     }
 
