@@ -8,7 +8,9 @@ class Session {
     async restoreSessions() {
         let restoredSessions = []
         try {
-            const instances = fs.readdirSync(path.join(__dirname, `../sessiondata`))
+            const instances = fs.readdirSync(
+                path.join(__dirname, `../sessiondata`)
+            )
             instances.map((file) => {
                 if (file.includes('.json')) {
                     restoredSessions.push(file.replace('.json', ''))

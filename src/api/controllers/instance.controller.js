@@ -2,7 +2,7 @@ const { WhatsAppInstance } = require('../class/instance')
 const fs = require('fs')
 const path = require('path')
 const config = require('../../config/config')
-const {Session} = require('../class/session')
+const { Session } = require('../class/session')
 
 exports.init = async (req, res) => {
     const key = req.query.key
@@ -23,7 +23,7 @@ exports.init = async (req, res) => {
         qrcode: {
             url: appUrl + '/instance/qr?key=' + data.key,
         },
-        browser: config.browser
+        browser: config.browser,
     })
 }
 
@@ -72,7 +72,7 @@ exports.info = async (req, res) => {
 
 exports.restore = async (req, res, next) => {
     try {
-        const session = new Session
+        const session = new Session()
         let restoredSessions = await session.restoreSessions()
         return res.json({
             error: false,
@@ -116,7 +116,7 @@ exports.delete = async (req, res) => {
 exports.list = async (req, res) => {
     if (req.query.active) {
         let instance = Object.keys(WhatsAppInstances).map(async (key) =>
-          WhatsAppInstances[key].getInstanceDetail(key)
+            WhatsAppInstances[key].getInstanceDetail(key)
         )
         let data = await Promise.all(instance)
         return res.json({
