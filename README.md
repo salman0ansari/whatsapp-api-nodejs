@@ -29,13 +29,16 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 # Docker Compose
 
 1. Follow the [Installation](#installation) procedure
-2. Update `.env` and set 
+2. Update `.env` and set
+
 ```
 MONGODB_ENABLED=true
 MONGODB_URL=mongodb://mongodb:27017/whatsapp_api
 ```
+
 3. Set your `TOKEN=` to a random string.
-4. Execute 
+4. Execute
+
 ```
 docker-compose up -d
 ```
@@ -67,7 +70,6 @@ Using the route:
 
 ```bash
 curl --location --request GET 'localhost:3333/instance/init' \
---header 'Authorization: Bearer RANDOM_STRING_HERE' \
 --data-raw ''
 ```
 
@@ -87,7 +89,7 @@ To generate a Custom Instance
 Using the route:
 
 ```bash
-curl --location --request GET 'localhost:3333/instance/init?token=RANDOM_STRING_HERE&key=CUSTOM_INSTANCE_KEY_HERE&webhook=true&webhookUrl=https://webhook.site/d7114704-97f6-4562-9a47-dcf66b07266d' \
+curl --location --request GET 'localhost:3333/instance/init?key=CUSTOM_INSTANCE_KEY_HERE&webhook=true&webhookUrl=https://webhook.site/d7114704-97f6-4562-9a47-dcf66b07266d' \
 --data-raw ''
 ```
 
@@ -121,7 +123,6 @@ Visit [http://localhost:3333/instance/qr?key=INSTANCE_KEY_HERE](http://localhost
 # /message/text?key=INSTANCE_KEY_HERE&id=PHONE-NUMBER-WITH-COUNTRY-CODE&message=MESSAGE
 
 curl --location --request POST 'localhost:3333/message/text?key=INSTANCE_KEY_HERE' \
---header 'Authorization: Bearer RANDOM_STRING_HERE' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'id=919999999999' \
 --data-urlencode 'message=Hello World'
@@ -130,6 +131,7 @@ curl --location --request POST 'localhost:3333/message/text?key=INSTANCE_KEY_HER
 See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-api-nodejs/tree/main/src/api/routes)
 
 # Note
+
 I can't guarantee or can be held responsible if you get blocked or banned by using this software. WhatsApp does not allow bots using unofficial methods on their platform, so this shouldn't be considered totally safe.
 
 # Legal
