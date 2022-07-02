@@ -41,7 +41,7 @@ class WhatsAppInstance {
 
     constructor(key, allowWebhook = false, webhook = null) {
         this.key = key ? key : uuidv4()
-        this.allowWebhook = allowWebhook
+        this.allowWebhook = config.webhookEnabled;
         if (this.allowWebhook && webhook !== null) {
             this.axiosInstance = axios.create({
                 baseURL: webhook,
