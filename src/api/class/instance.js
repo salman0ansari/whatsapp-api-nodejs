@@ -49,9 +49,12 @@ class WhatsAppInstance {
         }
     }
 
-    async SendWebhook(data) {
+    async SendWebhook(type, body) {
         if (!this.allowWebhook) return
-        this.axiosInstance.post('', data).catch(() => {})
+        this.axiosInstance.post('', {
+          type,
+          body
+        }).catch(() => {})
     }
 
     async init() {
@@ -223,7 +226,7 @@ class WhatsAppInstance {
                     }
                 }
 
-                await this.SendWebhook(webhookData)
+                await this.SendWebhook('recv_message', webhookData)
             })
         })
 
