@@ -19,5 +19,6 @@ router
 router
     .route('/getinvitecode')
     .get(keyVerify, loginVerify, controller.getInviteCodeGroup)
+router.route('/getallgroups').get(keyVerify, loginVerify, controller.getAllGroups)
 
 module.exports = router

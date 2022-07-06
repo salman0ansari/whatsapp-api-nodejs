@@ -41,7 +41,7 @@ class WhatsAppInstance {
 
     constructor(key, allowWebhook = false, webhook = null) {
         this.key = key ? key : uuidv4()
-        this.allowWebhook = allowWebhook
+        this.allowWebhook = config.webhookEnabled
         if (this.allowWebhook && webhook !== null) {
             this.axiosInstance = axios.create({
                 baseURL: webhook,
@@ -132,6 +132,7 @@ class WhatsAppInstance {
 
         // on recive new chat
         sock?.ev.on('chats.upsert', (newChat) => {
+            // console.log(newChat)
             // console.log("Received new chat")
             const chats = newChat.map((chat) => {
                 return {
@@ -168,6 +169,7 @@ class WhatsAppInstance {
 
         // on new mssage
         sock?.ev.on('messages.upsert', (m) => {
+            //console.log(m)
             if (m.type === 'prepend')
                 this.instance.messages.unshift(...m.messages)
             if (m.type !== 'notify') return
@@ -223,6 +225,24 @@ class WhatsAppInstance {
 
                 await this.SendWebhook(webhookData)
             })
+        })
+
+        //sock?.ev.on('messages.update', async (messages) => {
+        //  console.dir(messages);
+        //  for (const message of messages) {
+        //    is_delivered = message?.update?.status === 3;
+        //    is_seen = message?.update?.status === 4
+        //  }
+        //})
+
+        sock?.ev.on('groups.upsert', async (newChat) => {
+            //console.log(newChat)
+            this.createGroupByApp(newChat)
+        })
+
+        sock?.ev.on('groups.update', async (newChat) => {
+            //console.log(newChat)
+            this.updateGroupByApp(newChat)
         })
     }
 
@@ -444,7 +464,7 @@ class WhatsAppInstance {
     async getAllGroups() {
         let Chats = await this.getChat()
         return Chats.filter((c) => c.id.includes('@g.us')).map((data, i) => {
-            return { index: i, name: data.name, jid: data.id }
+            return { index: i, name: data.name, jid: data.id, participant: data.participant }
         })
     }
 
@@ -472,6 +492,38 @@ class WhatsAppInstance {
         return ChatObj
     }
 
+    // create new group by application
+    async createGroupByApp(newChat){
+      let Chats = await this.getChat()
+      let group = {
+        id: newChat[0].id,
+        name: newChat[0].subject,
+        participant: newChat[0].participants,
+        messages: []
+      }
+      Chats.push(group)
+      try {
+        await this.updateDb(Chats)
+      } catch (e) {
+          logger.error('Error updating document failed')
+      }
+    }
+
+    async updateGroupByApp(newChat){
+      let Chats = await this.getChat()
+      Chats.find((c) => c.id === newChat[0].id).name = newChat[0].subject
+      try {
+          await this.updateDb(Chats)
+      } catch (e) {
+          logger.error('Error updating document failed')
+      }
+    }
+
+    async groupFetchAllParticipating(){
+      const result = await this.instance.sock?.groupFetchAllParticipating()
+      return result
+    }
+
     // update db document -> chat
     async updateDb(object) {
         try {
@@ -480,6 +532,7 @@ class WhatsAppInstance {
             logger.error('Error updating document failed')
         }
     }
+
 }
 
 exports.WhatsAppInstance = WhatsAppInstance
