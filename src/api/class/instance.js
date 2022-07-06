@@ -238,6 +238,35 @@ class WhatsAppInstance {
         //  }
         //})
 
+        sock?.ws.on('CB:call', async (data) => {
+          if (data.content) {
+            if (data.content.find(e => e.tag === 'offer')) {
+              const content = data.content.find(e => e.tag === 'offer')
+
+              await this.SendWebhook('call_offer', {
+                id: content.attrs['call-id'],
+                timestamp: parseInt(data.attrs.t),
+                user: {
+                  id: data.attrs.from,
+                  platform: data.attrs.platform,
+                  platform_version: data.attrs.version
+                }
+              })
+            } else if (data.content.find(e => e.tag === 'terminate')) {
+              const content = data.content.find(e => e.tag === 'terminate')
+
+              await this.SendWebhook('call_terminate', {
+                id: content.attrs['call-id'],
+                user: {
+                  id: data.attrs.from
+                },
+                timestamp: parseInt(data.attrs.t),
+                reason: data.content[0].attrs.reason
+              })
+            }
+          }
+        })
+
         sock?.ev.on('groups.upsert', async (newChat) => {
             //console.log(newChat)
             this.createGroupByApp(newChat)
