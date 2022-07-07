@@ -527,7 +527,7 @@ class WhatsAppInstance {
     // update db document -> chat
     async updateDb(object) {
         try {
-            await Chat.updateOne({ key: this.key }, { chat: object })
+            //await Chat.updateOne({ key: this.key }, { chat: object })
         } catch (e) {
             logger.error('Error updating document failed')
         }
