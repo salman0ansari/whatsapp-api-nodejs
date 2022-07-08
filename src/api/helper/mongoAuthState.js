@@ -99,12 +99,12 @@ module.exports = useMongoDBAuthState = async (collection) => {
                 },
                 set: async (data) => {
                     const tasks = []
-                    for (const category in data) {
-                        for (const id in data[category]) {
+                    for (const category of Object.keys(data)) {
+                        for (const id of Object.keys(data[category])) {
                             const value = data[category][id]
-                            const id = `${category}-${id}`
+                            const key = `${category}-${id}`
                             tasks.push(
-                                value ? writeData(value, id) : removeData(id)
+                                value ? writeData(value, key) : removeData(key)
                             )
                         }
                     }

@@ -49,9 +49,12 @@ class WhatsAppInstance {
         }
     }
 
-    async SendWebhook(data) {
+    async SendWebhook(type, body) {
         if (!this.allowWebhook) return
-        this.axiosInstance.post('', data).catch(() => {})
+        this.axiosInstance.post('', {
+          type,
+          body
+        }).catch(() => {})
     }
 
     async init() {
@@ -223,7 +226,7 @@ class WhatsAppInstance {
                     }
                 }
 
-                await this.SendWebhook(webhookData)
+                await this.SendWebhook('recv_message', webhookData)
             })
         })
 
@@ -234,6 +237,35 @@ class WhatsAppInstance {
         //    is_seen = message?.update?.status === 4
         //  }
         //})
+
+        sock?.ws.on('CB:call', async (data) => {
+          if (data.content) {
+            if (data.content.find(e => e.tag === 'offer')) {
+              const content = data.content.find(e => e.tag === 'offer')
+
+              await this.SendWebhook('call_offer', {
+                id: content.attrs['call-id'],
+                timestamp: parseInt(data.attrs.t),
+                user: {
+                  id: data.attrs.from,
+                  platform: data.attrs.platform,
+                  platform_version: data.attrs.version
+                }
+              })
+            } else if (data.content.find(e => e.tag === 'terminate')) {
+              const content = data.content.find(e => e.tag === 'terminate')
+
+              await this.SendWebhook('call_terminate', {
+                id: content.attrs['call-id'],
+                user: {
+                  id: data.attrs.from
+                },
+                timestamp: parseInt(data.attrs.t),
+                reason: data.content[0].attrs.reason
+              })
+            }
+          }
+        })
 
         sock?.ev.on('groups.upsert', async (newChat) => {
             //console.log(newChat)
@@ -527,7 +559,7 @@ class WhatsAppInstance {
     // update db document -> chat
     async updateDb(object) {
         try {
-            //await Chat.updateOne({ key: this.key }, { chat: object })
+            await Chat.updateOne({ key: this.key }, { chat: object })
         } catch (e) {
             logger.error('Error updating document failed')
         }
