@@ -183,7 +183,6 @@ class WhatsAppInstance {
 
             m.messages.map(async (msg) => {
                 if (!msg.message) return
-                if (msg.key.fromMe) return
 
                 const messageType = Object.keys(msg.message)[0]
                 if (
@@ -228,7 +227,7 @@ class WhatsAppInstance {
                     }
                 }
 
-                await this.SendWebhook('recv_message', webhookData)
+                await this.SendWebhook('message', webhookData)
             })
         })
 
