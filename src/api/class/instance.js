@@ -282,11 +282,25 @@ class WhatsAppInstance {
         sock?.ev.on('groups.upsert', async (newChat) => {
             //console.log(newChat)
             this.createGroupByApp(newChat)
+            await this.SendWebhook('group_created', {
+              data: newChat
+            })
         })
 
         sock?.ev.on('groups.update', async (newChat) => {
             //console.log(newChat)
             this.updateGroupByApp(newChat)
+            await this.SendWebhook('group_updated', {
+              data: newChat
+            })
+        })
+
+
+        sock?.ev.on('group-participants.update', async (newChat) => {
+            //console.log('group-participants.update')
+            await this.SendWebhook('group_participants_updated', {
+              data: newChat
+            })
         })
     }
 
