@@ -126,12 +126,12 @@ exports.list = async (req, res) => {
         })
     } else {
         let instance = []
-        const sessions = fs.readdirSync(path.join(__dirname, `../sessiondata`))
-        sessions.map((file) => {
-            if (file.includes('.json')) {
-                instance.push(file.replace('.json', ''))
-            }
+        const db = mongoClient.db('whatsapp-api')
+        const result = await db.listCollections().toArray()
+        result.forEach((collection) => {
+            instance.push(collection.name)
         })
+
         return res.json({
             error: false,
             message: 'All instance listed',
