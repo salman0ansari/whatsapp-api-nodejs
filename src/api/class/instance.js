@@ -43,9 +43,9 @@ class WhatsAppInstance {
     constructor(key, allowWebhook = false, webhook = null) {
         this.key = key ? key : uuidv4()
         this.allowWebhook = config.webhookEnabled
-        if (this.allowWebhook && webhook !== null) {
+        if (this.allowWebhook && config.webhookUrl !== null) {
             this.axiosInstance = axios.create({
-                baseURL: webhook,
+                baseURL: config.webhookUrl,
             })
         }
     }
@@ -274,11 +274,25 @@ class WhatsAppInstance {
         sock?.ev.on('groups.upsert', async (newChat) => {
             //console.log(newChat)
             this.createGroupByApp(newChat)
+            await this.SendWebhook('group_created', {
+              data: newChat
+            })
         })
 
         sock?.ev.on('groups.update', async (newChat) => {
             //console.log(newChat)
             this.updateGroupByApp(newChat)
+            await this.SendWebhook('group_created', {
+              data: newChat
+            })
+        })
+
+
+        sock?.ev.on('group-participants.update', async (newChat) => {
+            //console.log('group-participants.update')
+            await this.SendWebhook('group_participants_updated', {
+              data: newChat
+            })
         })
     }
 
