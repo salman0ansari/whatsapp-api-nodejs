@@ -19,6 +19,7 @@ const useMongoDBAuthState = require('../helper/mongoAuthState')
 
 class WhatsAppInstance {
     socketConfig = {
+        defaultQueryTimeoutMs: undefined,
         printQRInTerminal: false,
         logger: pino({
             level: config.log.level,
