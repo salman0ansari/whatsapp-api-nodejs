@@ -46,8 +46,8 @@ class WhatsAppInstance {
     constructor(key, allowWebhook, webhook) {
         this.key = key ? key : uuidv4()
         this.instance.customWebhook = this.webhook ? this.webhook : webhook
-        this.allowWebhook = config.allowWebhook
-            ? config.allowWebhook
+        this.allowWebhook = config.webhookEnabled
+            ? config.webhookEnabled
             : allowWebhook
         if (this.allowWebhook && this.instance.customWebhook !== null) {
             this.allowWebhook = true
