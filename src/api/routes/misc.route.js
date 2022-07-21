@@ -9,5 +9,6 @@ router.route('/onwhatsapp').get(keyVerify, loginVerify, controller.onWhatsapp)
 router.route('/downProfile').get(keyVerify, loginVerify, controller.downProfile)
 router.route('/getStatus').get(keyVerify, loginVerify, controller.getStatus)
 router.route('/blockUser').get(keyVerify, loginVerify, controller.blockUser)
+router.route('/updateProfilePicture').post(keyVerify, loginVerify, controller.updateProfilePicture)
 
 module.exports = router
