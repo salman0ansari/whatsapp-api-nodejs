@@ -588,6 +588,78 @@ class WhatsAppInstance {
         return result
     }
 
+    // update promote demote remove
+    async groupParticipantsUpdate(id, users, action) {
+        try {
+            const res = await this.instance.sock?.groupParticipantsUpdate(
+                this.getWhatsAppId(id),
+                this.parseParticipants(users),
+                action
+            )
+            return res
+        } catch (e) {
+            //console.log(e)
+            return {
+                error: true,
+                message:
+                    'unable to ' + action + ' some participants, check if you are admin in group or participants exists',
+            }
+        }
+    }
+
+    // update group settings like
+    // only allow admins to send messages
+    async groupSettingUpdate(id, action) {
+        try {
+            const res = await this.instance.sock?.groupSettingUpdate(
+                this.getWhatsAppId(id),
+                action
+            )
+            return res
+        } catch (e) {
+            //console.log(e)
+            return {
+                error: true,
+                message:
+                    'unable to ' + action + ' check if you are admin in group',
+            }
+        }
+    }
+
+    async groupUpdateSubject(id, subject) {
+        try {
+            const res = await this.instance.sock?.groupUpdateSubject(
+                this.getWhatsAppId(id),
+                subject
+            )
+            return res
+        } catch (e) {
+            //console.log(e)
+            return {
+                error: true,
+                message:
+                    'unable to update subject check if you are admin in group',
+            }
+        }
+    }
+
+    async groupUpdateDescription(id, description) {
+        try {
+            const res = await this.instance.sock?.groupUpdateDescription(
+                this.getWhatsAppId(id),
+                description
+            )
+            return res
+        } catch (e) {
+            //console.log(e)
+            return {
+                error: true,
+                message:
+                    'unable to update description check if you are admin in group',
+            }
+        }
+    }
+
     // update db document -> chat
     async updateDb(object) {
         try {
