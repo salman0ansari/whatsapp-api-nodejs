@@ -16,7 +16,7 @@
     "author": "Mohd Salman Ansari <salman0ansariii@gmail.com>",
     "license": "MIT",
     "dependencies": {
-        "@adiwajshing/baileys": "^4.2.0",
+        "@adiwajshing/baileys": "^4.3.0",
         "axios": "^0.27.2",
         "dotenv": "^16.0.0",
         "ejs": "^3.1.7",
