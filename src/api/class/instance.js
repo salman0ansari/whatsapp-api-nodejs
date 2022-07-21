@@ -459,6 +459,22 @@ class WhatsAppInstance {
         return result
     }
 
+    // change your display picture or a group's
+    async updateProfilePicture(id, url) {
+        try {
+            const img = await axios.get(url, { responseType: 'arraybuffer' });
+            const res = await this.instance.sock?.updateProfilePicture(id, img.data );
+            return res
+        } catch (e) {
+            //console.log(e)
+            return {
+                error: true,
+                message:
+                    'Unable to update profile picture',
+            }
+        }
+    }
+
     // Group Methods
     parseParticipants(users) {
         return users.map((users) => this.getWhatsAppId(users))
