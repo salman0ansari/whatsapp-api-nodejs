@@ -574,15 +574,15 @@ class WhatsAppInstance {
 
     // create new group by application
     async createGroupByApp(newChat) {
-        let Chats = await this.getChat()
-        let group = {
-            id: newChat[0].id,
-            name: newChat[0].subject,
-            participant: newChat[0].participants,
-            messages: [],
-        }
-        Chats.push(group)
         try {
+            let Chats = await this.getChat()
+            let group = {
+                id: newChat[0].id,
+                name: newChat[0].subject,
+                participant: newChat[0].participants,
+                messages: [],
+            }
+            Chats.push(group)
             await this.updateDb(Chats)
         } catch (e) {
             logger.error('Error updating document failed')
@@ -590,10 +590,12 @@ class WhatsAppInstance {
     }
 
     async updateGroupByApp(newChat) {
-        let Chats = await this.getChat()
-        Chats.find((c) => c.id === newChat[0].id).name = newChat[0].subject
         try {
-            await this.updateDb(Chats)
+            if(newChat[0] && newChat[0].subject){
+              let Chats = await this.getChat()
+              Chats.find((c) => c.id === newChat[0].id).name = newChat[0].subject
+              await this.updateDb(Chats)
+            }
         } catch (e) {
             logger.error('Error updating document failed')
         }
