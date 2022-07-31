@@ -10,7 +10,23 @@
         "format:write": "prettier --write .",
         "lint:check": "eslint .",
         "lint:fix": "eslint --fix .",
-        "test": "mocha tests/*.test.js --exit"
+        "test": "mocha tests/*.test.js --exit",
+        "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npx --no-install lint-staged\""
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,jsx}": [
+            "prettier --write",
+            "git add"
+        ],
+        "*.{html,css,less,ejs}": [
+            "prettier --write",
+            "git add"
+        ]
     },
     "repository": "git@github.com:salman0ansari/whatsapp-api-nodejs.git",
     "author": "Mohd Salman Ansari <salman0ansariii@gmail.com>",
@@ -34,6 +50,8 @@
     "devDependencies": {
         "eslint": "^8.20.0",
         "eslint-config-prettier": "^8.5.0",
+        "husky": "^8.0.1",
+        "lint-staged": "^13.0.3",
         "mocha": "^10.0.0",
         "nodemon": "^2.0.19",
         "prettier": "^2.6.2",
