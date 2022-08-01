@@ -613,24 +613,25 @@ class WhatsAppInstance {
                 if(chat.participant == undefined) {
                     chat.participant = []
                 }
-                if(newChat.action == 'add'){
+                console.log(chat)
+                if(chat.participant && newChat.action == 'add'){
                     for (const participant of newChat.participants) {
                         chat.participant.push({id: participant, admin: null})
                     }
                 }
-                if(newChat.action == 'remove'){
+                if(chat.participant && newChat.action == 'remove'){
                     for (const participant of newChat.participants) {
                         chat.participant = chat.participant.filter((p) => p.id != participant)
                     }
                 }
-                if(newChat.action == 'demote'){
+                if(chat.participant && newChat.action == 'demote'){
                     for (const participant of newChat.participants) {
                         if(chat.participant.filter((p) => p.id == participant)[0]){
                             chat.participant.filter((p) => p.id == participant)[0].admin = null
                         }
                     }
                 }
-                if(newChat.action == 'promote'){
+                if(chat.participant && newChat.action == 'promote'){
                     for (const participant of newChat.participants) {
                         if(chat.participant.filter((p) => p.id == participant)[0]){
                             chat.participant.filter((p) => p.id == participant)[0].admin = "superadmin"
