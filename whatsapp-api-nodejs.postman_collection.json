@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "3e90c6a1-5fa2-4bdb-8be7-3a33b65259b2",
+		"_postman_id": "9db85f5b-971f-4218-8f0b-7eca66651a01",
 		"name": "whatsapp-api-nodejs",
 		"description": "## **API** Documentation\n\n### whatsapp-api-nodejs\n\n[https://github.com/salman0ansari/whatsapp-api-nodejs](https://github.com/salman0ansari/whatsapp-api-nodejs)\n\nAn implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a simple RESTful API service with multi device support just `download`, `install`, and `start` using, `simple` as that.\n\nBuild with NodeJs + Express\n\n* * *\n\n## Legal Notice\n\n*   This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA(WhatsApp) or any of its affiliates or subsidiaries.\n*   The official WhatsApp website can be found at [https://whatsapp.com](https://whatsapp.com). \"WhatsApp\" as well as related names, marks, emblems and images are registered trademarks of their respective owners.\n*   This is an independent and unofficial software Use at your own risk.\n*   Do not spam people with this.\n    \n\n* * *\n\n## Contact\n\nDeveloper: [https://github.com/salman0ansari](https://github.com/salman0ansari)\n\nEmail: salman0ansari@pm.me\n\nTelegram: @salman0ansari",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -11,31 +11,10 @@
 			"item": [
 				{
 					"name": "Init Instance",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.collectionVariables.set(\"instance_key\", pm.response.json().key)"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -43,7 +22,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/instance/init",
+							"raw": "{{baseUrl}}/instance/init?key=123&token=RANDOM_STRING_HERE",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -55,14 +34,17 @@
 								{
 									"key": "webhook",
 									"value": "true",
-									"description": "Allow Webhook (Optional)",
+									"description": "Allow Webhook\n(Optional) ",
 									"disabled": true
 								},
 								{
 									"key": "key",
 									"value": "123",
-									"description": "Custom Instance Key (Optional)",
-									"disabled": true
+									"description": "Custom Instance Key\n(Optional)"
+								},
+								{
+									"key": "token",
+									"value": "RANDOM_STRING_HERE"
 								}
 							]
 						},
@@ -73,16 +55,6 @@
 				{
 					"name": "Scan QR",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -109,16 +81,6 @@
 				{
 					"name": "Get QR in Base64",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -144,16 +106,6 @@
 				{
 					"name": "Instance Info",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -180,16 +132,6 @@
 				{
 					"name": "Restore All Instances",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -208,16 +150,6 @@
 				{
 					"name": "Delete Instance",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -244,16 +176,6 @@
 				{
 					"name": "Logout Instance",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -280,16 +202,6 @@
 				{
 					"name": "List All Sessions",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -305,6 +217,7 @@
 								{
 									"key": "active",
 									"value": "true",
+									"description": "List Active Instances\n(Optional) ",
 									"disabled": true
 								}
 							]
@@ -321,16 +234,6 @@
 				{
 					"name": "Send Text Message",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -351,7 +254,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseUrl}}/message/text?key={{instance_key}}",
+							"raw": "{{baseUrl}}/message/text?key=bot",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -362,7 +265,7 @@
 							"query": [
 								{
 									"key": "key",
-									"value": "{{instance_key}}",
+									"value": "bot",
 									"description": "Instance Key\n(Required)"
 								}
 							]
@@ -374,16 +277,6 @@
 				{
 					"name": "Send Image Message",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -403,7 +296,7 @@
 								},
 								{
 									"key": "caption",
-									"value": "Yo",
+									"value": "",
 									"description": "Message Caption\n(Optional) ",
 									"type": "text"
 								}
@@ -443,16 +336,6 @@
 				{
 					"name": "Send Video Message",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -505,16 +388,6 @@
 						"disabledSystemHeaders": {}
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -558,16 +431,6 @@
 				{
 					"name": "Send Document Message",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -617,21 +480,11 @@
 				{
 					"name": "Send File URL",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "id",
 									"value": "",
@@ -641,7 +494,7 @@
 								{
 									"key": "url",
 									"value": "",
-									"description": "Direct URL or Media File\n(Required)",
+									"description": "Direct URL of Media File\n(Required)",
 									"type": "text"
 								},
 								{
@@ -653,12 +506,13 @@
 								{
 									"key": "mimetype",
 									"value": "",
+									"description": "Mime Type \n(Sometimes Required)\n(Optional)\n\n",
 									"type": "text"
 								},
 								{
 									"key": "caption",
 									"value": "",
-									"description": "Message Caption\n(Optional) ",
+									"description": "Message Caption\n(Optional)\n",
 									"type": "text"
 								}
 							]
@@ -692,16 +546,6 @@
 						}
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -743,16 +587,6 @@
 				{
 					"name": "Send Contact Message",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -788,16 +622,6 @@
 				{
 					"name": "Send List Message",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -831,18 +655,45 @@
 					"response": []
 				},
 				{
-					"name": "Send Button With Media",
+					"name": "Set Status",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
 								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
+									"key": "status",
+									"value": "",
+									"description": "Status Value\n(Required)",
+									"type": "text"
 								}
 							]
 						},
+						"url": {
+							"raw": "{{baseUrl}}/message/setstatus?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"message",
+								"setstatus"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								}
+							]
+						},
+						"description": "Send an list button message to WhatsApp User"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Button With Media",
+					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -871,7 +722,7 @@
 								},
 								{
 									"key": "",
-									"value": "",
+									"value": null,
 									"disabled": true
 								}
 							]
@@ -888,16 +739,6 @@
 				{
 					"name": "Is On Whatsapp?",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -929,16 +770,6 @@
 				{
 					"name": "Download Profile Pic",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -970,16 +801,6 @@
 				{
 					"name": "Get User Status",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -994,11 +815,13 @@
 							"query": [
 								{
 									"key": "key",
-									"value": "{{instance_key}}"
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
 								},
 								{
 									"key": "id",
-									"value": ""
+									"value": "",
+									"description": "User Id\n(Required)"
 								}
 							]
 						},
@@ -1009,20 +832,10 @@
 				{
 					"name": "Block/Unblock User",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/misc/blockUser?key={{instance_key}}&id=",
+							"raw": "{{baseUrl}}/misc/blockUser?key={{instance_key}}&id",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1033,11 +846,56 @@
 							"query": [
 								{
 									"key": "key",
-									"value": "{{instance_key}}"
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
 								},
 								{
 									"key": "id",
-									"value": ""
+									"value": null,
+									"description": "User Id\n(Required)"
+								}
+							]
+						},
+						"description": "Block Or Unblock User."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile Picture",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Your Id or Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "url",
+									"value": "",
+									"description": "Direct Image URl\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/misc/updateProfilePicture?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"misc",
+								"updateProfilePicture"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
 								}
 							]
 						},
@@ -1053,27 +911,8 @@
 				{
 					"name": "Create Group",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Whatsapp Node.js API\",\n    \"users\": [\n        \"919999999999\"\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{baseUrl}}/group/create?key={{instance_key}}",
 							"host": [
@@ -1086,8 +925,7 @@
 							"query": [
 								{
 									"key": "key",
-									"value": "{{instance_key}}",
-									"description": "Instance Key\n(Required)"
+									"value": "{{instance_key}}"
 								}
 							]
 						},
@@ -1098,20 +936,10 @@
 				{
 					"name": "Leave Group",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/group/leave?key={{instance_key}}&id=",
+							"raw": "{{baseUrl}}/group/leave?key={{instance_key}}&id",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1127,7 +955,7 @@
 								},
 								{
 									"key": "id",
-									"value": "",
+									"value": null,
 									"description": "Group Id\n(Required)"
 								}
 							]
@@ -1137,18 +965,8 @@
 					"response": []
 				},
 				{
-					"name": "Get All Group",
+					"name": "Get All Groups",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1175,16 +993,6 @@
 				{
 					"name": "Invite User",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1228,16 +1036,6 @@
 				{
 					"name": "Make Admin",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1281,16 +1079,6 @@
 				{
 					"name": "Demote Admin",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1337,16 +1125,6 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -1354,7 +1132,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "{{baseUrl}}/group/getinvitecode?key={{instance_key}}&id=",
+							"raw": "{{baseUrl}}/group/getinvitecode?key={{instance_key}}&id",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1370,8 +1148,244 @@
 								},
 								{
 									"key": "id",
-									"value": "",
+									"value": null,
 									"description": "Group Id\n(Required)"
+								}
+							]
+						},
+						"description": "Get invite link of a group"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Groups",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/getallgroups?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"getallgroups"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get invite link of a group"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Group Participants",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "users",
+									"value": "",
+									"description": "Users\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "action",
+									"value": "",
+									"description": "Action\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/participantsupdate?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"participantsupdate"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get invite link of a group"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Group Setting",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "action",
+									"value": "",
+									"description": "Action\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/settingsupdate?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"settingsupdate"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get invite link of a group"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Group Subject",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "subject",
+									"value": "",
+									"description": "Subject\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/updatesubject?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"updatesubject"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get invite link of a group"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Group Description",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Group Id\n(Required)",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"description": "Group Description\n(Required)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/group/updatedescription?key={{instance_key}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"group",
+								"updatedescription"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
 								}
 							]
 						},
@@ -1410,11 +1424,6 @@
 		{
 			"key": "instance_key",
 			"value": "123"
-		},
-		{
-			"key": "token",
-			"value": "RANDOM_STRING_HERE",
-			"type": "string"
 		}
 	]
 }
