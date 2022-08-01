@@ -613,7 +613,6 @@ class WhatsAppInstance {
                 if(chat.participant == undefined) {
                     chat.participant = []
                 }
-                console.log(chat)
                 if(chat.participant && newChat.action == 'add'){
                     for (const participant of newChat.participants) {
                         chat.participant.push({id: participant, admin: null})
