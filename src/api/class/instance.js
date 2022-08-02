@@ -600,6 +600,9 @@ class WhatsAppInstance {
                 name: newChat[0].subject,
                 participant: newChat[0].participants,
                 messages: [],
+                creation: data.creation,
+                subjectOwner: data.subjectOwner
+
             }
             Chats.push(group)
             await this.updateDb(Chats)
