@@ -289,7 +289,7 @@ class WhatsAppInstance {
 
         sock?.ev.on('groups.update', async (newChat) => {
             //console.log(newChat)
-            this.updateGroupByApp(newChat)
+            this.updateGroupSubjectByApp(newChat)
             await this.SendWebhook('group_updated', {
               data: newChat
             })
@@ -298,6 +298,7 @@ class WhatsAppInstance {
 
         sock?.ev.on('group-participants.update', async (newChat) => {
             //console.log('group-participants.update')
+            this.updateGroupParticipantsByApp(newChat)
             await this.SendWebhook('group_participants_updated', {
               data: newChat
             })
@@ -589,15 +590,59 @@ class WhatsAppInstance {
         }
     }
 
-    async updateGroupByApp(newChat) {
+   async updateGroupSubjectByApp(newChat) {
+        //console.log(newChat)
         try {
             if(newChat[0] && newChat[0].subject){
-              let Chats = await this.getChat()
-              Chats.find((c) => c.id === newChat[0].id).name = newChat[0].subject
-              await this.updateDb(Chats)
+                let Chats = await this.getChat()
+                Chats.find((c) => c.id === newChat[0].id).name = newChat[0].subject
+                await this.updateDb(Chats)
             }
         } catch (e) {
-            logger.error('Error updating document failed')
+              logger.error('Error updating document failed')
+        }
+    }
+
+    async updateGroupParticipantsByApp(newChat) {
+        //console.log(newChat)
+        try {
+            if(newChat && newChat.id){
+                let Chats = await this.getChat()
+                let chat = Chats.find((c) => c.id === newChat.id)
+                //console.log(chat)
+                if(chat.participant == undefined) {
+                    chat.participant = []
+                }
+                if(chat.participant && newChat.action == 'add'){
+                    for (const participant of newChat.participants) {
+                        chat.participant.push({id: participant, admin: null})
+                    }
+                }
+                if(chat.participant && newChat.action == 'remove'){
+                    for (const participant of newChat.participants) {
+                        chat.participant = chat.participant.filter((p) => p.id != participant)
+                    }
+                }
+                if(chat.participant && newChat.action == 'demote'){
+                    for (const participant of newChat.participants) {
+                        if(chat.participant.filter((p) => p.id == participant)[0]){
+                            chat.participant.filter((p) => p.id == participant)[0].admin = null
+                        }
+                    }
+                }
+                if(chat.participant && newChat.action == 'promote'){
+                    for (const participant of newChat.participants) {
+                        if(chat.participant.filter((p) => p.id == participant)[0]){
+                            chat.participant.filter((p) => p.id == participant)[0].admin = "superadmin"
+                        }
+                    }
+                }
+                Chats.filter((c) => c.id === newChat.id)[0] = chat
+                await this.updateDb(Chats)
+            }
+        } catch (e) {
+              logger.error(e)
+              logger.error('Error updating document failed')
         }
     }
 
