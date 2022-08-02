@@ -147,8 +147,8 @@ class WhatsAppInstance {
 
         // on recive new chat
         sock?.ev.on('chats.upsert', (newChat) => {
-            // console.log(newChat)
-            // console.log("Received new chat")
+            //console.log('chats.upsert')
+            //console.log(newChat)
             const chats = newChat.map((chat) => {
                 return {
                     ...chat,
@@ -160,6 +160,8 @@ class WhatsAppInstance {
 
         // on chat change
         sock?.ev.on('chats.update', (changedChat) => {
+            //console.log('chats.update')
+            //console.log(changedChat)
             changedChat.map((chat) => {
                 const index = this.instance.chats.findIndex(
                     (pc) => pc.id === chat.id
@@ -174,6 +176,8 @@ class WhatsAppInstance {
 
         // on chat delete
         sock?.ev.on('chats.delete', (deletedChats) => {
+            //console.log('chats.delete')
+            //console.log(deletedChats)
             deletedChats.map((chat) => {
                 const index = this.instance.chats.findIndex(
                     (c) => c.id === chat
@@ -184,6 +188,7 @@ class WhatsAppInstance {
 
         // on new mssage
         sock?.ev.on('messages.upsert', (m) => {
+            //console.log('messages.upsert')
             //console.log(m)
             if (m.type === 'prepend')
                 this.instance.messages.unshift(...m.messages)
@@ -241,14 +246,10 @@ class WhatsAppInstance {
             })
         })
 
-        //sock?.ev.on('messages.update', async (messages) => {
-        //  console.dir(messages);
-        //  for (const message of messages) {
-        //    is_delivered = message?.update?.status === 3;
-        //    is_seen = message?.update?.status === 4
-        //  }
-        //})
-
+        sock?.ev.on('messages.update', async (messages) => {
+          //console.log('messages.update')
+          //console.dir(messages);
+        })
         sock?.ws.on('CB:call', async (data) => {
             if (data.content) {
                 if (data.content.find((e) => e.tag === 'offer')) {
@@ -281,6 +282,7 @@ class WhatsAppInstance {
         })
 
         sock?.ev.on('groups.upsert', async (newChat) => {
+            //console.log('groups.upsert')
             //console.log(newChat)
             this.createGroupByApp(newChat)
             await this.SendWebhook('group_created', {
@@ -289,6 +291,7 @@ class WhatsAppInstance {
         })
 
         sock?.ev.on('groups.update', async (newChat) => {
+            //console.log('groups.update')
             //console.log(newChat)
             this.updateGroupSubjectByApp(newChat)
             await this.SendWebhook('group_updated', {
@@ -299,6 +302,7 @@ class WhatsAppInstance {
 
         sock?.ev.on('group-participants.update', async (newChat) => {
             //console.log('group-participants.update')
+            //console.log(newChat)
             this.updateGroupParticipantsByApp(newChat)
             await this.SendWebhook('group_participants_updated', {
               data: newChat
@@ -497,6 +501,17 @@ class WhatsAppInstance {
         await this.updateDb(Chats)
     }
 
+    async updateDbGroupsAfterDeleteOwner(){
+        let groups = await this.groupFetchAllParticipating();
+        let Chats = await this.getChat();
+        let active_groups = [];
+        for (const [key, value] of Object.entries(groups)) {
+            active_groups.push(key)
+        }
+        Chats = Chats.filter(c => active_groups.includes(c.id))
+        await this.updateDb(Chats)
+    }
+
     async createNewGroup(name, users) {
         const group = await this.instance.sock?.groupCreate(
             name,
@@ -600,13 +615,14 @@ class WhatsAppInstance {
                 name: newChat[0].subject,
                 participant: newChat[0].participants,
                 messages: [],
-                creation: data.creation,
-                subjectOwner: data.subjectOwner
+                creation: newChat[0].creation,
+                subjectOwner: newChat[0].subjectOwner
 
             }
             Chats.push(group)
             await this.updateDb(Chats)
         } catch (e) {
+            logger.error(e)
             logger.error('Error updating document failed')
         }
     }
@@ -620,6 +636,7 @@ class WhatsAppInstance {
                 await this.updateDb(Chats)
             }
         } catch (e) {
+              logger.error(e)
               logger.error('Error updating document failed')
         }
     }
@@ -640,8 +657,15 @@ class WhatsAppInstance {
                     }
                 }
                 if(chat.participant && newChat.action == 'remove'){
+                    let is_owner = false;
                     for (const participant of newChat.participants) {
+                        if(chat.subjectOwner == participant){
+                            is_owner = true;
+                        }
                         chat.participant = chat.participant.filter((p) => p.id != participant)
+                    }
+                    if(is_owner){
+                        this.updateDbGroupsAfterDeleteOwner();
                     }
                 }
                 if(chat.participant && newChat.action == 'demote'){
