@@ -301,8 +301,8 @@ class WhatsAppInstance {
 
 
         sock?.ev.on('group-participants.update', async (newChat) => {
-            //console.log('group-participants.update')
-            //console.log(newChat)
+            console.log('group-participants.update')
+            console.log(newChat)
             this.updateGroupParticipantsByApp(newChat)
             await this.SendWebhook('group_participants_updated', {
               data: newChat
@@ -501,17 +501,6 @@ class WhatsAppInstance {
         await this.updateDb(Chats)
     }
 
-    async updateDbGroupsAfterDeleteOwner(){
-        let groups = await this.groupFetchAllParticipating();
-        let Chats = await this.getChat();
-        let active_groups = [];
-        for (const [key, value] of Object.entries(groups)) {
-            active_groups.push(key)
-        }
-        Chats = Chats.filter(c => active_groups.includes(c.id))
-        await this.updateDb(Chats)
-    }
-
     async createNewGroup(name, users) {
         const group = await this.instance.sock?.groupCreate(
             name,
@@ -647,7 +636,7 @@ class WhatsAppInstance {
             if(newChat && newChat.id){
                 let Chats = await this.getChat()
                 let chat = Chats.find((c) => c.id === newChat.id)
-                //console.log(chat)
+                let is_owner = false;
                 if(chat.participant == undefined) {
                     chat.participant = []
                 }
@@ -657,15 +646,12 @@ class WhatsAppInstance {
                     }
                 }
                 if(chat.participant && newChat.action == 'remove'){
-                    let is_owner = false;
                     for (const participant of newChat.participants) {
+                        // remove group if they are owner
                         if(chat.subjectOwner == participant){
                             is_owner = true;
                         }
                         chat.participant = chat.participant.filter((p) => p.id != participant)
-                    }
-                    if(is_owner){
-                        this.updateDbGroupsAfterDeleteOwner();
                     }
                 }
                 if(chat.participant && newChat.action == 'demote'){
@@ -682,7 +668,11 @@ class WhatsAppInstance {
                         }
                     }
                 }
-                Chats.filter((c) => c.id === newChat.id)[0] = chat
+                if(is_owner){
+                  Chats = Chats.filter((c) => c.id !== newChat.id)
+                }else{
+                  Chats.filter((c) => c.id === newChat.id)[0] = chat
+                }
                 await this.updateDb(Chats)
             }
         } catch (e) {
