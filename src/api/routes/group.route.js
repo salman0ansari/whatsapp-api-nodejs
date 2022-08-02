@@ -19,10 +19,20 @@ router
 router
     .route('/getinvitecode')
     .get(keyVerify, loginVerify, controller.getInviteCodeGroup)
-router.route('/getallgroups').get(keyVerify, loginVerify, controller.getAllGroups)
-router.route('/participantsupdate').post(keyVerify, loginVerify, controller.groupParticipantsUpdate)
-router.route('/settingsupdate').post(keyVerify, loginVerify, controller.groupSettingUpdate)
-router.route('/updatesubject').post(keyVerify, loginVerify, controller.groupUpdateSubject)
-router.route('/updatedescription').post(keyVerify, loginVerify, controller.groupUpdateDescription)
+router
+    .route('/getallgroups')
+    .get(keyVerify, loginVerify, controller.getAllGroups)
+router
+    .route('/participantsupdate')
+    .post(keyVerify, loginVerify, controller.groupParticipantsUpdate)
+router
+    .route('/settingsupdate')
+    .post(keyVerify, loginVerify, controller.groupSettingUpdate)
+router
+    .route('/updatesubject')
+    .post(keyVerify, loginVerify, controller.groupUpdateSubject)
+router
+    .route('/updatedescription')
+    .post(keyVerify, loginVerify, controller.groupUpdateDescription)
 
 module.exports = router
