@@ -590,7 +590,7 @@ class WhatsAppInstance {
         }
     }
 
-    async updateGroupSubjectByApp(newChat) {
+   async updateGroupSubjectByApp(newChat) {
         //console.log(newChat)
         try {
             if(newChat[0] && newChat[0].subject){
