@@ -36,9 +36,9 @@ exports.blockUser = async (req, res) => {
 }
 
 exports.updateProfilePicture = async (req, res) => {
-  const data = await WhatsAppInstances[req.query.key].updateProfilePicture(
-      req.body.id,
-      req.body.url
-  )
-  return res.status(201).json({ error: false, data: data })
+    const data = await WhatsAppInstances[req.query.key].updateProfilePicture(
+        req.body.id,
+        req.body.url
+    )
+    return res.status(201).json({ error: false, data: data })
 }

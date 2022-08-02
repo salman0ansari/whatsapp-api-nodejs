@@ -67,34 +67,34 @@ exports.getAllGroups = async (req, res) => {
 }
 
 exports.groupParticipantsUpdate = async (req, res) => {
-  const data = await WhatsAppInstances[req.query.key].groupParticipantsUpdate(
-      req.body.id,
-      req.body.users,
-      req.body.action
-  )
-  return res.status(201).json({ error: false, data: data })
+    const data = await WhatsAppInstances[req.query.key].groupParticipantsUpdate(
+        req.body.id,
+        req.body.users,
+        req.body.action
+    )
+    return res.status(201).json({ error: false, data: data })
 }
 
 exports.groupSettingUpdate = async (req, res) => {
-  const data = await WhatsAppInstances[req.query.key].groupSettingUpdate(
-      req.body.id,
-      req.body.action
-  )
-  return res.status(201).json({ error: false, data: data })
+    const data = await WhatsAppInstances[req.query.key].groupSettingUpdate(
+        req.body.id,
+        req.body.action
+    )
+    return res.status(201).json({ error: false, data: data })
 }
 
 exports.groupUpdateSubject = async (req, res) => {
-  const data = await WhatsAppInstances[req.query.key].groupUpdateSubject(
-      req.body.id,
-      req.body.subject
-  )
-  return res.status(201).json({ error: false, data: data })
+    const data = await WhatsAppInstances[req.query.key].groupUpdateSubject(
+        req.body.id,
+        req.body.subject
+    )
+    return res.status(201).json({ error: false, data: data })
 }
 
 exports.groupUpdateDescription = async (req, res) => {
-  const data = await WhatsAppInstances[req.query.key].groupUpdateDescription(
-      req.body.id,
-      req.body.description
-  )
-  return res.status(201).json({ error: false, data: data })
+    const data = await WhatsAppInstances[req.query.key].groupUpdateDescription(
+        req.body.id,
+        req.body.description
+    )
+    return res.status(201).json({ error: false, data: data })
 }
