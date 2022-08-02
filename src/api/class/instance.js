@@ -490,6 +490,8 @@ class WhatsAppInstance {
             for (const [key_participant, participant] of Object.entries(value.participants)) {
                 participants.push(participant)
             }
+            Chats.find((c) => c.id === key).creation = value.creation;
+            Chats.find((c) => c.id === key).subjectOwner = value.subjectOwner;
             Chats.find((c) => c.id === key).participant = participants;
         }
         await this.updateDb(Chats)
@@ -559,6 +561,8 @@ class WhatsAppInstance {
                 name: data.name,
                 jid: data.id,
                 participant: data.participant,
+                creation: data.creation,
+                subjectOwner: data.subjectOwner
             }
         })
     }
