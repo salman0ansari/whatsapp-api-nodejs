@@ -142,6 +142,7 @@ class WhatsAppInstance {
             })
             this.instance.chats.push(...recivedChats)
             await this.updateDb(this.instance.chats)
+            await this.updateDbGroupsParticipants();
         })
 
         // on recive new chat
@@ -481,6 +482,21 @@ class WhatsAppInstance {
         return users.map((users) => this.getWhatsAppId(users))
     }
 
+    async updateDbGroupsParticipants() {
+        let groups = await this.groupFetchAllParticipating();
+        let Chats = await this.getChat();
+        for (const [key, value] of Object.entries(groups)) {
+            let participants = [];
+            for (const [key_participant, participant] of Object.entries(value.participants)) {
+                participants.push(participant)
+            }
+            Chats.find((c) => c.id === key).creation = value.creation;
+            Chats.find((c) => c.id === key).subjectOwner = value.subjectOwner;
+            Chats.find((c) => c.id === key).participant = participants;
+        }
+        await this.updateDb(Chats)
+    }
+
     async createNewGroup(name, users) {
         const group = await this.instance.sock?.groupCreate(
             name,
@@ -545,6 +561,8 @@ class WhatsAppInstance {
                 name: data.name,
                 jid: data.id,
                 participant: data.participant,
+                creation: data.creation,
+                subjectOwner: data.subjectOwner
             }
         })
     }
@@ -582,6 +600,9 @@ class WhatsAppInstance {
                 name: newChat[0].subject,
                 participant: newChat[0].participants,
                 messages: [],
+                creation: data.creation,
+                subjectOwner: data.subjectOwner
+
             }
             Chats.push(group)
             await this.updateDb(Chats)
