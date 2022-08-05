@@ -53,7 +53,9 @@ class WhatsAppInstance {
     }
 
     async SendWebhook(data) {
-        if (!this.allowWebhook) return
+        if (!this.allowWebhook) return;
+		
+		console.log(data);
         this.axiosInstance.post('', data).catch(() => {
         })
     }
