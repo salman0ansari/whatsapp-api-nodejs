@@ -62,6 +62,7 @@ class WhatsAppInstance {
         if (!this.allowWebhook) return
         this.axiosInstance
             .post('', {
+                instance_key: this.key,
                 type,
                 body,
             })
