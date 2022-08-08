@@ -25,6 +25,7 @@ services:
             - mongodb
     mongodb:
         image: mongo:latest
+        container_name: mongodb
         volumes:
             - mongodb:/data/db
 volumes:
