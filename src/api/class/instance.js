@@ -131,10 +131,10 @@ class WhatsAppInstance {
                 })
             }
         })
-        
-         // sending presence
-        sock?.ev.on("presence.update", async (json) => {
-            await this.SendWebhook('presence', json);
+
+        // sending presence
+        sock?.ev.on('presence.update', async (json) => {
+            await this.SendWebhook('presence', json)
         })
 
         // on receive all chats
@@ -305,8 +305,8 @@ class WhatsAppInstance {
         })
 
         sock?.ev.on('group-participants.update', async (newChat) => {
-            console.log('group-participants.update')
-            console.log(newChat)
+            //console.log('group-participants.update')
+            //console.log(newChat)
             this.updateGroupParticipantsByApp(newChat)
             await this.SendWebhook('group_participants_updated', {
                 data: newChat,
@@ -493,28 +493,39 @@ class WhatsAppInstance {
     }
 
     async updateDbGroupsParticipants() {
-        let groups = await this.groupFetchAllParticipating()
-        let Chats = await this.getChat()
-        for (const [key, value] of Object.entries(groups)) {
-            let participants = []
-            for (const [key_participant, participant] of Object.entries(
-                value.participants
-            )) {
-                participants.push(participant)
+        try {
+            let groups = await this.groupFetchAllParticipating()
+            let Chats = await this.getChat()
+            for (const [key, value] of Object.entries(groups)) {
+                let participants = []
+                for (const [key_participant, participant] of Object.entries(
+                    value.participants
+                )) {
+                    participants.push(participant)
+                }
+                Chats.find((c) => c.id === key).creation = value.creation
+                Chats.find((c) => c.id === key).subjectOwner =
+                    value.subjectOwner
+                Chats.find((c) => c.id === key).participant = participants
             }
-            Chats.find((c) => c.id === key).creation = value.creation
-            Chats.find((c) => c.id === key).subjectOwner = value.subjectOwner
-            Chats.find((c) => c.id === key).participant = participants
+            await this.updateDb(Chats)
+        } catch (e) {
+            logger.error(e)
+            logger.error('Error updating groups failed')
         }
-        await this.updateDb(Chats)
     }
 
     async createNewGroup(name, users) {
-        const group = await this.instance.sock?.groupCreate(
-            name,
-            users.map(this.getWhatsAppId)
-        )
-        return group
+        try {
+            const group = await this.instance.sock?.groupCreate(
+                name,
+                users.map(this.getWhatsAppId)
+            )
+            return group
+        } catch (e) {
+            logger.error(e)
+            logger.error('Error create new group failed')
+        }
     }
 
     async addNewParticipant(id, users) {
@@ -580,20 +591,30 @@ class WhatsAppInstance {
     }
 
     async leaveGroup(id) {
-        let Chats = await this.getChat()
-        const group = Chats.find((c) => c.id === id)
-        if (!group) throw new Error('no group exists')
-        return await this.instance.sock?.groupLeave(id)
+        try {
+            let Chats = await this.getChat()
+            const group = Chats.find((c) => c.id === id)
+            if (!group) throw new Error('no group exists')
+            return await this.instance.sock?.groupLeave(id)
+        } catch (e) {
+            logger.error(e)
+            logger.error('Error leave group failed')
+        }
     }
 
     async getInviteCodeGroup(id) {
-        let Chats = await this.getChat()
-        const group = Chats.find((c) => c.id === id)
-        if (!group)
-            throw new Error(
-                'unable to get invite code, check if the group exists'
-            )
-        return await this.instance.sock?.groupInviteCode(id)
+        try {
+            let Chats = await this.getChat()
+            const group = Chats.find((c) => c.id === id)
+            if (!group)
+                throw new Error(
+                    'unable to get invite code, check if the group exists'
+                )
+            return await this.instance.sock?.groupInviteCode(id)
+        } catch (e) {
+            logger.error(e)
+            logger.error('Error get invite group failed')
+        }
     }
 
     // get Chat object from db
@@ -704,8 +725,13 @@ class WhatsAppInstance {
     }
 
     async groupFetchAllParticipating() {
-        const result = await this.instance.sock?.groupFetchAllParticipating()
-        return result
+        try {
+            const result =
+                await this.instance.sock?.groupFetchAllParticipating()
+            return result
+        } catch (e) {
+            logger.error('Error group fetch all participating failed')
+        }
     }
 
     // update promote demote remove
