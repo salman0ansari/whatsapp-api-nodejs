@@ -103,6 +103,11 @@ class WhatsAppInstance {
                     })
                     this.instance.online = false
                 }
+                
+               await this.SendWebhook('connection', {
+                    connection: connection
+                });
+                
             } else if (connection === 'open') {
                 if (config.mongoose.enabled) {
                     let alreadyThere = await Chat.findOne({
@@ -114,6 +119,10 @@ class WhatsAppInstance {
                     }
                 }
                 this.instance.online = true
+                
+               await this.SendWebhook('connection', {
+                    connection: connection
+                });
             }
 
             if (qr) {
