@@ -415,7 +415,7 @@ class WhatsAppInstance {
         const result = await this.instance.sock?.sendMessage(
             this.getWhatsAppId(to),
             {
-                templateButtons: processButton(data.buttons),
+                buttons: processButton(data.buttons),
                 text: data.text ?? '',
                 footer: data.footerText ?? '',
             }
