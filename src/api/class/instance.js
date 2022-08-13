@@ -259,7 +259,11 @@ class WhatsAppInstance {
                 await this.SendWebhook('message', webhookData)
             })
         })
-
+        
+        sock?.ev.on('messages.reaction', async (m) => {
+             await this.SendWebhook('reaction', m)
+        })
+        
         sock?.ev.on('messages.update', async (messages) => {
             //console.log('messages.update')
             //console.dir(messages);
