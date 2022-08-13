@@ -4,7 +4,8 @@ module.exports = function processButton(buttons) {
     buttons.map((button) => {
         if (button.type == 'replyButton') {
             preparedButtons.push({
-                quickReplyButton: {
+                buttonText: {
+                    buttonId: button.id,
                     displayText: button.title ?? '',
                 },
             })
