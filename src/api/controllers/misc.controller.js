@@ -3,7 +3,8 @@ exports.onWhatsapp = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key]?.verifyId(
         WhatsAppInstances[req.query.key]?.getWhatsAppId(req.query.id)
     )
-    return res.status(201).json({ error: false, data: data })
+    const jidWpp = await WhatsAppInstances[req.query.key]?.getWhatsAppJID(req.query.id)
+    return res.status(201).json({ error: false, data: data, jidWpp: jidWpp })
 }
 
 exports.downProfile = async (req, res) => {
