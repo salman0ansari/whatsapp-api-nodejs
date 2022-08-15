@@ -337,6 +337,11 @@ class WhatsAppInstance {
         return id.includes('-') ? `${id}@g.us` : `${id}@s.whatsapp.net`
     }
 
+    async getWhatsAppJID(id) {
+        const jidCorrect = await this.instance.sock?.onWhatsApp(id)
+        return jidCorrect
+    }
+
     async verifyId(id) {
         if (id.includes('@g.us')) return true
         const [result] = await this.instance.sock?.onWhatsApp(id)
