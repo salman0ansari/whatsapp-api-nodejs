@@ -428,8 +428,8 @@ class WhatsAppInstance {
             this.getWhatsAppId(to),
             {
                 buttons: data.buttons,
-                text: data.text ?? '',
-                footer: data.footerText ?? '',
+                text: data.text ?? '...',
+                footer: data.footerText ?? null,
                 headerType: 1,
             }
         )
