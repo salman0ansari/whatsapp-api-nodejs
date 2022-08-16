@@ -66,6 +66,15 @@ exports.Button = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
+exports.Buttons = async (req, res) => {
+    // console.log(res.body)
+    const data = await WhatsAppInstances[req.query.key].sendButtonsMessage(
+        req.body.id,
+        req.body.btndata
+    )
+    return res.status(201).json({ error: false, data: data })
+}
+
 exports.Contact = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendContactMessage(
         req.body.id,
