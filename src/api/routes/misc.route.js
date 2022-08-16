@@ -12,5 +12,7 @@ router.route('/blockUser').get(keyVerify, loginVerify, controller.blockUser)
 router
     .route('/updateProfilePicture')
     .post(keyVerify, loginVerify, controller.updateProfilePicture)
-
+router
+    .route('/getuserorgroupbyid')
+    .get(keyVerify, loginVerify, controller.getUserOrGroupById)
 module.exports = router
