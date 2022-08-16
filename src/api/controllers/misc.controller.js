@@ -42,3 +42,10 @@ exports.updateProfilePicture = async (req, res) => {
     )
     return res.status(201).json({ error: false, data: data })
 }
+
+exports.getUserOrGroupById = async (req, res) => {
+    const data = await WhatsAppInstances[req.query.key].getUserOrGroupById(
+        req.query.id
+    )
+    return res.status(201).json({ error: false, data: data })
+}
