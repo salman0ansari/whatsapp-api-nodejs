@@ -37,6 +37,7 @@ class WhatsAppInstance {
         messages: [],
         qrRetry: 0,
         customWebhook: '',
+        contacts: [],
     }
 
     axiosInstance = axios.create({
@@ -144,6 +145,10 @@ class WhatsAppInstance {
         sock?.ev.on('presence.update', async (json) => {
             await this.SendWebhook('presence', json)
         })
+        
+        sock?.ev.on("contacts.upsert", (contacts) => {
+         this.instance.contacts.push(...contacts);
+        });
 
         // on receive all chats
         sock?.ev.on('chats.set', async ({ chats }) => {
