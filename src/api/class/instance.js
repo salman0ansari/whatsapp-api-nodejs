@@ -516,6 +516,22 @@ class WhatsAppInstance {
         }
     }
 
+    // get user or group object from db by id
+    async getUserOrGroupById(id) {
+        try {
+            let Chats = await this.getChat()
+            const group = Chats.find((c) => c.id === this.getWhatsAppId(id))
+            if (!group)
+                throw new Error(
+                    'unable to get group, check if the group exists'
+                )
+            return group
+        } catch (e) {
+            logger.error(e)
+            logger.error('Error get group failed')
+        }
+    }
+
     // Group Methods
     parseParticipants(users) {
         return users.map((users) => this.getWhatsAppId(users))
