@@ -122,6 +122,13 @@ class WhatsAppInstance {
                             config: chatConfig,
                         })
                         await saveChat.save()
+                    } else {
+                        await Chat.updateOne(
+                            {
+                                key: this.key,
+                            },
+                            { config: chatConfig }
+                        )
                     }
                 }
                 this.instance.online = true
