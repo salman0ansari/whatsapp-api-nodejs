@@ -49,3 +49,10 @@ exports.getUserOrGroupById = async (req, res) => {
     )
     return res.status(201).json({ error: false, data: data })
 }
+
+
+
+exports.Contacts = async (req, res) => {
+    const data = await WhatsAppInstances[req.query.key].instance.contacts;
+    return res.status(201).json({ error: false, data: data })
+}
