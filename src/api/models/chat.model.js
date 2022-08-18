@@ -6,6 +6,10 @@ const chatSchema = new mongoose.Schema({
         required: [true, 'key is missing'],
         unique: true,
     },
+    config: {
+        type: Object,
+        required: [true, 'key is missing'],
+    },
     chat: {
         type: Array,
     },

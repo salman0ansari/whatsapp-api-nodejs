@@ -108,12 +108,19 @@ class WhatsAppInstance {
                     connection: connection,
                 })
             } else if (connection === 'open') {
+                const chatConfig = {
+                    allowWebhook: this.allowWebhook ? true : false,
+                    customWebhook: this.instance.customWebhook,
+                }
                 if (config.mongoose.enabled) {
                     let alreadyThere = await Chat.findOne({
                         key: this.key,
                     }).exec()
                     if (!alreadyThere) {
-                        const saveChat = new Chat({ key: this.key })
+                        const saveChat = new Chat({
+                            key: this.key,
+                            config: chatConfig,
+                        })
                         await saveChat.save()
                     }
                 }

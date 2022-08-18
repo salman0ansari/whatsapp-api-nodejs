@@ -1,6 +1,7 @@
 /* eslint-disable no-unsafe-optional-chaining */
 const { WhatsAppInstance } = require('../class/instance')
 const logger = require('pino')()
+const Chat = require('../models/chat.model')
 const config = require('../../config/config')
 
 class Session {
@@ -14,17 +15,24 @@ class Session {
                 allCollections.push(collection.name)
             })
 
-            allCollections.map((key) => {
+            allCollections.map(async (key) => {
                 const query = {}
                 db.collection(key)
                     .find(query)
                     .toArray(async (err, result) => {
+                        const chat = await Chat.findOne({ key: key })
+
+                        const data = {
+                            name: chat.key,
+                            webhook: chat.config.allowWebhook,
+                            webhookUrl: chat.config.customWebhook,
+                        }
                         if (err) throw err
-                        const webhook = !config.webhookEnabled
-                            ? undefined
+                        const webhook = chat.config.allowWebhook
+                            ? chat.config.allowWebhook
                             : config.webhookEnabled
-                        const webhookUrl = !config.webhookUrl
-                            ? undefined
+                        const webhookUrl = chat.config.customWebhook
+                            ? chat.config.customWebhook
                             : config.webhookUrl
                         const instance = new WhatsAppInstance(
                             key,
