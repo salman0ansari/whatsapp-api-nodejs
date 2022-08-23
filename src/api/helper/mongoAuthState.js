@@ -90,7 +90,7 @@ module.exports = useMongoDBAuthState = async (collection) => {
                             let value = await readData(`${type}-${id}`)
                             if (type === 'app-state-sync-key') {
                                 value =
-                                    proto.AppStateSyncKeyData.fromObject(data)
+                                    proto.Message.AppStateSyncKeyData.fromObject(data)
                             }
                             data[id] = value
                         })
