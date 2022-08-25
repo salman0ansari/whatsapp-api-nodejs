@@ -18,6 +18,7 @@ router.route('/button').post(keyVerify, loginVerify, controller.Button)
 router.route('/buttons').post(keyVerify, loginVerify, controller.Buttons)
 router.route('/contact').post(keyVerify, loginVerify, controller.Contact)
 router.route('/list').post(keyVerify, loginVerify, controller.List)
+router.route('/location').post(keyVerify, loginVerify, controller.Location)
 router.route('/setstatus').put(keyVerify, loginVerify, controller.SetStatus)
 router
     .route('/mediabutton')

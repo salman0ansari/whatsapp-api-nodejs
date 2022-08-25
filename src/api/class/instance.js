@@ -65,7 +65,7 @@ class WhatsAppInstance {
                 type,
                 body,
             })
-            .catch(() => {})
+            .catch(() => { })
     }
 
     async init() {
@@ -421,6 +421,19 @@ class WhatsAppInstance {
             data
         )
         return status
+    }
+
+    async sendLocation(to, data) {
+        await this.verifyId(this.getWhatsAppId(to))
+        const data = await this.instance.sock?.sendMessage(
+            this.getWhatsAppId(to), {
+            location: {
+                degreesLatitude: data.latitude,
+                degreesLongitude: data.longitude
+            }
+        }
+        )
+        return data
     }
 
     async sendButtonMessage(to, data) {
