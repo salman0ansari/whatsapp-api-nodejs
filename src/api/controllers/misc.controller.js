@@ -49,3 +49,9 @@ exports.getUserOrGroupById = async (req, res) => {
     )
     return res.status(201).json({ error: false, data: data })
 }
+
+exports.updateWebhook = async (req, res) => {
+    const data = await WhatsAppInstances[req.query.key]?.UpdateUrlWebhook(req.body)
+    return res.status(201).json(data)
+
+}
