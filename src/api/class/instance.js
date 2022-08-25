@@ -1,16 +1,14 @@
 /* eslint-disable no-unsafe-optional-chaining */
 const QRCode = require('qrcode')
 const pino = require('pino')
-const {
-    default: makeWASocket,
-    DisconnectReason,
-} = require('@adiwajshing/baileys')
+const { default: makeWASocket, DisconnectReason, } = require('@adiwajshing/baileys')
 const { unlinkSync } = require('fs')
 const { v4: uuidv4 } = require('uuid')
 const path = require('path')
 const processButton = require('../helper/processbtn')
 const generateVC = require('../helper/genVc')
 const Chat = require('../models/chat.model')
+const WebHook = require('../models/webhook.model')
 const axios = require('axios')
 const config = require('../../config/config')
 const downloadMessage = require('../helper/downloadMsg')
@@ -76,8 +74,39 @@ class WhatsAppInstance {
         this.socketConfig.browser = Object.values(config.browser)
         this.instance.sock = makeWASocket(this.socketConfig)
         this.setHandler()
+        
+        let alreadyThere = await WebHook.findOne({ key: this.instance.key, }).exec()
+        if (!alreadyThere) {
+            const saveHook = new WebHook({ key: this.instance.key })
+            await saveHook.save()
+        }
+        
         return this
     }
+
+     
+    async UpdateUrlWebhook(data) {
+
+            if (data.url_message != '') {
+                this.allowWebhook = true;
+                this.axiosInstance = axios.default.create({
+                    baseURL: data.url_message, 
+                });
+
+                await this.updateDbWebhook({
+                    allowWebhook: true,
+                    url_message: data.url_message
+                })
+
+               return { error: false, message: 'Updated' }
+
+            } else {
+                this.instance.allowWebhook = false;
+                return { error: true, message: 'inform URL' }
+            }
+
+        }
+
 
     setHandler() {
         const sock = this.instance.sock
@@ -840,6 +869,15 @@ class WhatsAppInstance {
             logger.error('Error updating document failed')
         }
     }
+
+   async updateDbWebhook(object) {
+        try {
+            await WebHook.updateOne({ key: this.instance.key }, { webhook: object })
+        } catch (e) {
+            logger.error('Error updating document failed')
+        }
+    }
+
 }
 
 exports.WhatsAppInstance = WhatsAppInstance
