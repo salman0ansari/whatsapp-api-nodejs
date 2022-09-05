@@ -1,32 +1,36 @@
-version: '2'
+version: '3.8'
 
 services:
-    server:
-        image: node:17.2.0-alpine
+    mongodb:
+        container_name: mongodb
+        image: mongo:latest
+        restart: unless-stopped
+        ports:
+            - 27017:27017
+        volumes:
+            - db:/data/db
+    app:
+        container_name: api
+        depends_on:
+            - mongodb
         user: 'node'
         restart: unless-stopped
-        working_dir: /home/node/app
+        env_file: .env
+        command: 'npm start'
+        ports:
+            - ${PORT}:${PORT}
         environment:
             - TOKEN=${TOKEN}
             - PORT=${PORT}
             - MONGODB_ENABLED=${MONGODB_ENABLED}
-            - MONGODB_URL=${MONGODB_URL}
+            - MONGODB_URL=mongodb://mongodb:27017
             - WEBHOOK_ENABLED=${WEBHOOK_ENABLED}
             - WEBHOOK_URL=${WEBHOOK_URL}
             - WEBHOOK_BASE64=${WEBHOOK_BASE64}
         volumes:
             - ./:/home/node/app
-        ports:
-            - ${PORT}:${PORT}
-        env_file:
-            - .env
-        command: 'npm start'
-        depends_on:
-            - mongodb
-    mongodb:
-        image: mongo:latest
-        container_name: mongodb
-        volumes:
-            - mongodb:/data/db
+        working_dir: /home/node/app
+        image: node:17.2.0-alpine
+
 volumes:
-    mongodb:
+    db:
