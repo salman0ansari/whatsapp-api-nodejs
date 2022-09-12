@@ -1610,10 +1610,10 @@ lilconfig@2.0.5:
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.0.5.tgz#19e57fd06ccc3848fd1891655b5a447092225b25"
   integrity sha512-xaYmXZtTHPAw5m+xLN8ab9C+3a8YmV3asNSPOATITbtwrfbwaLJj8h66H1WMIpALCkqsIzK3h7oQ+PdX+LQ9Eg==
 
-link-preview-js@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/link-preview-js/-/link-preview-js-3.0.3.tgz#0a92f47813c59e6207e08b7883533d1a65ed36b4"
-  integrity sha512-7HgvB8cHecyXWVp+Ob9cSMmjbrYMrvbgevJvXBjgrB7MQFtuL46zJIh1Sknhg1Xe/IyjxIJC+fFVHxjYRH14+A==
+link-preview-js@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/link-preview-js/-/link-preview-js-3.0.4.tgz#1e053f80ee20ef50d03e6742dc30dc8487112653"
+  integrity sha512-xsuxMigAZd4xmj6BIwMNuQjjpJdh0DWeIo1NXQgaoWSi9Z/dzz/Kxy6vzzsUonFlMTPJ1i0EC8aeOg/xrOMidg==
   dependencies:
     abort-controller "^3.0.0"
     cheerio "1.0.0-rc.11"
