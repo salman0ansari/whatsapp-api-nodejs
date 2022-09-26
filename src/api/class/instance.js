@@ -147,6 +147,7 @@ class WhatsAppInstance {
 
         // on receive all chats
         sock?.ev.on('chats.set', async ({ chats }) => {
+            this.instance.chats = []
             const recivedChats = chats.map((chat) => {
                 return {
                     ...chat,
@@ -520,19 +521,29 @@ class WhatsAppInstance {
         try {
             let groups = await this.groupFetchAllParticipating()
             let Chats = await this.getChat()
-            for (const [key, value] of Object.entries(groups)) {
-                let participants = []
-                for (const [key_participant, participant] of Object.entries(
-                    value.participants
-                )) {
-                    participants.push(participant)
+            if (groups && Chats) {
+                for (const [key, value] of Object.entries(groups)) {
+                    let group = Chats.find((c) => c.id === value.id)
+                    if (group) {
+                        let participants = []
+                        for (const [
+                            key_participant,
+                            participant,
+                        ] of Object.entries(value.participants)) {
+                            participants.push(participant)
+                        }
+                        group.participant = participants
+                        if (value.creation) {
+                            group.creation = value.creation
+                        }
+                        if (value.subjectOwner) {
+                            group.subjectOwner = value.subjectOwner
+                        }
+                        Chats.filter((c) => c.id === value.id)[0] = group
+                    }
                 }
-                Chats.find((c) => c.id === key).creation = value.creation
-                Chats.find((c) => c.id === key).subjectOwner =
-                    value.subjectOwner
-                Chats.find((c) => c.id === key).participant = participants
+                await this.updateDb(Chats)
             }
-            await this.updateDb(Chats)
         } catch (e) {
             logger.error(e)
             logger.error('Error updating groups failed')
