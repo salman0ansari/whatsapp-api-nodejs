@@ -147,6 +147,7 @@ class WhatsAppInstance {
 
         // on receive all chats
         sock?.ev.on('chats.set', async ({ chats }) => {
+            this.instance.chats = []
             const recivedChats = chats.map((chat) => {
                 return {
                     ...chat,
