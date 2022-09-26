@@ -539,9 +539,9 @@ class WhatsAppInstance {
                             group.subjectOwner = value.subjectOwner
                         }
                         Chats.filter((c) => c.id === value.id)[0] = group
-                        await this.updateDb(Chats)
                     }
                 }
+                await this.updateDb(Chats)
             }
         } catch (e) {
             logger.error(e)
