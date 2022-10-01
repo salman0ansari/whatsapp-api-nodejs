@@ -134,6 +134,13 @@ curl --location --request POST 'localhost:3333/message/text?key=INSTANCE_KEY_HER
 --data-urlencode 'id=919999999999' \
 --data-urlencode 'message=Hello World'
 ```
+## Routes
+| Route  | Source File |
+| ------------- | ------------- |
+| Instance Routes  | [instance.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/instance.route.js)  |
+| Message Routes  | [message.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/message.route.js)  |
+| Group Routes  | [group.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/group.route.js)  |
+| Miscellaneous Routes  | [misc.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/misc.route.js)   |
 
 See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-api-nodejs/tree/main/src/api/routes)
 
