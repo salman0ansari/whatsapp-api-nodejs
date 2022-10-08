@@ -35,7 +35,7 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 
 # Docker Compose
 
-1. Follow the [Installation](#installation) procedure
+1. Follow the [Installation](#installation) procedure.
 2. Update `.env` and set
 
 ```
@@ -70,7 +70,7 @@ TOKEN=RANDOM_STRING_HERE
 1. `DEVELOPMENT:` Execute `yarn dev`
 2. `PRODUCTION:` Execute `yarn start`
 
-## Generate basic instance using random key
+## Generate basic instance using random key.
 
 To generate an Instance Key  
 Using the route:
@@ -90,7 +90,7 @@ Response:
 }
 ```
 
-## Generate custom instance with custom key and custom webhook
+## Generate custom instance with custom key and custom webhook.
 
 To generate a Custom Instance  
 Using the route:
