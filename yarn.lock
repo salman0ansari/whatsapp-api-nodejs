@@ -2501,7 +2501,7 @@ mocha@^10.1.0:
     yargs-parser "20.2.4"
     yargs-unparser "2.0.0"
 
-mongodb-connection-string-url@^2.5.3, mongodb-connection-string-url@^2.5.4:
+mongodb-connection-string-url@^2.5.4:
   version "2.5.4"
   resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-2.5.4.tgz#1ee2496f4c4eae64f63c4b2d512aebc89996160a"
   integrity sha512-SeAxuWs0ez3iI3vvmLk/j2y+zHwigTDKQhtdxTgt5ZCOQQS5+HW4g45/Xw5vzzbn7oQXCNQ24Z40AkJsizEy7w==
@@ -2509,19 +2509,7 @@ mongodb-connection-string-url@^2.5.3, mongodb-connection-string-url@^2.5.4:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb@4.9.1:
-  version "4.9.1"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.9.1.tgz#0c769448228bcf9a6aa7d16daa3625b48312479e"
-  integrity sha512-ZhgI/qBf84fD7sI4waZBoLBNJYPQN5IOC++SBCiPiyhzpNKOxN/fi0tBHvH2dEC42HXtNEbFB0zmNz4+oVtorQ==
-  dependencies:
-    bson "^4.7.0"
-    denque "^2.1.0"
-    mongodb-connection-string-url "^2.5.3"
-    socks "^2.7.0"
-  optionalDependencies:
-    saslprep "^1.0.3"
-
-mongodb@^4.11.0:
+mongodb@4.11.0, mongodb@^4.11.0:
   version "4.11.0"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.11.0.tgz#d28fdc7509f24d0d274f456529441fa3e570415c"
   integrity sha512-9l9n4Nk2BYZzljW3vHah3Z0rfS5npKw6ktnkmFgTcnzaXH1DRm3pDl6VMHu84EVb1lzmSaJC4OzWZqTkB5i2wg==
@@ -2534,14 +2522,14 @@ mongodb@^4.11.0:
     "@aws-sdk/credential-providers" "^3.186.0"
     saslprep "^1.0.3"
 
-mongoose@^6.6.5:
-  version "6.6.5"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.6.5.tgz#fcc7ba9594db711b3d4d7a1b3522c5dbc8f0bf52"
-  integrity sha512-iA/oDpWOc+K2QYzA4Eq7Z1oUBQOz9FGDmUwPLgw872Bfs/qizA5Db+gJorAn+TnnGu3VoCK8iP4Y+TECUelwjA==
+mongoose@^6.7.0:
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.7.0.tgz#1c1b9124ccba1853e5d5c1dcbad75a0560a9891a"
+  integrity sha512-Jt6NSiSpgcrSBzRb9+YwkpjjVuq4H532c4jbf+5Nu0wd/nIPHSOKhr8jnQZ8gQTdPjubF+szR5r6KMSqaY4/Wg==
   dependencies:
     bson "^4.6.5"
     kareem "2.4.1"
-    mongodb "4.9.1"
+    mongodb "4.11.0"
     mpath "0.9.0"
     mquery "4.0.3"
     ms "2.1.3"
@@ -3412,7 +3400,7 @@ smart-buffer@^4.2.0:
   resolved "https://registry.yarnpkg.com/smart-buffer/-/smart-buffer-4.2.0.tgz#6e1d71fa4f18c05f7d0ff216dd16a481d0e8d9ae"
   integrity sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==
 
-socks@^2.7.0, socks@^2.7.1:
+socks@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/socks/-/socks-2.7.1.tgz#d8e651247178fde79c0663043e07240196857d55"
   integrity sha512-7maUZy1N7uo6+WVEX6psASxtNlKaNVMlGQKkG/63nEDdLOWNbiUMoLK7X4uYoLhQstau72mLgfEWcXcwsaHbYQ==
