@@ -44,7 +44,7 @@
         "multer": "^1.4.5-lts.1",
         "pino": "^8.7.0",
         "qrcode": "^1.5.1",
-        "sharp": "^0.30.5",
+        "sharp": "^0.31.2",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
