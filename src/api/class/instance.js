@@ -147,6 +147,7 @@ class WhatsAppInstance {
 
         // on receive all chats
         sock?.ev.on('chats.set', async ({ chats }) => {
+            this.instance.chats = []
             const recivedChats = chats.map((chat) => {
                 return {
                     ...chat,
@@ -539,9 +540,9 @@ class WhatsAppInstance {
                             group.subjectOwner = value.subjectOwner
                         }
                         Chats.filter((c) => c.id === value.id)[0] = group
-                        await this.updateDb(Chats)
                     }
                 }
+                await this.updateDb(Chats)
             }
         } catch (e) {
             logger.error(e)
