@@ -323,6 +323,14 @@ class WhatsAppInstance {
         })
     }
 
+    async deleteInstance(key) {
+        try {
+            await Chat.findOneAndDelete({ key: key })
+        } catch (e) {
+            logger.error('Error updating document failed')
+        }
+    }
+
     async getInstanceDetail(key) {
         return {
             instance_key: key,
