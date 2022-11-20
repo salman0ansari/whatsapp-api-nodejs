@@ -35,7 +35,7 @@ An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a sim
 
 # Docker Compose
 
-1. Follow the [Installation](#installation) procedure
+1. Follow the [Installation](#installation) procedure.
 2. Update `.env` and set
 
 ```
@@ -70,7 +70,7 @@ TOKEN=RANDOM_STRING_HERE
 1. `DEVELOPMENT:` Execute `yarn dev`
 2. `PRODUCTION:` Execute `yarn start`
 
-## Generate basic instance using random key
+## Generate basic instance using random key.
 
 To generate an Instance Key  
 Using the route:
@@ -90,7 +90,7 @@ Response:
 }
 ```
 
-## Generate custom instance with custom key and custom webhook
+## Generate custom instance with custom key and custom webhook.
 
 To generate a Custom Instance  
 Using the route:
@@ -134,6 +134,13 @@ curl --location --request POST 'localhost:3333/message/text?key=INSTANCE_KEY_HER
 --data-urlencode 'id=919999999999' \
 --data-urlencode 'message=Hello World'
 ```
+## Routes
+| Route  | Source File |
+| ------------- | ------------- |
+| Instance Routes  | [instance.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/instance.route.js)  |
+| Message Routes  | [message.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/message.route.js)  |
+| Group Routes  | [group.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/group.route.js)  |
+| Miscellaneous Routes  | [misc.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/misc.route.js)   |
 
 See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-api-nodejs/tree/main/src/api/routes)
 
