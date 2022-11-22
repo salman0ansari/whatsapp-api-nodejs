@@ -718,57 +718,62 @@ class WhatsAppInstance {
                 let Chats = await this.getChat()
                 let chat = Chats.find((c) => c.id === newChat.id)
                 let is_owner = false
-                if (chat.participant == undefined) {
-                    chat.participant = []
-                }
-                if (chat.participant && newChat.action == 'add') {
-                    for (const participant of newChat.participants) {
-                        chat.participant.push({ id: participant, admin: null })
+                if (chat) {
+                    if (chat.participant == undefined) {
+                        chat.participant = []
                     }
-                }
-                if (chat.participant && newChat.action == 'remove') {
-                    for (const participant of newChat.participants) {
-                        // remove group if they are owner
-                        if (chat.subjectOwner == participant) {
-                            is_owner = true
-                        }
-                        chat.participant = chat.participant.filter(
-                            (p) => p.id != participant
-                        )
-                    }
-                }
-                if (chat.participant && newChat.action == 'demote') {
-                    for (const participant of newChat.participants) {
-                        if (
-                            chat.participant.filter(
-                                (p) => p.id == participant
-                            )[0]
-                        ) {
-                            chat.participant.filter(
-                                (p) => p.id == participant
-                            )[0].admin = null
+                    if (chat.participant && newChat.action == 'add') {
+                        for (const participant of newChat.participants) {
+                            chat.participant.push({
+                                id: participant,
+                                admin: null,
+                            })
                         }
                     }
-                }
-                if (chat.participant && newChat.action == 'promote') {
-                    for (const participant of newChat.participants) {
-                        if (
-                            chat.participant.filter(
-                                (p) => p.id == participant
-                            )[0]
-                        ) {
-                            chat.participant.filter(
-                                (p) => p.id == participant
-                            )[0].admin = 'superadmin'
+                    if (chat.participant && newChat.action == 'remove') {
+                        for (const participant of newChat.participants) {
+                            // remove group if they are owner
+                            if (chat.subjectOwner == participant) {
+                                is_owner = true
+                            }
+                            chat.participant = chat.participant.filter(
+                                (p) => p.id != participant
+                            )
                         }
                     }
+                    if (chat.participant && newChat.action == 'demote') {
+                        for (const participant of newChat.participants) {
+                            if (
+                                chat.participant.filter(
+                                    (p) => p.id == participant
+                                )[0]
+                            ) {
+                                chat.participant.filter(
+                                    (p) => p.id == participant
+                                )[0].admin = null
+                            }
+                        }
+                    }
+                    if (chat.participant && newChat.action == 'promote') {
+                        for (const participant of newChat.participants) {
+                            if (
+                                chat.participant.filter(
+                                    (p) => p.id == participant
+                                )[0]
+                            ) {
+                                chat.participant.filter(
+                                    (p) => p.id == participant
+                                )[0].admin = 'superadmin'
+                            }
+                        }
+                    }
+                    if (is_owner) {
+                        Chats = Chats.filter((c) => c.id !== newChat.id)
+                    } else {
+                        Chats.filter((c) => c.id === newChat.id)[0] = chat
+                    }
+                    await this.updateDb(Chats)
                 }
-                if (is_owner) {
-                    Chats = Chats.filter((c) => c.id !== newChat.id)
-                } else {
-                    Chats.filter((c) => c.id === newChat.id)[0] = chat
-                }
-                await this.updateDb(Chats)
             }
         } catch (e) {
             logger.error(e)
