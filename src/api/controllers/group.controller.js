@@ -51,6 +51,15 @@ exports.getInviteCodeGroup = async (req, res) => {
         .json({ error: false, link: 'https://chat.whatsapp.com/' + data })
 }
 
+exports.getInstanceInviteCodeGroup = async (req, res) => {
+    const data = await WhatsAppInstances[
+        req.query.key
+    ].getInstanceInviteCodeGroup(req.query.id)
+    return res
+        .status(201)
+        .json({ error: false, link: 'https://chat.whatsapp.com/' + data })
+}
+
 exports.getAllGroups = async (req, res) => {
     const instance = WhatsAppInstances[req.query.key]
     let data

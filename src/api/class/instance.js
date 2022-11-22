@@ -652,6 +652,15 @@ class WhatsAppInstance {
         }
     }
 
+    async getInstanceInviteCodeGroup(id) {
+        try {
+            return await this.instance.sock?.groupInviteCode(id)
+        } catch (e) {
+            logger.error(e)
+            logger.error('Error get invite group failed')
+        }
+    }
+
     // get Chat object from db
     async getChat(key = this.key) {
         let dbResult = await Chat.findOne({ key: key }).exec()

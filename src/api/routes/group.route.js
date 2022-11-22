@@ -20,6 +20,9 @@ router
     .route('/getinvitecode')
     .get(keyVerify, loginVerify, controller.getInviteCodeGroup)
 router
+    .route('/getinstanceinvitecode')
+    .get(keyVerify, loginVerify, controller.getInstanceInviteCodeGroup)
+router
     .route('/getallgroups')
     .get(keyVerify, loginVerify, controller.getAllGroups)
 router
