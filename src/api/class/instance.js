@@ -898,7 +898,7 @@ class WhatsAppInstance {
                 }
             }
             const res = await this.instance.sock?.sendMessage(
-                id,
+                this.getWhatsAppId(id),
                 reactionMessage
             )
             return res
