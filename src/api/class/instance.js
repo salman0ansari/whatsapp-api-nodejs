@@ -874,6 +874,20 @@ class WhatsAppInstance {
             logger.error('Error updating document failed')
         }
     }
+
+    async readMessage(msgObj) {
+        try {
+            const key = {
+                remoteJid: msgObj.remoteJid,
+                id: msgObj.id,
+                participant: msgObj?.participant // required when reading a msg from group
+            }
+            const res = await this.instance.sock?.readMessages([key])
+            return res
+        } catch (e) {
+            logger.error('Error read message failed')
+        }
+    }
 }
 
 exports.WhatsAppInstance = WhatsAppInstance
