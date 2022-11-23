@@ -888,6 +888,24 @@ class WhatsAppInstance {
             logger.error('Error read message failed')
         }
     }
+
+    async reactMessage(id, key, emoji) {
+        try {
+            const reactionMessage = {
+                react: {
+                    text: emoji, // use an empty string to remove the reaction
+                    key: key
+                }
+            }
+            const res = await this.instance.sock?.sendMessage(
+                id,
+                reactionMessage
+            )
+            return res
+        } catch (e) {
+            logger.error('Error react message failed')
+        }
+    }
 }
 
 exports.WhatsAppInstance = WhatsAppInstance
