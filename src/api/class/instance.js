@@ -251,6 +251,12 @@ class WhatsAppInstance {
                                 'audio'
                             )
                             break
+                        case 'documentMessage':
+                            webhookData['msgContent'] = await downloadMessage(
+                                msg.message.documentMessage,
+                                'document'
+                            )
+                            break
                         default:
                             webhookData['msgContent'] = ''
                             break
