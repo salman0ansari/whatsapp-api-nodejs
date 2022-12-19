@@ -55,6 +55,6 @@
         "mocha": "^10.1.0",
         "nodemon": "^2.0.20",
         "prettier": "^2.8.0",
-        "supertest": "^6.3.1"
+        "supertest": "^6.3.3"
     }
 }
