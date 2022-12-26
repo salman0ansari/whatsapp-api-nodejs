@@ -107,3 +107,17 @@ exports.groupUpdateDescription = async (req, res) => {
     )
     return res.status(201).json({ error: false, data: data })
 }
+
+exports.groupInviteInfo = async (req, res) => {
+    const data = await WhatsAppInstances[req.query.key].groupGetInviteInfo(
+        req.body.code
+    )
+    return res.status(201).json({ error: false, data: data })
+}
+
+exports.groupJoin = async (req, res) => {
+    const data = await WhatsAppInstances[req.query.key].groupAcceptInvite(
+        req.body.code
+    )
+    return res.status(201).json({ error: false, data: data })
+}

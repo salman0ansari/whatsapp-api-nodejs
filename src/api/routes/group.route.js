@@ -37,5 +37,8 @@ router
 router
     .route('/updatedescription')
     .post(keyVerify, loginVerify, controller.groupUpdateDescription)
-
+router
+    .route('/inviteinfo')
+    .post(keyVerify, loginVerify, controller.groupInviteInfo)
+router.route('/groupjoin').post(keyVerify, loginVerify, controller.groupJoin)
 module.exports = router
