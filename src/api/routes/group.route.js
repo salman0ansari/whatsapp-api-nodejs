@@ -20,6 +20,9 @@ router
     .route('/getinvitecode')
     .get(keyVerify, loginVerify, controller.getInviteCodeGroup)
 router
+    .route('/getinstanceinvitecode')
+    .get(keyVerify, loginVerify, controller.getInstanceInviteCodeGroup)
+router
     .route('/getallgroups')
     .get(keyVerify, loginVerify, controller.getAllGroups)
 router
@@ -34,5 +37,8 @@ router
 router
     .route('/updatedescription')
     .post(keyVerify, loginVerify, controller.groupUpdateDescription)
-
+router
+    .route('/inviteinfo')
+    .post(keyVerify, loginVerify, controller.groupInviteInfo)
+router.route('/groupjoin').post(keyVerify, loginVerify, controller.groupJoin)
 module.exports = router

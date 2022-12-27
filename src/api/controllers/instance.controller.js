@@ -101,7 +101,7 @@ exports.logout = async (req, res) => {
 exports.delete = async (req, res) => {
     let errormsg
     try {
-        await WhatsAppInstances[req.query.key].instance?.sock?.logout()
+        await WhatsAppInstances[key].deleteInstance(req.query.key)
         delete WhatsAppInstances[req.query.key]
     } catch (error) {
         errormsg = error

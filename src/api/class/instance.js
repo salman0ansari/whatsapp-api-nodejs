@@ -58,14 +58,15 @@ class WhatsAppInstance {
         }
     }
 
-    async SendWebhook(type, body) {
+    async SendWebhook(type, body, key) {
         if (!this.allowWebhook) return
         this.axiosInstance
             .post('', {
                 type,
                 body,
+                instanceKey: key,
             })
-            .catch(() => {})
+            .catch(() => { })
     }
 
     async init() {
@@ -106,7 +107,7 @@ class WhatsAppInstance {
 
                 await this.SendWebhook('connection', {
                     connection: connection,
-                })
+                }, this.key)
             } else if (connection === 'open') {
                 if (config.mongoose.enabled) {
                     let alreadyThere = await Chat.findOne({
@@ -121,7 +122,7 @@ class WhatsAppInstance {
 
                 await this.SendWebhook('connection', {
                     connection: connection,
-                })
+                }, this.key)
             }
 
             if (qr) {
@@ -142,7 +143,7 @@ class WhatsAppInstance {
 
         // sending presence
         sock?.ev.on('presence.update', async (json) => {
-            await this.SendWebhook('presence', json)
+            await this.SendWebhook('presence', json, this.key)
         })
 
         // on receive all chats
@@ -256,7 +257,7 @@ class WhatsAppInstance {
                     }
                 }
 
-                await this.SendWebhook('message', webhookData)
+                await this.SendWebhook('message', webhookData, this.key)
             })
         })
 
@@ -277,7 +278,7 @@ class WhatsAppInstance {
                             platform: data.attrs.platform,
                             platform_version: data.attrs.version,
                         },
-                    })
+                    }, this.key)
                 } else if (data.content.find((e) => e.tag === 'terminate')) {
                     const content = data.content.find(
                         (e) => e.tag === 'terminate'
@@ -290,7 +291,7 @@ class WhatsAppInstance {
                         },
                         timestamp: parseInt(data.attrs.t),
                         reason: data.content[0].attrs.reason,
-                    })
+                    }, this.key)
                 }
             }
         })
@@ -301,7 +302,7 @@ class WhatsAppInstance {
             this.createGroupByApp(newChat)
             await this.SendWebhook('group_created', {
                 data: newChat,
-            })
+            }, this.key)
         })
 
         sock?.ev.on('groups.update', async (newChat) => {
@@ -310,7 +311,7 @@ class WhatsAppInstance {
             this.updateGroupSubjectByApp(newChat)
             await this.SendWebhook('group_updated', {
                 data: newChat,
-            })
+            }, this.key)
         })
 
         sock?.ev.on('group-participants.update', async (newChat) => {
@@ -319,8 +320,16 @@ class WhatsAppInstance {
             this.updateGroupParticipantsByApp(newChat)
             await this.SendWebhook('group_participants_updated', {
                 data: newChat,
-            })
+            }, this.key)
         })
+    }
+
+    async deleteInstance(key) {
+        try {
+            await Chat.findOneAndDelete({ key: key })
+        } catch (e) {
+            logger.error('Error updating document failed')
+        }
     }
 
     async getInstanceDetail(key) {
@@ -418,6 +427,7 @@ class WhatsAppInstance {
                 templateButtons: processButton(data.buttons),
                 text: data.text ?? '',
                 footer: data.footerText ?? '',
+                viewOnce: true
             }
         )
         return result
@@ -448,6 +458,7 @@ class WhatsAppInstance {
                 buttonText: data.buttonText,
                 footer: data.description,
                 title: data.title,
+                viewOnce: true
             }
         )
         return result
@@ -466,6 +477,7 @@ class WhatsAppInstance {
                 caption: data.text,
                 templateButtons: processButton(data.buttons),
                 mimetype: data.mimeType,
+                viewOnce: true
             }
         )
         return result
@@ -652,6 +664,15 @@ class WhatsAppInstance {
         }
     }
 
+    async getInstanceInviteCodeGroup(id) {
+        try {
+            return await this.instance.sock?.groupInviteCode(id)
+        } catch (e) {
+            logger.error(e)
+            logger.error('Error get invite group failed')
+        }
+    }
+
     // get Chat object from db
     async getChat(key = this.key) {
         let dbResult = await Chat.findOne({ key: key }).exec()
@@ -701,57 +722,62 @@ class WhatsAppInstance {
                 let Chats = await this.getChat()
                 let chat = Chats.find((c) => c.id === newChat.id)
                 let is_owner = false
-                if (chat.participant == undefined) {
-                    chat.participant = []
-                }
-                if (chat.participant && newChat.action == 'add') {
-                    for (const participant of newChat.participants) {
-                        chat.participant.push({ id: participant, admin: null })
+                if (chat) {
+                    if (chat.participant == undefined) {
+                        chat.participant = []
                     }
-                }
-                if (chat.participant && newChat.action == 'remove') {
-                    for (const participant of newChat.participants) {
-                        // remove group if they are owner
-                        if (chat.subjectOwner == participant) {
-                            is_owner = true
-                        }
-                        chat.participant = chat.participant.filter(
-                            (p) => p.id != participant
-                        )
-                    }
-                }
-                if (chat.participant && newChat.action == 'demote') {
-                    for (const participant of newChat.participants) {
-                        if (
-                            chat.participant.filter(
-                                (p) => p.id == participant
-                            )[0]
-                        ) {
-                            chat.participant.filter(
-                                (p) => p.id == participant
-                            )[0].admin = null
+                    if (chat.participant && newChat.action == 'add') {
+                        for (const participant of newChat.participants) {
+                            chat.participant.push({
+                                id: participant,
+                                admin: null,
+                            })
                         }
                     }
-                }
-                if (chat.participant && newChat.action == 'promote') {
-                    for (const participant of newChat.participants) {
-                        if (
-                            chat.participant.filter(
-                                (p) => p.id == participant
-                            )[0]
-                        ) {
-                            chat.participant.filter(
-                                (p) => p.id == participant
-                            )[0].admin = 'superadmin'
+                    if (chat.participant && newChat.action == 'remove') {
+                        for (const participant of newChat.participants) {
+                            // remove group if they are owner
+                            if (chat.subjectOwner == participant) {
+                                is_owner = true
+                            }
+                            chat.participant = chat.participant.filter(
+                                (p) => p.id != participant
+                            )
                         }
                     }
+                    if (chat.participant && newChat.action == 'demote') {
+                        for (const participant of newChat.participants) {
+                            if (
+                                chat.participant.filter(
+                                    (p) => p.id == participant
+                                )[0]
+                            ) {
+                                chat.participant.filter(
+                                    (p) => p.id == participant
+                                )[0].admin = null
+                            }
+                        }
+                    }
+                    if (chat.participant && newChat.action == 'promote') {
+                        for (const participant of newChat.participants) {
+                            if (
+                                chat.participant.filter(
+                                    (p) => p.id == participant
+                                )[0]
+                            ) {
+                                chat.participant.filter(
+                                    (p) => p.id == participant
+                                )[0].admin = 'superadmin'
+                            }
+                        }
+                    }
+                    if (is_owner) {
+                        Chats = Chats.filter((c) => c.id !== newChat.id)
+                    } else {
+                        Chats.filter((c) => c.id === newChat.id)[0] = chat
+                    }
+                    await this.updateDb(Chats)
                 }
-                if (is_owner) {
-                    Chats = Chats.filter((c) => c.id !== newChat.id)
-                } else {
-                    Chats.filter((c) => c.id === newChat.id)[0] = chat
-                }
-                await this.updateDb(Chats)
             }
         } catch (e) {
             logger.error(e)
@@ -849,6 +875,38 @@ class WhatsAppInstance {
             await Chat.updateOne({ key: this.key }, { chat: object })
         } catch (e) {
             logger.error('Error updating document failed')
+        }
+    }
+
+    async readMessage(msgObj) {
+        try {
+            const key = {
+                remoteJid: msgObj.remoteJid,
+                id: msgObj.id,
+                participant: msgObj?.participant // required when reading a msg from group
+            }
+            const res = await this.instance.sock?.readMessages([key])
+            return res
+        } catch (e) {
+            logger.error('Error read message failed')
+        }
+    }
+
+    async reactMessage(id, key, emoji) {
+        try {
+            const reactionMessage = {
+                react: {
+                    text: emoji, // use an empty string to remove the reaction
+                    key: key
+                }
+            }
+            const res = await this.instance.sock?.sendMessage(
+                this.getWhatsAppId(id),
+                reactionMessage
+            )
+            return res
+        } catch (e) {
+            logger.error('Error react message failed')
         }
     }
 }
