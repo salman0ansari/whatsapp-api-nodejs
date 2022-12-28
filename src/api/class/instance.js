@@ -209,6 +209,18 @@ class WhatsAppInstance {
                 this.instance.messages.unshift(...m.messages)
             if (m.type !== 'notify') return
 
+            // https://adiwajshing.github.io/Baileys/#reading-messages
+            if (config.markMessagesRead) {
+                m.messages.map((async (msg) => {
+                    return {
+                        remoteJid: msg.key.remoteJid,
+                        id: msg.key.id,
+                        participant: msg.key.participant
+                    }
+                }))
+                await sock.readMessages([key])    
+            }
+
             this.instance.messages.unshift(...m.messages)
 
             m.messages.map(async (msg) => {
