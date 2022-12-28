@@ -89,6 +89,26 @@ Response:
     "key": "d7e2abff-3ac8-44a9-a738-1b28e0fca8a5"
 }
 ```
+## WEBHOOK_ALLOWED_EVENTS
+You can set which events you want to send to webhook by setting the environment variable `WEBHOOK_ALLOWED_EVENTS`
+
+Set a comma seperated list of events you want to get notified about. 
+
+Default value is `all` which will forward all events.
+
+Allowed values:
+- `connection` - receive all connection events
+- `connection:open` - receive open connection events
+- `connection:close` - receive close connection events
+- `presense` - receive presence events
+- `messages` - receive all messages event
+- `call` - receive all events related to calls
+- `call:terminate` - receive call terminate events
+- `call:offer` - receive call terminate event
+- `groups` - receive all events related to groups
+- `group_participants` - receive all events related to group participants
+
+You can also use the Baileys event format example: `messages.upsert`
 
 ## Generate custom instance with custom key and custom webhook.
 
