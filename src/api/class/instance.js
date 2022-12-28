@@ -202,12 +202,24 @@ class WhatsAppInstance {
         })
 
         // on new mssage
-        sock?.ev.on('messages.upsert', (m) => {
+        sock?.ev.on('messages.upsert', async (m) => {
             //console.log('messages.upsert')
             //console.log(m)
             if (m.type === 'prepend')
                 this.instance.messages.unshift(...m.messages)
             if (m.type !== 'notify') return
+
+            // https://adiwajshing.github.io/Baileys/#reading-messages
+            if (config.markMessagesRead) {
+                const unreadMessages = m.messages.map(msg => {
+                    return {
+                        remoteJid: msg.key.remoteJid,
+                        id: msg.key.id,
+                        participant: msg.key?.participant
+                    }
+                })
+                await sock.readMessages(unreadMessages)
+            }
 
             this.instance.messages.unshift(...m.messages)
 
