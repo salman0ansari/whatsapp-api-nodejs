@@ -32,9 +32,7 @@ const WEBHOOK_ENABLED = !!(
     process.env.WEBHOOK_ENABLED && process.env.WEBHOOK_ENABLED === 'true'
 )
 // Webhook URL
-const WEBHOOK_URL =
-    process.env.WEBHOOK_URL ||
-    'https://webhook.site/d0122a66-18a3-432d-b63f-4772b190dd72'
+const WEBHOOK_URL = process.env.WEBHOOK_URL
 // Receive message content in webhook (Base64 format)
 const WEBHOOK_BASE64 = !!(
     process.env.WEBHOOK_BASE64 && process.env.WEBHOOK_BASE64 === 'true'
