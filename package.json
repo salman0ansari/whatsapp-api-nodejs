@@ -33,7 +33,7 @@
     "license": "MIT",
     "dependencies": {
         "@adiwajshing/baileys": "^4.4.0",
-        "axios": "^1.1.3",
+        "axios": "^1.2.2",
         "dotenv": "^16.0.3",
         "ejs": "^3.1.7",
         "express": "^4.18.2",
