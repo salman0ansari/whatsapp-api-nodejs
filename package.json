@@ -1,0 +1,12 @@
+{
+  "name": "whatsapp-api-nodejs",
+  "version": "4.0.0",
+  "description": "whatsapp-api-nodejs is built on top of Baileys-MD.",
+  "main": "server.js",
+  "repository": "git@github.com:salman0ansari/whatsapp-api-nodejs.git",
+  "author": "Mohd Salman Ansari <salman0ansariii@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@adiwajshing/baileys": "@adiwajshing/baileys@^5.0.0"
+  }
+}
