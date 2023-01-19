@@ -1,0 +1,12 @@
+# NODE
+node_modules
+package-lock.json
+yarn.lock
+dist
+
+# APPLICATION
+.env
+
+# IDEs
+.vscode
+.idea
