@@ -1720,10 +1720,10 @@ expand-template@^2.0.3:
   resolved "https://registry.yarnpkg.com/expand-template/-/expand-template-2.0.3.tgz#6e14b3fcee0f3a6340ecb57d2e8918692052a47c"
   integrity sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==
 
-express-exception-handler@^1.3.23:
-  version "1.3.23"
-  resolved "https://registry.yarnpkg.com/express-exception-handler/-/express-exception-handler-1.3.23.tgz#105a16ea072e1255326a25a84420830977f31082"
-  integrity sha512-2L7HA2wBL2emPeCO9P9EYKLV4/+8eq1ENMfp9nv321kJGddbcNHbvJG7zLlvz91lSlOJav2+kdYKWbrl5KiOVw==
+express-exception-handler@^1.3.31:
+  version "1.3.31"
+  resolved "https://registry.yarnpkg.com/express-exception-handler/-/express-exception-handler-1.3.31.tgz#b5c2f1ceb1dfc1de070ce931a5a769b477fe593b"
+  integrity sha512-8qk6+UtBw8WHAtrR5ogoltNqLpBcNhdmNHyVRsygKgAJjbbDsaxl1kU9ykdvmH42EOYPUpx8BEdWA/LScXtirA==
 
 express@^4.18.2:
   version "4.18.2"
