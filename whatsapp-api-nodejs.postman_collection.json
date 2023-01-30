@@ -911,7 +911,7 @@
 				{
 					"name": "Create Group",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"url": {
 							"raw": "{{baseUrl}}/group/create?key={{instance_key}}",
