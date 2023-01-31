@@ -1,11 +1,17 @@
 FROM node:19-alpine
 
+ARG _WORKDIR=/home/node/app
+ARG PORT=3333
+
+USER root
 RUN apk add git
 
-COPY . /home/node/app
+USER node
+WORKDIR ${_WORKDIR}
 
-WORKDIR /home/node/app
-
+ADD . ${_WORKDIR}
 RUN yarn install
+
+EXPOSE ${PORT}
 
 CMD yarn start
