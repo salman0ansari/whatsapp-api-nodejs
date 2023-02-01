@@ -22,14 +22,6 @@ exports.makeAdmin = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.demoteAdmin = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].demoteAdmin(
-        req.body.id,
-        req.body.users
-    )
-    return res.status(201).json({ error: false, data: data })
-}
-
 exports.listAll = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].getAllGroups(
         req.query.key
