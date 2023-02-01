@@ -14,9 +14,6 @@ router
     .post(keyVerify, loginVerify, controller.addNewParticipant)
 router.route('/makeadmin').post(keyVerify, loginVerify, controller.makeAdmin)
 router
-    .route('/demoteadmin')
-    .post(keyVerify, loginVerify, controller.demoteAdmin)
-router
     .route('/getinvitecode')
     .get(keyVerify, loginVerify, controller.getInviteCodeGroup)
 router
