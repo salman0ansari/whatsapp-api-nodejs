@@ -11,12 +11,15 @@ services:
             - db:/data/db
     app:
         container_name: api
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                - PORT=${PORT}
         depends_on:
             - mongodb
-        user: 'node'
         restart: unless-stopped
         env_file: .env
-        command: 'npm start'
         ports:
             - ${PORT}:${PORT}
         environment:
@@ -29,8 +32,7 @@ services:
             - WEBHOOK_BASE64=${WEBHOOK_BASE64}
         volumes:
             - ./:/home/node/app
-        working_dir: /home/node/app
-        image: node:17.2.0-alpine
+            - /home/node/app/node_modules/
 
 volumes:
     db:
