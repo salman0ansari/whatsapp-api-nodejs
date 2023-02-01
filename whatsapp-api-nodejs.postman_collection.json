@@ -1075,50 +1075,7 @@
 						"description": "Promote group users to admin"
 					},
 					"response": []
-				},
-				{
-					"name": "Demote Admin",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Group Id\n(Required)",
-									"type": "text"
-								},
-								{
-									"key": "users",
-									"value": "",
-									"description": "User Id\n(Required)",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseUrl}}/group/demoteadmin?key={{instance_key}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"group",
-								"demoteadmin"
-							],
-							"query": [
-								{
-									"key": "key",
-									"value": "{{instance_key}}",
-									"description": "Instance Key\n(Required)"
-								}
-							]
-						},
-						"description": "Demote group admin"
-					},
-					"response": []
-				},
+				},				
 				{
 					"name": "Get Group Invite Code",
 					"protocolProfileBehavior": {
