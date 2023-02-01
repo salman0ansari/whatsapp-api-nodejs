@@ -12,7 +12,6 @@ router.route('/leave').get(keyVerify, loginVerify, controller.leaveGroup)
 router
     .route('/inviteuser')
     .post(keyVerify, loginVerify, controller.addNewParticipant)
-router.route('/makeadmin').post(keyVerify, loginVerify, controller.makeAdmin)
 router
     .route('/demoteadmin')
     .post(keyVerify, loginVerify, controller.demoteAdmin)
