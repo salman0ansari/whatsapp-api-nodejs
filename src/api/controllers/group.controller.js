@@ -6,14 +6,6 @@ exports.create = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.addNewParticipant = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].addNewParticipant(
-        req.body.id,
-        req.body.users
-    )
-    return res.status(201).json({ error: false, data: data })
-}
-
 exports.makeAdmin = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].makeAdmin(
         req.body.id,
