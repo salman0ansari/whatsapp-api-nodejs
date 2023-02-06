@@ -991,49 +991,6 @@
 					"response": []
 				},
 				{
-					"name": "Invite User",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "id",
-									"value": "",
-									"description": "Group Id\n(Required)",
-									"type": "text"
-								},
-								{
-									"key": "users",
-									"value": "",
-									"description": "Users Id\n(Required)",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseUrl}}/group/inviteuser?key={{instance_key}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"group",
-								"inviteuser"
-							],
-							"query": [
-								{
-									"key": "key",
-									"value": "{{instance_key}}",
-									"description": "Instance Key\n(Required)"
-								}
-							]
-						},
-						"description": "Invite Users to Group"
-					},
-					"response": []
-				},
-				{
 					"name": "Make Admin",
 					"request": {
 						"method": "POST",
