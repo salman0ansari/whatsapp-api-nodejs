@@ -10,9 +10,6 @@ router.route('/listall').get(keyVerify, loginVerify, controller.listAll)
 router.route('/leave').get(keyVerify, loginVerify, controller.leaveGroup)
 
 router
-    .route('/demoteadmin')
-    .post(keyVerify, loginVerify, controller.demoteAdmin)
-router
     .route('/getinvitecode')
     .get(keyVerify, loginVerify, controller.getInviteCodeGroup)
 router
