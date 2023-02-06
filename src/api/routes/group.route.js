@@ -9,7 +9,6 @@ router.route('/create').post(keyVerify, loginVerify, controller.create)
 router.route('/listall').get(keyVerify, loginVerify, controller.listAll)
 router.route('/leave').get(keyVerify, loginVerify, controller.leaveGroup)
 
-router.route('/makeadmin').post(keyVerify, loginVerify, controller.makeAdmin)
 router
     .route('/demoteadmin')
     .post(keyVerify, loginVerify, controller.demoteAdmin)
