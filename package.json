@@ -8,5 +8,9 @@
   "license": "MIT",
   "dependencies": {
     "@adiwajshing/baileys": "@adiwajshing/baileys@^5.0.0"
+  },
+  "devDependencies": {
+    "@types/qrcode": "^1.5.0",
+    "qrcode": "^1.5.1"
   }
 }
