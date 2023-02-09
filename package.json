@@ -5,11 +5,19 @@
   "main": "server.js",
   "repository": "git@github.com:salman0ansari/whatsapp-api-nodejs.git",
   "author": "Mohd Salman Ansari <salman0ansariii@gmail.com>",
+  "type": "module",
   "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "build": "tsc",
+    "build:run": "tsc && node dist/server.js"
+  },
   "dependencies": {
-    "@adiwajshing/baileys": "@adiwajshing/baileys@^5.0.0"
+    "@adiwajshing/baileys": "@adiwajshing/baileys@^5.0.0",
+    "express": "^4.18.2"
   },
   "devDependencies": {
+    "@types/express": "^4.17.17",
     "@types/qrcode": "^1.5.0",
     "qrcode": "^1.5.1"
   }
