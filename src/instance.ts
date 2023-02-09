@@ -8,10 +8,10 @@ const SESSION_ID = 'whatsapp-session';
 
 type Session = WASocket & {
     destroy: () => Promise<void>;
-    // store: Store;
     webhook?: string | null;
     connectionState?: Partial<ConnectionState>
     loggedIn?: boolean;
+    qr?: string;
 };
 
 type createSessionOptions = {
@@ -21,6 +21,7 @@ type createSessionOptions = {
 };
 
 const sessions = new Map<string, Session>();
+
 const bottle = await BaileysBottle.init({
     type: "sqlite",
     database: "db.sqlite",
@@ -33,6 +34,7 @@ export class createSession {
     webhook: string;
     socketConfig: any;
     configID: string;
+    sock!: WASocket | undefined;
 
     constructor(options: createSessionOptions) {
         const { sessionId, webhook, socketConfig } = options;
@@ -42,6 +44,11 @@ export class createSession {
         this.socketConfig = socketConfig || {};
         this.configID = `${SESSION_ID}-${this.sessionId}`;
     }
+
+    destroy = async () => {
+        await this.sock?.logout()
+        sessions.delete(this.sessionId);
+    };
 
     create = async () => {
 
@@ -56,6 +63,7 @@ export class createSession {
             },
             logger: this.logger,
         })
+        this.sock = sock;
 
         store.bind(sock.ev);
         sock.ev.process(async (events) => {
@@ -85,11 +93,24 @@ export class createSession {
                             ? this.create()
                             : console.log("Connection closed. You are logged out.")
                         : null;
+                if (connection === "open") {
+                    sessions.set(this.sessionId, { ...sock, destroy: this.destroy, webhook: this.webhook, connectionState: update, loggedIn: true });
+                }
             }
         });
 
         return this
     };
+}
 
+export function getSession(sessionId: string) {
+    return sessions.get(sessionId);
+}
 
+export async function deleteSession(sessionId: string) {
+    return sessions.get(sessionId)?.destroy();
+}
+
+export function sessionExists(sessionId: string) {
+    return sessions.has(sessionId);
 }
