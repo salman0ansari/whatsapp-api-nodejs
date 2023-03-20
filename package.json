@@ -49,7 +49,7 @@
     },
     "devDependencies": {
         "eslint": "^8.28.0",
-        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-prettier": "^8.8.0",
         "husky": "^8.0.2",
         "lint-staged": "^13.0.4",
         "mocha": "^10.1.0",
