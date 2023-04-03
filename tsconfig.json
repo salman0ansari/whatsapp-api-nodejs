@@ -1,16 +1,20 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2018",
     "module": "ES2022",
     "moduleResolution": "Node",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": false,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "allowJs": true,
     "lib": ["ESNext"],
     "outDir": "dist/",
+
   },
   "include": ["src/**/*.ts"]
 }
