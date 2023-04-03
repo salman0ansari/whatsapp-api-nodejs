@@ -10,3 +10,4 @@ dist
 # IDEs
 .vscode
 .idea
+*.sqlite
