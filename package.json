@@ -5,7 +5,7 @@
     "main": "server.js",
     "scripts": {
         "start": "node src/server.js",
-        "dev": "./node_modules/nodemon/bin/nodemon.js",
+        "dev": "nodemon",
         "format:check": "prettier --check .",
         "format:write": "prettier --write .",
         "lint:check": "eslint .",
