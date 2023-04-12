@@ -56,7 +56,6 @@ exports.qrbase64 = async (req, res) => {
 }
 
 exports.info = async (req, res) => {
-    console.log(WhatsAppInstances)
     const instance = WhatsAppInstances[req.query.key]
     let data
     try {
