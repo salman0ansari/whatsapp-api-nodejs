@@ -101,7 +101,7 @@ exports.logout = async (req, res) => {
 exports.delete = async (req, res) => {
     let errormsg
     try {
-        await WhatsAppInstances[key].deleteInstance(req.query.key)
+        await WhatsAppInstances[req.query.key].deleteInstance(req.query.key)
         delete WhatsAppInstances[req.query.key]
     } catch (error) {
         errormsg = error
@@ -115,16 +115,6 @@ exports.delete = async (req, res) => {
 
 exports.list = async (req, res) => {
     if (req.query.active) {
-        let instance = Object.keys(WhatsAppInstances).map(async (key) =>
-            WhatsAppInstances[key].getInstanceDetail(key)
-        )
-        let data = await Promise.all(instance)
-        return res.json({
-            error: false,
-            message: 'All active instance',
-            data: data,
-        })
-    } else {
         let instance = []
         const db = mongoClient.db('whatsapp-api')
         const result = await db.listCollections().toArray()
@@ -134,8 +124,19 @@ exports.list = async (req, res) => {
 
         return res.json({
             error: false,
-            message: 'All instance listed',
+            message: 'All active instance',
             data: instance,
         })
     }
+
+    let instance = Object.keys(WhatsAppInstances).map(async (key) =>
+        WhatsAppInstances[key].getInstanceDetail(key)
+    )
+    let data = await Promise.all(instance)
+    
+    return res.json({
+        error: false,
+        message: 'All instance listed',
+        data: data,
+    })
 }
