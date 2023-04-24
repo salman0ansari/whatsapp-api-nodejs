@@ -1088,6 +1088,11 @@ bson@^4.7.0:
   dependencies:
     buffer "^5.6.0"
 
+bson@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-5.2.0.tgz#c81d35dd30e2798203e5422a639780ea98dd25ba"
+  integrity sha512-HevkSpDbpUfsrHWmWiAsNavANKYIErV2ePXllp1bwq5CDreAaFVj6RVlZpJnxK4WWDCJ/5jMUpaY6G526q3Hjg==
+
 buffer-from@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.2.tgz#2b146a6fd72e80b4f55d255f35ed59a3a9a41bd5"
@@ -2256,9 +2261,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-"libsignal@git+https://github.com/adiwajshing/libsignal-node.git":
+"libsignal@git+https://github.com/adiwajshing/libsignal-node":
   version "2.0.1"
-  resolved "git+https://github.com/adiwajshing/libsignal-node.git#11dbd962ea108187c79a7c46fe4d6f790e23da97"
+  uid "11dbd962ea108187c79a7c46fe4d6f790e23da97"
+  resolved "git+https://github.com/adiwajshing/libsignal-node#11dbd962ea108187c79a7c46fe4d6f790e23da97"
   dependencies:
     curve25519-js "^0.0.4"
     protobufjs "6.8.8"
@@ -2500,10 +2506,10 @@ mocha@^10.1.0:
     yargs-parser "20.2.4"
     yargs-unparser "2.0.0"
 
-mongodb-connection-string-url@^2.5.4:
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-2.5.4.tgz#1ee2496f4c4eae64f63c4b2d512aebc89996160a"
-  integrity sha512-SeAxuWs0ez3iI3vvmLk/j2y+zHwigTDKQhtdxTgt5ZCOQQS5+HW4g45/Xw5vzzbn7oQXCNQ24Z40AkJsizEy7w==
+mongodb-connection-string-url@^2.5.4, mongodb-connection-string-url@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-2.6.0.tgz#57901bf352372abdde812c81be47b75c6b2ec5cf"
+  integrity sha512-WvTZlI9ab0QYtTYnuMLgobULWhokRjtC7db9LtcVfJ+Hsnyr5eo6ZtNAt3Ly24XZScGMelOcGtm7lSn0332tPQ==
   dependencies:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
@@ -2521,16 +2527,15 @@ mongodb@4.11.0:
     "@aws-sdk/credential-providers" "^3.186.0"
     saslprep "^1.0.3"
 
-mongodb@^4.12.1:
-  version "4.12.1"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.12.1.tgz#224eb39b8784af835b515aa687c6010cecaabb1a"
-  integrity sha512-koT87tecZmxPKtxRQD8hCKfn+ockEL2xBiUvx3isQGI6mFmagWt4f4AyCE9J4sKepnLhMacoCTQQA6SLAI2L6w==
+mongodb@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-5.3.0.tgz#9bef3ff35511a66fb7d9aafb7b06112787138db1"
+  integrity sha512-Wy/sbahguL8c3TXQWXmuBabiLD+iVmz+tOgQf+FwkCjhUIorqbAxRbbz00g4ZoN4sXIPwpAlTANMaGRjGGTikQ==
   dependencies:
-    bson "^4.7.0"
-    mongodb-connection-string-url "^2.5.4"
+    bson "^5.2.0"
+    mongodb-connection-string-url "^2.6.0"
     socks "^2.7.1"
   optionalDependencies:
-    "@aws-sdk/credential-providers" "^3.186.0"
     saslprep "^1.0.3"
 
 mongoose@^6.7.4:
