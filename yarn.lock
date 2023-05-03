@@ -2,6 +2,20 @@
 # yarn lockfile v1
 
 
+"@adiwajshing/baileys@WhiskeySockets/Baileys":
+  version "5.0.0"
+  resolved "https://codeload.github.com/WhiskeySockets/Baileys/tar.gz/b7878e531144133b48d9e5970787e7b256d21063"
+  dependencies:
+    "@hapi/boom" "^9.1.3"
+    axios "^1.3.3"
+    futoin-hkdf "^1.5.1"
+    libsignal "https://github.com/adiwajshing/libsignal-node.git"
+    music-metadata "^7.12.3"
+    node-cache "^5.1.2"
+    pino "^7.0.0"
+    protobufjs "^6.11.3"
+    ws "^8.0.0"
+
 "@adiwajshing/baileys@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@adiwajshing/baileys/-/baileys-5.0.0.tgz#17a3e48dd67d0f684d09d55fb8fb931345803bb6"
@@ -997,6 +1011,15 @@ axios@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.1.3.tgz#8274250dada2edf53814ed7db644b9c2866c1e35"
   integrity sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==
+  dependencies:
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
+
+axios@^1.3.3:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.4.0.tgz#38a7bf1224cd308de271146038b551d725f0be1f"
+  integrity sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -2256,9 +2279,17 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-"libsignal@git+https://github.com/adiwajshing/libsignal-node.git":
+"libsignal@git+https://github.com/adiwajshing/libsignal-node":
   version "2.0.1"
-  resolved "git+https://github.com/adiwajshing/libsignal-node.git#11dbd962ea108187c79a7c46fe4d6f790e23da97"
+  resolved "git+https://github.com/adiwajshing/libsignal-node#11dbd962ea108187c79a7c46fe4d6f790e23da97"
+  dependencies:
+    curve25519-js "^0.0.4"
+    protobufjs "6.8.8"
+
+"libsignal@https://github.com/adiwajshing/libsignal-node.git":
+  version "2.0.1"
+  uid "11dbd962ea108187c79a7c46fe4d6f790e23da97"
+  resolved "https://github.com/adiwajshing/libsignal-node.git#11dbd962ea108187c79a7c46fe4d6f790e23da97"
   dependencies:
     curve25519-js "^0.0.4"
     protobufjs "6.8.8"
