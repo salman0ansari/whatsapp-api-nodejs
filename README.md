@@ -13,17 +13,26 @@
 <p>
 
 <a href="http://github.com/salman0ansari/whatsapp-api-nodejs"><img title="Hits" src="http://hits.dwyl.com/salman0ansari/whatsapp-api-nodejs.svg?style=flat-square"></a>
-</p>
+<br>
+<a href="https://t.me/salman0ansari">
+<img src="https://img.shields.io/badge/Telegram-informational?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram Badge"/>
+</a>
+<a href="https://join.skype.com/invite/rI5pLf9YIvTA">
+<img src="https://img.shields.io/badge/Skype-00AFF0.svg?style=for-the-badge&logo=Skype&logoColor=white" alt="Skype Badge"/>
+</a>
+<br>
 <a href="https://www.buymeacoffee.com/salman0ansari" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+</p>
 </div>
 
 ---
 
-An implementation of [Baileys](https://github.com/adiwajshing/Baileys/) as a simple RESTful API service with multi device support just `download`, `install`, and `start` using, `simple` as that.
+An implementation of [Baileys](https://github.com/WhiskeySockets/Baileys) as a simple RESTful API service with multi device support just `download`, `install`, and `start` using, `simple` as that.
 
 # Libraries Used
 
--   [Baileys](https://github.com/adiwajshing/Baileys/)
+-   [Baileys](https://github.com/WhiskeySockets/Baileys)
 -   [Express](https://github.com/expressjs/express)
 
 # Installation
@@ -89,24 +98,27 @@ Response:
     "key": "d7e2abff-3ac8-44a9-a738-1b28e0fca8a5"
 }
 ```
+
 ## WEBHOOK_ALLOWED_EVENTS
+
 You can set which events you want to send to webhook by setting the environment variable `WEBHOOK_ALLOWED_EVENTS`
 
-Set a comma seperated list of events you want to get notified about. 
+Set a comma seperated list of events you want to get notified about.
 
 Default value is `all` which will forward all events.
 
 Allowed values:
-- `connection` - receive all connection events
-- `connection:open` - receive open connection events
-- `connection:close` - receive close connection events
-- `presense` - receive presence events
-- `messages` - receive all messages event
-- `call` - receive all events related to calls
-- `call:terminate` - receive call terminate events
-- `call:offer` - receive call terminate event
-- `groups` - receive all events related to groups
-- `group_participants` - receive all events related to group participants
+
+-   `connection` - receive all connection events
+-   `connection:open` - receive open connection events
+-   `connection:close` - receive close connection events
+-   `presense` - receive presence events
+-   `messages` - receive all messages event
+-   `call` - receive all events related to calls
+-   `call:terminate` - receive call terminate events
+-   `call:offer` - receive call terminate event
+-   `groups` - receive all events related to groups
+-   `group_participants` - receive all events related to group participants
 
 You can also use the Baileys event format example: `messages.upsert`
 
@@ -154,13 +166,15 @@ curl --location --request POST 'localhost:3333/message/text?key=INSTANCE_KEY_HER
 --data-urlencode 'id=919999999999' \
 --data-urlencode 'message=Hello World'
 ```
+
 ## Routes
-| Route  | Source File |
-| ------------- | ------------- |
-| Instance Routes  | [instance.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/instance.route.js)  |
-| Message Routes  | [message.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/message.route.js)  |
-| Group Routes  | [group.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/group.route.js)  |
-| Miscellaneous Routes  | [misc.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/misc.route.js)   |
+
+| Route                | Source File                                                                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Instance Routes      | [instance.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/instance.route.js) |
+| Message Routes       | [message.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/message.route.js)   |
+| Group Routes         | [group.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/group.route.js)       |
+| Miscellaneous Routes | [misc.route.js](https://github.com/salman0ansari/whatsapp-api-nodejs/blob/main/src/api/routes/misc.route.js)         |
 
 See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-api-nodejs/tree/main/src/api/routes)
 
