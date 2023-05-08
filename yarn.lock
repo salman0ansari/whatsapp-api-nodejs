@@ -16,21 +16,6 @@
     protobufjs "^6.11.3"
     ws "^8.0.0"
 
-"@adiwajshing/baileys@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@adiwajshing/baileys/-/baileys-5.0.0.tgz#17a3e48dd67d0f684d09d55fb8fb931345803bb6"
-  integrity sha512-AeNyYLfw1nhCwc7hDlMajU9Zr5DK4zmEO8rdrmxUR1qUbmhSKOL6IzwZpyvPjsXyHvl+oPMbp5k8+PX2p6RlJg==
-  dependencies:
-    "@hapi/boom" "^9.1.3"
-    axios "^0.24.0"
-    futoin-hkdf "^1.5.1"
-    libsignal "git+https://github.com/adiwajshing/libsignal-node"
-    music-metadata "^7.12.3"
-    node-cache "^5.1.2"
-    pino "^7.0.0"
-    protobufjs "^6.11.3"
-    ws "^8.0.0"
-
 "@aws-crypto/ie11-detection@^2.0.0":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@aws-crypto/ie11-detection/-/ie11-detection-2.0.2.tgz#9c39f4a5558196636031a933ec1b4792de959d6a"
@@ -1000,13 +985,6 @@ atomic-sleep@^1.0.0:
   resolved "https://registry.yarnpkg.com/atomic-sleep/-/atomic-sleep-1.0.0.tgz#eb85b77a601fc932cfe432c5acd364a9e2c9075b"
   integrity sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==
 
-axios@^0.24.0:
-  version "0.24.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
-  integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
-  dependencies:
-    follow-redirects "^1.14.4"
-
 axios@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.1.3.tgz#8274250dada2edf53814ed7db644b9c2866c1e35"
@@ -1110,6 +1088,11 @@ bson@^4.7.0:
   integrity sha512-VrlEE4vuiO1WTpfof4VmaVolCVYkYTgB9iWgYNOrVlnifpME/06fhFRmONgBhClD5pFC1t9ZWqFUQEQAzY43bA==
   dependencies:
     buffer "^5.6.0"
+
+bson@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-5.2.0.tgz#c81d35dd30e2798203e5422a639780ea98dd25ba"
+  integrity sha512-HevkSpDbpUfsrHWmWiAsNavANKYIErV2ePXllp1bwq5CDreAaFVj6RVlZpJnxK4WWDCJ/5jMUpaY6G526q3Hjg==
 
 buffer-from@^1.0.0:
   version "1.1.2"
@@ -1901,7 +1884,7 @@ flatted@^3.1.0:
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.5.tgz#76c8584f4fc843db64702a6bd04ab7a8bd666da3"
   integrity sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg==
 
-follow-redirects@^1.14.4, follow-redirects@^1.15.0:
+follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
@@ -2279,13 +2262,6 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-"libsignal@git+https://github.com/adiwajshing/libsignal-node":
-  version "2.0.1"
-  resolved "git+https://github.com/adiwajshing/libsignal-node#11dbd962ea108187c79a7c46fe4d6f790e23da97"
-  dependencies:
-    curve25519-js "^0.0.4"
-    protobufjs "6.8.8"
-
 "libsignal@https://github.com/adiwajshing/libsignal-node.git":
   version "2.0.1"
   uid "11dbd962ea108187c79a7c46fe4d6f790e23da97"
@@ -2531,10 +2507,10 @@ mocha@^10.1.0:
     yargs-parser "20.2.4"
     yargs-unparser "2.0.0"
 
-mongodb-connection-string-url@^2.5.4:
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-2.5.4.tgz#1ee2496f4c4eae64f63c4b2d512aebc89996160a"
-  integrity sha512-SeAxuWs0ez3iI3vvmLk/j2y+zHwigTDKQhtdxTgt5ZCOQQS5+HW4g45/Xw5vzzbn7oQXCNQ24Z40AkJsizEy7w==
+mongodb-connection-string-url@^2.5.4, mongodb-connection-string-url@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-2.6.0.tgz#57901bf352372abdde812c81be47b75c6b2ec5cf"
+  integrity sha512-WvTZlI9ab0QYtTYnuMLgobULWhokRjtC7db9LtcVfJ+Hsnyr5eo6ZtNAt3Ly24XZScGMelOcGtm7lSn0332tPQ==
   dependencies:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
@@ -2552,16 +2528,15 @@ mongodb@4.11.0:
     "@aws-sdk/credential-providers" "^3.186.0"
     saslprep "^1.0.3"
 
-mongodb@^4.12.1:
-  version "4.12.1"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.12.1.tgz#224eb39b8784af835b515aa687c6010cecaabb1a"
-  integrity sha512-koT87tecZmxPKtxRQD8hCKfn+ockEL2xBiUvx3isQGI6mFmagWt4f4AyCE9J4sKepnLhMacoCTQQA6SLAI2L6w==
+mongodb@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-5.4.0.tgz#ce217194b49572f32af5ddd9a1e3ae1282954795"
+  integrity sha512-6GDKgO7WiYUw+ILap143VXfAou06hjxDGgYUZWGnI4hgoZfP3el0G3l69JqJF8SEQbZmC+SN/2a0aWI/aWJoxA==
   dependencies:
-    bson "^4.7.0"
-    mongodb-connection-string-url "^2.5.4"
+    bson "^5.2.0"
+    mongodb-connection-string-url "^2.6.0"
     socks "^2.7.1"
   optionalDependencies:
-    "@aws-sdk/credential-providers" "^3.186.0"
     saslprep "^1.0.3"
 
 mongoose@^6.7.4:
