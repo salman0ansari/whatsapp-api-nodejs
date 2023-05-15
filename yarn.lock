@@ -3,8 +3,9 @@
 
 
 "@adiwajshing/baileys@https://github.com/WhiskeySockets/Baileys.git":
-  version "5.0.0"
-  resolved "https://github.com/WhiskeySockets/Baileys.git#13810ec7ea3700ec0e1b676869a2522993827de5"
+  version "6.0.0"
+  uid "9434e12730b9e8c1f0a2314c5a3f67d391feb7f4"
+  resolved "https://github.com/WhiskeySockets/Baileys.git#9434e12730b9e8c1f0a2314c5a3f67d391feb7f4"
   dependencies:
     "@hapi/boom" "^9.1.3"
     axios "^1.3.3"
@@ -985,16 +986,7 @@ atomic-sleep@^1.0.0:
   resolved "https://registry.yarnpkg.com/atomic-sleep/-/atomic-sleep-1.0.0.tgz#eb85b77a601fc932cfe432c5acd364a9e2c9075b"
   integrity sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==
 
-axios@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.1.3.tgz#8274250dada2edf53814ed7db644b9c2866c1e35"
-  integrity sha512-00tXVRwKx/FZr/IDVFt4C+f9FYairX517WoGCL6dpOntqLkZofjhu43F/Xl44UOpqa+9sLFDrG/XAnFsUYgkDA==
-  dependencies:
-    follow-redirects "^1.15.0"
-    form-data "^4.0.0"
-    proxy-from-env "^1.1.0"
-
-axios@^1.3.3:
+axios@^1.1.3, axios@^1.3.3:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.4.0.tgz#38a7bf1224cd308de271146038b551d725f0be1f"
   integrity sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==
