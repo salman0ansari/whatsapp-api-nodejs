@@ -1,11 +1,11 @@
-const { proto } = require('@adiwajshing/baileys/WAProto')
+const { proto } = require('@whiskeysockets/baileys/WAProto')
 const {
     Curve,
     signedKeyPair,
-} = require('@adiwajshing/baileys/lib/Utils/crypto')
+} = require('@whiskeysockets/baileys/lib/Utils/crypto')
 const {
     generateRegistrationId,
-} = require('@adiwajshing/baileys/lib/Utils/generics')
+} = require('@whiskeysockets/baileys/lib/Utils/generics')
 const { randomBytes } = require('crypto')
 
 const initAuthCreds = () => {
@@ -90,7 +90,9 @@ module.exports = useMongoDBAuthState = async (collection) => {
                             let value = await readData(`${type}-${id}`)
                             if (type === 'app-state-sync-key') {
                                 value =
-                                    proto.Message.AppStateSyncKeyData.fromObject(data)
+                                    proto.Message.AppStateSyncKeyData.fromObject(
+                                        data
+                                    )
                             }
                             data[id] = value
                         })
