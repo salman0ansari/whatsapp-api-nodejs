@@ -2,19 +2,10 @@
 # yarn lockfile v1
 
 
-"@adiwajshing/baileys@https://github.com/WhiskeySockets/Baileys.git":
-  version "5.0.0"
-  resolved "https://github.com/WhiskeySockets/Baileys.git#13810ec7ea3700ec0e1b676869a2522993827de5"
-  dependencies:
-    "@hapi/boom" "^9.1.3"
-    axios "^1.3.3"
-    futoin-hkdf "^1.5.1"
-    libsignal "https://github.com/adiwajshing/libsignal-node.git"
-    music-metadata "^7.12.3"
-    node-cache "^5.1.2"
-    pino "^7.0.0"
-    protobufjs "^6.11.3"
-    ws "^8.0.0"
+"@adiwajshing/keyed-db@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@adiwajshing/keyed-db/-/keyed-db-0.2.4.tgz#2a09e88fce20b2672deb60a7750c5fe3ab0dfd99"
+  integrity sha512-yprSnAtj80/VKuDqRcFFLDYltoNV8tChNwFfIgcf6PGD4sjzWIBgs08pRuTqGH5mk5wgL6PBRSsMCZqtZwzFEw==
 
 "@aws-crypto/ie11-detection@^2.0.0":
   version "2.0.2"
@@ -1519,10 +1510,10 @@ domutils@^3.0.1:
     domelementtype "^2.3.0"
     domhandler "^5.0.1"
 
-dotenv@^16.0.3:
-  version "16.0.3"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
-  integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
+dotenv@^16.3.1:
+  version "16.3.1"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
+  integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
 
 duplexify@^4.1.2:
   version "4.1.2"
@@ -2271,14 +2262,6 @@ levn@^0.4.1:
   dependencies:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
-
-"libsignal@git+https://github.com/adiwajshing/libsignal-node.git":
-  version "2.0.1"
-  uid "11dbd962ea108187c79a7c46fe4d6f790e23da97"
-  resolved "git+https://github.com/adiwajshing/libsignal-node.git#11dbd962ea108187c79a7c46fe4d6f790e23da97"
-  dependencies:
-    curve25519-js "^0.0.4"
-    protobufjs "6.8.8"
 
 "libsignal@https://github.com/adiwajshing/libsignal-node.git":
   version "2.0.1"
