@@ -518,7 +518,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseUrl}}/message/mediaurl?key={{instance_key}}",
+							"raw": "{{baseUrl}}/message/media-url?key={{instance_key}}",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -671,7 +671,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{baseUrl}}/message/setstatus?key={{instance_key}}",
+							"raw": "{{baseUrl}}/message/set-status?key={{instance_key}}",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -706,7 +706,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/message/MediaButton?key={{instance_key}}",
+							"raw": "{{baseUrl}}/message/media-button?key={{instance_key}}",
 							"host": [
 								"{{baseUrl}}"
 							],

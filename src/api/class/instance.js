@@ -5,9 +5,9 @@ const {
     default: makeWASocket,
     DisconnectReason,
 } = require('@whiskeysockets/baileys')
-const { unlinkSync } = require('fs')
+// const { unlinkSync } = require('fs')
 const { v4: uuidv4 } = require('uuid')
-const path = require('path')
+// const path = require('path')
 const processButton = require('../helper/processbtn')
 const generateVC = require('../helper/genVc')
 const Chat = require('../models/chat.model')
