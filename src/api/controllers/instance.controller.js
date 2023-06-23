@@ -1,9 +1,9 @@
+/* eslint-disable no-undef */
 const { WhatsAppInstance } = require('../class/instance')
-const fs = require('fs')
-const path = require('path')
+// const fs = require('fs')
+// const path = require('path')
 const config = require('../../config/config')
 const { Session } = require('../class/session')
-const { MongoClient } = require('mongodb')
 
 exports.init = async (req, res) => {
     const key = req.query.key
@@ -117,7 +117,7 @@ exports.delete = async (req, res) => {
 exports.list = async (req, res) => {
     if (req.query.active) {
         let instance = []
-        const db = MongoClient.db('whatsapp-api')
+        const db = mongoClient.db('whatsapp-api')
         const result = await db.listCollections().toArray()
         result.forEach((collection) => {
             instance.push(collection.name)
