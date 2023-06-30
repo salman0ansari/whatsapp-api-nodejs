@@ -6,6 +6,7 @@ module.exports = function processButton(buttons) {
             preparedButtons.push({
                 quickReplyButton: {
                     displayText: button.title ?? '',
+                    id: button.rowId ?? '',
                 },
             })
         }
