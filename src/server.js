@@ -12,7 +12,7 @@ const connectToCluster = require('./api/helper/connectMongoClient')
 let server
 
 if (config.mongoose.enabled) {
-    mongoose.set('strictQuery', true);
+    mongoose.set('strictQuery', true)
     mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
         logger.info('Connected to MongoDB')
     })
