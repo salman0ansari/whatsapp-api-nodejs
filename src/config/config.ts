@@ -1,3 +1,4 @@
+
 // Port number
 const PORT = process.env.PORT || '3333'
 const TOKEN = process.env.TOKEN || ''
@@ -44,7 +45,7 @@ const MARK_MESSAGES_READ = !!(
     process.env.MARK_MESSAGES_READ && process.env.MARK_MESSAGES_READ === 'true'
 )
 
-module.exports = {
+export default {
     port: PORT,
     token: TOKEN,
     restoreSessionsOnStartup: RESTORE_SESSIONS_ON_START_UP,
@@ -60,8 +61,8 @@ module.exports = {
         url: MONGODB_URL,
         options: {
             // useCreateIndex: true,
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+            // useNewUrlParser: true,
+            // useUnifiedTopology: true,
         },
     },
     browser: {

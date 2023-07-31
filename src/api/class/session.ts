@@ -1,14 +1,26 @@
 /* eslint-disable no-unsafe-optional-chaining */
-const { WhatsAppInstance } = require('../class/instance')
-const logger = require('pino')()
-const config = require('../../config/config')
+import WhatsAppInstance from '../class/instance'
+import pino from 'pino'
+import config from '../../config/config'
+import getDatabase from '../service/database'
+import { AppType } from '../helper/types'
+import { getInstanceService } from '../service/instance'
+
+const logger = pino()
 
 class Session {
+    app: AppType
+
+    constructor(app: AppType){
+        this.app = app;
+    }
+
     async restoreSessions() {
-        let restoredSessions = new Array()
-        let allCollections = []
+        let restoredSessions : string[] = []
+        let allCollections : string[] = []
         try {
-            const db = mongoClient.db('whatsapp-api')
+            let instances = getInstanceService(this.app).instances
+            const db = getDatabase(this.app)
             const result = await db.listCollections().toArray()
             result.forEach((collection) => {
                 allCollections.push(collection.name)
@@ -21,18 +33,19 @@ class Session {
                     .toArray(async (err, result) => {
                         if (err) throw err
                         const webhook = !config.webhookEnabled
-                            ? undefined
+                            ? null
                             : config.webhookEnabled
                         const webhookUrl = !config.webhookUrl
-                            ? undefined
+                            ? null
                             : config.webhookUrl
                         const instance = new WhatsAppInstance(
+                            this.app,
                             key,
                             webhook,
                             webhookUrl
                         )
                         await instance.init()
-                        WhatsAppInstances[key] = instance
+                        instances[key] = instance
                     })
                 restoredSessions.push(key)
             })
@@ -44,4 +57,4 @@ class Session {
     }
 }
 
-exports.Session = Session
+export default Session

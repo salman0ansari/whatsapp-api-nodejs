@@ -1,5 +1,8 @@
+
 class ExtendableError extends Error {
-    constructor({ message, errors, status }) {
+    errors: string
+    status: number
+    constructor({ message = '', errors = '', status = 0 }) {
         super(message)
         this.name = this.constructor.name
         this.message = message
@@ -8,4 +11,4 @@ class ExtendableError extends Error {
     }
 }
 
-module.exports = ExtendableError
+export default ExtendableError

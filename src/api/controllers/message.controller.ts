@@ -1,13 +1,16 @@
-exports.Text = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].sendTextMessage(
+import { ReqHandler } from "../helper/types"
+import getInstanceForReq from "../service/instance"
+
+export const Text : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).sendTextMessage(
         req.body.id,
         req.body.message
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.Image = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].sendMediaFile(
+export const Image : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).sendMediaFile(
         req.body.id,
         req.file,
         'image',
@@ -16,8 +19,8 @@ exports.Image = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.Video = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].sendMediaFile(
+export const Video : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).sendMediaFile(
         req.body.id,
         req.file,
         'video',
@@ -26,8 +29,8 @@ exports.Video = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.Audio = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].sendMediaFile(
+export const Audio : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).sendMediaFile(
         req.body.id,
         req.file,
         'audio'
@@ -35,8 +38,8 @@ exports.Audio = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.Document = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].sendMediaFile(
+export const Document : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).sendMediaFile(
         req.body.id,
         req.file,
         'document',
@@ -46,8 +49,8 @@ exports.Document = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.Mediaurl = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].sendUrlMediaFile(
+export const Mediaurl : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).sendUrlMediaFile(
         req.body.id,
         req.body.url,
         req.body.type, // Types are [image, video, audio, document]
@@ -57,40 +60,40 @@ exports.Mediaurl = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.Button = async (req, res) => {
+export const Button : ReqHandler = async (req, res) => {
     // console.log(res.body)
-    const data = await WhatsAppInstances[req.query.key].sendButtonMessage(
+    const data = await getInstanceForReq(req).sendButtonMessage(
         req.body.id,
         req.body.btndata
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.Contact = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].sendContactMessage(
+export const Contact : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).sendContactMessage(
         req.body.id,
         req.body.vcard
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.List = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].sendListMessage(
+export const List : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).sendListMessage(
         req.body.id,
         req.body.msgdata
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.MediaButton = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].sendMediaButtonMessage(
+export const MediaButton : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).sendMediaButtonMessage(
         req.body.id,
         req.body.btndata
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.SetStatus = async (req, res) => {
+export const SetStatus : ReqHandler = async (req, res) => {
     const presenceList = [
         'unavailable',
         'available',
@@ -106,19 +109,19 @@ exports.SetStatus = async (req, res) => {
         })
     }
 
-    const data = await WhatsAppInstances[req.query.key]?.setStatus(
+    const data = await getInstanceForReq(req)?.setStatus(
         req.body.status,
         req.body.id
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.Read = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].readMessage(req.body.msg)
+export const Read : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).readMessage(req.body.msg)
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.React = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].reactMessage(req.body.id, req.body.key, req.body.emoji)
+export const React : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).reactMessage(req.body.id, req.body.key, req.body.emoji)
     return res.status(201).json({ error: false, data: data })
 }

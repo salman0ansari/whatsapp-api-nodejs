@@ -1,12 +1,10 @@
-const { proto } = require('@whiskeysockets/baileys/WAProto')
-const {
-    Curve,
-    signedKeyPair,
-} = require('@whiskeysockets/baileys/lib/Utils/crypto')
-const {
-    generateRegistrationId,
-} = require('@whiskeysockets/baileys/lib/Utils/generics')
-const { randomBytes } = require('crypto')
+import { proto } from '@whiskeysockets/baileys/WAProto'
+import { AuthenticationCreds } from '@whiskeysockets/baileys'
+import { Curve, signedKeyPair } from '@whiskeysockets/baileys/lib/Utils/crypto'
+import { generateRegistrationId } from '@whiskeysockets/baileys/lib/Utils/generics'
+import { randomBytes } from 'crypto'
+import { CollectionType } from '../service/database'
+import { TypeOfPromise } from './types'
 
 const initAuthCreds = () => {
     const identityKey = Curve.generateKeyPair()
@@ -26,7 +24,7 @@ const initAuthCreds = () => {
 }
 
 const BufferJSON = {
-    replacer: (k, value) => {
+    replacer: (k: any, value: { type: string; data: any }) => {
         if (
             Buffer.isBuffer(value) ||
             value instanceof Uint8Array ||
@@ -41,7 +39,7 @@ const BufferJSON = {
         return value
     },
 
-    reviver: (_, value) => {
+    reviver: (_: any, value: { buffer: boolean; type: string; data: any; value: any }) => {
         if (
             typeof value === 'object' &&
             !!value &&
@@ -57,15 +55,15 @@ const BufferJSON = {
     },
 }
 
-module.exports = useMongoDBAuthState = async (collection) => {
-    const writeData = (data, id) => {
+export default async function useMongoDBAuthState(collection: CollectionType) {
+    const writeData = (data: any, id: string) => {
         return collection.replaceOne(
             { _id: id },
             JSON.parse(JSON.stringify(data, BufferJSON.replacer)),
             { upsert: true }
         )
     }
-    const readData = async (id) => {
+    const readData = async (id: string) => {
         try {
             const data = JSON.stringify(await collection.findOne({ _id: id }))
             return JSON.parse(data, BufferJSON.reviver)
@@ -73,18 +71,18 @@ module.exports = useMongoDBAuthState = async (collection) => {
             return null
         }
     }
-    const removeData = async (id) => {
+    const removeData = async (id: string) => {
         try {
             await collection.deleteOne({ _id: id })
         } catch (_a) {}
     }
-    const creds = (await readData('creds')) || (0, initAuthCreds)()
+    const creds: AuthenticationCreds = (await readData('creds')) || initAuthCreds()
     return {
         state: {
             creds,
             keys: {
-                get: async (type, ids) => {
-                    const data = {}
+                get: async (type: string, ids: string[]) => {
+                    const data: Record<string, any> = {}
                     await Promise.all(
                         ids.map(async (id) => {
                             let value = await readData(`${type}-${id}`)
@@ -99,7 +97,7 @@ module.exports = useMongoDBAuthState = async (collection) => {
                     )
                     return data
                 },
-                set: async (data) => {
+                set: async (data: Record<string, any>) => {
                     const tasks = []
                     for (const category of Object.keys(data)) {
                         for (const id of Object.keys(data[category])) {
@@ -119,3 +117,5 @@ module.exports = useMongoDBAuthState = async (collection) => {
         },
     }
 }
+
+export type AuthState = TypeOfPromise<ReturnType<typeof useMongoDBAuthState>>

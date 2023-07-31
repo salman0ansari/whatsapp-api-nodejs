@@ -1,4 +1,11 @@
-module.exports = function generateVC(data) {
+
+export interface VCardData {
+    fullName: string;
+    organization: string;
+    phoneNumber: string;
+}
+
+export default function generateVC(data: VCardData) {
     const result =
         'BEGIN:VCARD\n' +
         'VERSION:3.0\n' +

@@ -1,15 +1,16 @@
-const dotenv = require('dotenv')
-const mongoose = require('mongoose')
-const logger = require('pino')()
+import dotenv from 'dotenv'
+import mongoose from 'mongoose'
+import pino from 'pino'
+
 dotenv.config()
+const logger = pino()
 
-const app = require('./config/express')
-const config = require('./config/config')
+import app from './config/express'
+import config from './config/config'
 
-const { Session } = require('./api/class/session')
-const connectToCluster = require('./api/helper/connectMongoClient')
-
-let server
+import Session from './api/class/session'
+import connectToCluster from './api/helper/connectMongoClient'
+import { ErrHandler } from './api/helper/types'
 
 if (config.mongoose.enabled) {
     mongoose.set('strictQuery', true);
@@ -18,12 +19,12 @@ if (config.mongoose.enabled) {
     })
 }
 
-server = app.listen(config.port, async () => {
+const server = app.listen(config.port, async () => {
     logger.info(`Listening on port ${config.port}`)
-    global.mongoClient = await connectToCluster(config.mongoose.url)
+    await connectToCluster(app, config.mongoose.url)
     if (config.restoreSessionsOnStartup) {
         logger.info(`Restoring Sessions`)
-        const session = new Session()
+        const session = new Session(app)
         let restoreSessions = await session.restoreSessions()
         logger.info(`${restoreSessions.length} Session(s) Restored`)
     }
@@ -40,7 +41,7 @@ const exitHandler = () => {
     }
 }
 
-const unexpectedErrorHandler = (error) => {
+const unexpectedErrorHandler : ErrHandler = (error) => {
     logger.error(error)
     exitHandler()
 }
@@ -55,4 +56,4 @@ process.on('SIGTERM', () => {
     }
 })
 
-module.exports = server
+export default server

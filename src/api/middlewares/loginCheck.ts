@@ -1,11 +1,14 @@
-function loginVerification(req, res, next) {
+import { ReqHandler } from "../helper/types"
+import getInstanceForReq from "../service/instance"
+
+export const loginVerification : ReqHandler = (req, res, next) => {
     const key = req.query['key']?.toString()
     if (!key) {
         return res
             .status(403)
             .send({ error: true, message: 'no key query was present' })
     }
-    const instance = WhatsAppInstances[key]
+    const instance = getInstanceForReq(req)
     if (!instance.instance?.online) {
         return res
             .status(401)
@@ -14,4 +17,4 @@ function loginVerification(req, res, next) {
     next()
 }
 
-module.exports = loginVerification
+export default loginVerification

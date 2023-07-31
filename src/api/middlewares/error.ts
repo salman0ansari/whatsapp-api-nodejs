@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
-const APIError = require('../../api/errors/api.error')
+import APIError from '../../api/errors/api.error'
+import { ErrHandler, ReqHandler } from '../helper/types'
 
-const handler = (err, req, res, next) => {
-    const statusCode = err.statusCode ? err.statusCode : 500
+export const handler : ErrHandler = (err, req, res, next) => {
+    const statusCode = err.status ? err.status : 500
 
     res.setHeader('Content-Type', 'application/json')
     res.status(statusCode)
@@ -13,12 +14,10 @@ const handler = (err, req, res, next) => {
     })
 }
 
-exports.handler = handler
-
-exports.notFound = (req, res, next) => {
+export const notFound : ReqHandler = (req, res, next) => {
     const err = new APIError({
         message: 'Not found',
         status: 404,
     })
-    return handler(err, req, res)
+    return handler(err, req, res, next)
 }

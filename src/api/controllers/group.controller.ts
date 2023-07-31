@@ -1,67 +1,68 @@
-exports.create = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].createNewGroup(
+import { ReqHandler } from '../helper/types'
+import getInstanceForReq from '../service/instance'
+    
+export const create : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).createNewGroup(
         req.body.name,
         req.body.users
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.addNewParticipant = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].addNewParticipant(
+export const addNewParticipant : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).addNewParticipant(
         req.body.id,
         req.body.users
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.makeAdmin = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].makeAdmin(
+export const makeAdmin : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).makeAdmin(
         req.body.id,
         req.body.users
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.demoteAdmin = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].demoteAdmin(
+export const demoteAdmin : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).demoteAdmin(
         req.body.id,
         req.body.users
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.listAll = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].getAllGroups(
+export const listAll : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).getAllGroups(
         req.query.key
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.leaveGroup = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].leaveGroup(req.query.id)
+export const leaveGroup : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).leaveGroup(<string> req.query.id)
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.getInviteCodeGroup = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].getInviteCodeGroup(
-        req.query.id
+export const getInviteCodeGroup : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).getInviteCodeGroup(
+        <string> req.query.id
     )
     return res
         .status(201)
         .json({ error: false, link: 'https://chat.whatsapp.com/' + data })
 }
 
-exports.getInstanceInviteCodeGroup = async (req, res) => {
-    const data = await WhatsAppInstances[
-        req.query.key
-    ].getInstanceInviteCodeGroup(req.query.id)
+export const getInstanceInviteCodeGroup : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).getInstanceInviteCodeGroup(<string> req.query.id)
     return res
         .status(201)
         .json({ error: false, link: 'https://chat.whatsapp.com/' + data })
 }
 
-exports.getAllGroups = async (req, res) => {
-    const instance = WhatsAppInstances[req.query.key]
+export const getAllGroups : ReqHandler = async (req, res) => {
+    const instance = getInstanceForReq(req)
     let data
     try {
         data = await instance.groupFetchAllParticipating()
@@ -75,8 +76,8 @@ exports.getAllGroups = async (req, res) => {
     })
 }
 
-exports.groupParticipantsUpdate = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].groupParticipantsUpdate(
+export const groupParticipantsUpdate : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).groupParticipantsUpdate(
         req.body.id,
         req.body.users,
         req.body.action
@@ -84,39 +85,39 @@ exports.groupParticipantsUpdate = async (req, res) => {
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.groupSettingUpdate = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].groupSettingUpdate(
+export const groupSettingUpdate : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).groupSettingUpdate(
         req.body.id,
         req.body.action
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.groupUpdateSubject = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].groupUpdateSubject(
+export const groupUpdateSubject : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).groupUpdateSubject(
         req.body.id,
         req.body.subject
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.groupUpdateDescription = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].groupUpdateDescription(
+export const groupUpdateDescription : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).groupUpdateDescription(
         req.body.id,
         req.body.description
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.groupInviteInfo = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].groupGetInviteInfo(
+export const groupInviteInfo : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).groupGetInviteInfo(
         req.body.code
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.groupJoin = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].groupAcceptInvite(
+export const groupJoin : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).groupAcceptInvite(
         req.body.code
     )
     return res.status(201).json({ error: false, data: data })

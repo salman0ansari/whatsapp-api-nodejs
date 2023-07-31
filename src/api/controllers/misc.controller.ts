@@ -1,29 +1,32 @@
-exports.onWhatsapp = async (req, res) => {
+import { ReqHandler } from "../helper/types"
+import getInstanceForReq from "../service/instance"
+
+export const onWhatsapp : ReqHandler = async (req, res) => {
     // eslint-disable-next-line no-unsafe-optional-chaining
-    const data = await WhatsAppInstances[req.query.key]?.verifyId(
-        WhatsAppInstances[req.query.key]?.getWhatsAppId(req.query.id)
+    const data = await getInstanceForReq(req)?.verifyId(
+        getInstanceForReq(req)?.getWhatsAppId(<string> req.query.id)
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.downProfile = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key]?.DownloadProfile(
-        req.query.id
+export const downProfile : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req)?.DownloadProfile(
+        <string> req.query.id
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.getStatus = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key]?.getUserStatus(
-        req.query.id
+export const getStatus : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req)?.getUserStatus(
+        <string> req.query.id
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.blockUser = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key]?.blockUnblock(
-        req.query.id,
-        req.query.block_status
+export const blockUser : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req)?.blockUnblock(
+        <string> req.query.id,
+        <'block' | 'unblock'> <string> req.query.block_status
     )
     if (req.query.block_status == 'block') {
         return res
@@ -35,17 +38,17 @@ exports.blockUser = async (req, res) => {
             .json({ error: false, message: 'Contact Unblocked' })
 }
 
-exports.updateProfilePicture = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].updateProfilePicture(
+export const updateProfilePicture : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).updateProfilePicture(
         req.body.id,
         req.body.url
     )
     return res.status(201).json({ error: false, data: data })
 }
 
-exports.getUserOrGroupById = async (req, res) => {
-    const data = await WhatsAppInstances[req.query.key].getUserOrGroupById(
-        req.query.id
+export const getUserOrGroupById : ReqHandler = async (req, res) => {
+    const data = await getInstanceForReq(req).getUserOrGroupById(
+        <string> req.query.id
     )
     return res.status(201).json({ error: false, data: data })
 }

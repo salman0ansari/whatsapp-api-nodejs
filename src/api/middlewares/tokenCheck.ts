@@ -1,6 +1,7 @@
-const config = require('../../config/config')
+import config from '../../config/config'
+import { ReqHandler } from '../helper/types'
 
-function tokenVerification(req, res, next) {
+export const tokenVerification : ReqHandler = (req, res, next) => {
     const bearer = req.headers.authorization
     const token = bearer?.slice(7)?.toString()
     if (!token) {
@@ -18,4 +19,4 @@ function tokenVerification(req, res, next) {
     next()
 }
 
-module.exports = tokenVerification
+export default tokenVerification
