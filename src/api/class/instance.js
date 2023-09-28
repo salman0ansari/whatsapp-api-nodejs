@@ -21,6 +21,7 @@ class WhatsAppInstance {
     socketConfig = {
         defaultQueryTimeoutMs: undefined,
         printQRInTerminal: false,
+        mobile: config.instance.useMobileAuth,
         logger: pino({
             level: config.log.level,
         }),
@@ -999,6 +1000,16 @@ class WhatsAppInstance {
         } catch (e) {
             logger.error('Error react message failed')
         }
+    }
+
+    async requestMobileAuthCode(phoneNumber) {
+        if (!config.instance.useMobileAuth) {
+            throw new Error('Cannot use pairing code with mobile api')
+        }
+
+        const code = await this.instance.sock?.requestPairingCode(phoneNumber)
+        logger.info(`Pairing code: ${code}`)
+        return code
     }
 }
 

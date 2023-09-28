@@ -55,6 +55,23 @@ exports.qrbase64 = async (req, res) => {
     }
 }
 
+exports.mobileAuth = async (req, res) => {
+    try{
+        const phone = req.query.phone
+        const instance = WhatsAppInstances[req.query.key]   
+        const code = await instance.requestMobileAuthCode(phone) 
+        res.json({
+            error: false,
+            code,
+        })
+    } catch (e) {
+        res.json({
+            error: true,
+            message: e.message,
+        })
+    }
+}
+
 exports.info = async (req, res) => {
     const instance = WhatsAppInstances[req.query.key]
     let data
