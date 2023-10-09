@@ -55,11 +55,11 @@ exports.qrbase64 = async (req, res) => {
     }
 }
 
-exports.mobileAuth = async (req, res) => {
+exports.requestMobileCode = async (req, res) => {
     try{
         const phone = req.query.phone
         const instance = WhatsAppInstances[req.query.key]   
-        const code = await instance.requestMobileAuthCode(phone) 
+        const code = await instance.requestMobileAuthCode(`+${phone}`) 
         res.json({
             error: false,
             code,

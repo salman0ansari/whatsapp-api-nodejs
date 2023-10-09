@@ -6,13 +6,14 @@ const {
 const {
     generateRegistrationId,
 } = require('@whiskeysockets/baileys/lib/Utils/generics')
-const { randomBytes } = require('crypto')
+const { randomBytes, randomUUID } = require('crypto')
 
 const initAuthCreds = () => {
     const identityKey = Curve.generateKeyPair()
     return {
         noiseKey: Curve.generateKeyPair(),
         signedIdentityKey: identityKey,
+        pairingEphemeralKeyPair: Curve.generateKeyPair(),
         signedPreKey: signedKeyPair(identityKey, 1),
         registrationId: generateRegistrationId(),
         advSecretKey: randomBytes(32).toString('base64'),
@@ -22,6 +23,14 @@ const initAuthCreds = () => {
         accountSettings: {
             unarchiveChats: false,
         },
+        //mobile creds
+        deviceId: Buffer.from(randomUUID().replace(/-/g, ''), 'hex').toString('base64url'),
+		phoneId: randomUUID(),
+		identityId: randomBytes(20),
+		registered: false,
+		backupToken: randomBytes(20),
+		registration: {},
+		pairingCode: undefined,
     }
 }
 
