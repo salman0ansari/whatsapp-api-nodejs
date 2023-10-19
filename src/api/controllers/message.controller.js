@@ -52,7 +52,8 @@ exports.Mediaurl = async (req, res) => {
         req.body.url,
         req.body.type, // Types are [image, video, audio, document]
         req.body.mimetype, // mimeType of mediaFile / Check Common mimetypes in `https://mzl.la/3si3and`
-        req.body.caption
+        req.body.caption,
+        req.body.filename
     )
     return res.status(201).json({ error: false, data: data })
 }
