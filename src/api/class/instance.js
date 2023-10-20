@@ -305,9 +305,22 @@ class WhatsAppInstance {
             })
         })
 
-        sock?.ev.on('messages.update', async (messages) => {
+        sock?.ev.on('messages.update', async (m) => {
             //console.log('messages.update')
-            //console.dir(messages);
+            //console.log(m)
+            if (
+                ['all', 'messages', 'messages.update'].some((e) =>
+                    config.webhookAllowedEvents.includes(e)
+                )
+            )
+                await this.SendWebhook(
+                    'messageupdate', 
+                    { 
+                        m 
+                    }, 
+                    this.key
+                );
+            
         })
         sock?.ws.on('CB:call', async (data) => {
             if (data.content) {
