@@ -1035,6 +1035,7 @@ class WhatsAppInstance {
         if (!config.instance.useMobileAuth) {
             throw new Error('Cannot use pairing code with mobile api')
         }
+        logger.info(`request pairing code for : ${phoneNumber}`)
         const _code = await this.instance.sock?.requestPairingCode(phoneNumber)
         logger.info(`Pairing code: ${_code}`)
         return _code
