@@ -231,6 +231,10 @@ class WhatsAppInstance {
 
         // on new mssage
         sock?.ev.on('messages.upsert', async (m) => {
+
+            // always notify messages
+            sock?.sendPresenceUpdate('unavailable')
+            
             //console.log('messages.upsert')
             //console.log(m)
             if (m.type === 'prepend')
@@ -303,6 +307,7 @@ class WhatsAppInstance {
                 )
                     await this.SendWebhook('message', webhookData, this.key)
             })
+
         })
 
         sock?.ev.on('messages.update', async (m) => {
