@@ -151,6 +151,7 @@ class WhatsAppInstance {
             if (qr) {
                 QRCode.toDataURL(qr).then((url) => {
                     this.instance.qr = url
+                    /*
                     this.instance.qrRetry++
                     if (this.instance.qrRetry >= config.instance.maxRetryQr) {
                         // close WebSocket connection
@@ -160,6 +161,7 @@ class WhatsAppInstance {
                         this.instance.qr = ' '
                         logger.info('socket connection terminated')
                     }
+                    */
                 })
             }
         })
