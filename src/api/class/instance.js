@@ -458,7 +458,7 @@ class WhatsAppInstance {
     }
 
     async verifyId(id) {
-        if (id.includes('@g.us')) return true
+        if (id.includes('@g.us')) return id
         const [result] = await this.instance.sock?.onWhatsApp(id)
         if (result?.exists) return result['jid']
         throw new Error('no account exists')
