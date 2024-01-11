@@ -1,0 +1,24 @@
+import { CredentialsProviderError } from "@aws-sdk/property-provider";
+import { isAssumeRoleProfile, resolveAssumeRoleCredentials } from "./resolveAssumeRoleCredentials";
+import { isSsoProfile, resolveSsoCredentials } from "./resolveSsoCredentials";
+import { isStaticCredsProfile, resolveStaticCredentials } from "./resolveStaticCredentials";
+import { isWebIdentityProfile, resolveWebIdentityCredentials } from "./resolveWebIdentityCredentials";
+export const resolveProfileData = async (profileName, profiles, options, visitedProfiles = {}) => {
+    const data = profiles[profileName];
+    if (Object.keys(visitedProfiles).length > 0 && isStaticCredsProfile(data)) {
+        return resolveStaticCredentials(data);
+    }
+    if (isAssumeRoleProfile(data)) {
+        return resolveAssumeRoleCredentials(profileName, profiles, options, visitedProfiles);
+    }
+    if (isStaticCredsProfile(data)) {
+        return resolveStaticCredentials(data);
+    }
+    if (isWebIdentityProfile(data)) {
+        return resolveWebIdentityCredentials(data, options);
+    }
+    if (isSsoProfile(data)) {
+        return resolveSsoCredentials(data);
+    }
+    throw new CredentialsProviderError(`Profile ${profileName} could not be found or parsed in shared credentials file.`);
+};

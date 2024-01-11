@@ -1,7 +1,7 @@
 # NODE
-node_modules
-package-lock.json
-yarn.lock
+#node_modules
+#package-lock.json
+#yarn.lock
 
 # APPLICATION
 .env

@@ -1,0 +1,14 @@
+import { Credentials, Provider } from "@aws-sdk/types";
+import { CognitoProviderParameters } from "./CognitoProviderParameters";
+export interface CognitoIdentityCredentials extends Credentials {
+  identityId: string;
+}
+export declare type CognitoIdentityCredentialProvider =
+  Provider<CognitoIdentityCredentials>;
+export declare function fromCognitoIdentity(
+  parameters: FromCognitoIdentityParameters
+): CognitoIdentityCredentialProvider;
+export interface FromCognitoIdentityParameters
+  extends CognitoProviderParameters {
+  identityId: string;
+}

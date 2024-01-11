@@ -1,0 +1,29 @@
+name: Build & Publish
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+      - name: Cache ✨
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-cache-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-
+      - name: install dependencies
+        run: yarn install
+      - name: test
+        run: yarn test:cov
+      - uses: mikeal/merge-release@master
+        if: github.event_name != 'pull_request'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

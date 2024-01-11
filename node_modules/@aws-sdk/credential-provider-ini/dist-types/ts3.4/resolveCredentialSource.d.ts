@@ -1,0 +1,5 @@
+import { CredentialProvider } from "@aws-sdk/types";
+export declare const resolveCredentialSource: (
+  credentialSource: string,
+  profileName: string
+) => CredentialProvider;
