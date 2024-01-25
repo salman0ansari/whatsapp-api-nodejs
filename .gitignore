@@ -4,7 +4,7 @@
 #yarn.lock
 
 # APPLICATION
-.env
+#.env
 sessiondata
 
 # IDEs
