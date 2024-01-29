@@ -1,0 +1,63 @@
+import { SignatureV4CryptoInit, SignatureV4Init } from "@aws-sdk/signature-v4";
+import {
+  AuthScheme,
+  Credentials,
+  HashConstructor,
+  Logger,
+  MemoizedProvider,
+  Provider,
+  RegionInfoProvider,
+  RequestSigner,
+} from "@aws-sdk/types";
+export interface AwsAuthInputConfig {
+  credentials?: Credentials | Provider<Credentials>;
+  signer?:
+    | RequestSigner
+    | ((authScheme?: AuthScheme) => Promise<RequestSigner>);
+  signingEscapePath?: boolean;
+  systemClockOffset?: number;
+  signingRegion?: string;
+  signerConstructor?: new (
+    options: SignatureV4Init & SignatureV4CryptoInit
+  ) => RequestSigner;
+}
+export interface SigV4AuthInputConfig {
+  credentials?: Credentials | Provider<Credentials>;
+  signer?:
+    | RequestSigner
+    | ((authScheme?: AuthScheme) => Promise<RequestSigner>);
+  signingEscapePath?: boolean;
+  systemClockOffset?: number;
+}
+interface PreviouslyResolved {
+  credentialDefaultProvider: (input: any) => MemoizedProvider<Credentials>;
+  region: string | Provider<string>;
+  regionInfoProvider?: RegionInfoProvider;
+  signingName?: string;
+  defaultSigningName?: string;
+  serviceId: string;
+  sha256: HashConstructor;
+  useFipsEndpoint: Provider<boolean>;
+  useDualstackEndpoint: Provider<boolean>;
+}
+interface SigV4PreviouslyResolved {
+  credentialDefaultProvider: (input: any) => MemoizedProvider<Credentials>;
+  region: string | Provider<string>;
+  signingName: string;
+  sha256: HashConstructor;
+  logger?: Logger;
+}
+export interface AwsAuthResolvedConfig {
+  credentials: MemoizedProvider<Credentials>;
+  signer: (authScheme?: AuthScheme) => Promise<RequestSigner>;
+  signingEscapePath: boolean;
+  systemClockOffset: number;
+}
+export interface SigV4AuthResolvedConfig extends AwsAuthResolvedConfig {}
+export declare const resolveAwsAuthConfig: <T>(
+  input: T & AwsAuthInputConfig & PreviouslyResolved
+) => T & AwsAuthResolvedConfig;
+export declare const resolveSigV4AuthConfig: <T>(
+  input: T & SigV4AuthInputConfig & SigV4PreviouslyResolved
+) => T & SigV4AuthResolvedConfig;
+export {};

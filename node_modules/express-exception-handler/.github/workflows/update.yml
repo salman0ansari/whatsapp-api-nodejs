@@ -1,0 +1,26 @@
+name: Upgrade
+on:
+  schedule:
+    - cron: '0 0 * * 2'
+  workflow_dispatch:
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.REPO_TOKEN }}
+      - uses: actions/setup-node@master
+      - name: install upgrade
+        run: yarn upgrade --latest
+      - name: install dependencies
+        run: yarn
+      - name: run tests
+        run: yarn test
+      - uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actions
+          message: 'Update to latest dependencies'

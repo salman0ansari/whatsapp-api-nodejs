@@ -198,6 +198,25 @@ See all routes here [src/api/routes](https://github.com/salman0ansari/whatsapp-a
 
 I can't guarantee or can be held responsible if you get blocked or banned by using this software. WhatsApp does not allow bots using unofficial methods on their platform, so this shouldn't be considered totally safe.
 
+# Howto Ubuntu 20.04
+
+apt-get install git htop
+
+sudo npm install pm2@latest -g
+pm2 start src/server.js --name whatsapp
+
+#https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-22-04
+curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+sudo apt install nodejs
+
+#https://www.fosstechnix.com/how-to-install-mongodb-on-ubuntu-22-04-lts/
+curl -fsSL https://www.mongodb.org/static/pgp/server-6.0.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/mongodb-6.gpg
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+sudo apt update
+sudo apt install mongodb-org
+sudo systemctl enable --now mongod
+
 # Legal
 
 -   This code is in no way affiliated, authorized, maintained, sponsored or endorsed by WA (WhatsApp) or any of its affiliates or subsidiaries.
