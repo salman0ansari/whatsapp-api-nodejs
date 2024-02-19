@@ -30,6 +30,15 @@ exports.init = async (req, res) => {
 exports.qr = async (req, res) => {
     try {
         const qrcode = await WhatsAppInstances[req.query.key]?.instance.qr
+        if (!qrcode) {
+            res.status(422).json({
+                error: true,
+                message: 'Qr code has not rendered',
+            })
+
+            return
+        }
+
         res.render('qrcode', {
             qrcode: qrcode,
         })
