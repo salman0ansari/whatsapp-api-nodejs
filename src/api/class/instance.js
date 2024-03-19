@@ -306,9 +306,10 @@ class WhatsAppInstance {
         })
 
         sock?.ev.on('messages.update', async (messages) => {
-            //console.log('messages.update')
-            //console.dir(messages);
+            console.log('messages.update')
+            console.log(messages)
         })
+
         sock?.ws.on('CB:call', async (data) => {
             if (data.content) {
                 if (data.content.find((e) => e.tag === 'offer')) {
