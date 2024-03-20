@@ -25,7 +25,6 @@ const initAuthCreds = () => {
         },
         //mobile creds
         deviceId: Buffer.from(randomUUID().replace(/-/g, ''), 'hex').toString('base64url'),
-        auditoria-de-mensagens
         phoneId: randomUUID(),
         identityId: randomBytes(20),
         registered: false,
