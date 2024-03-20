@@ -25,12 +25,13 @@ const initAuthCreds = () => {
         },
         //mobile creds
         deviceId: Buffer.from(randomUUID().replace(/-/g, ''), 'hex').toString('base64url'),
-		phoneId: randomUUID(),
-		identityId: randomBytes(20),
-		registered: false,
-		backupToken: randomBytes(20),
-		registration: {},
-		pairingCode: undefined,
+        auditoria-de-mensagens
+        phoneId: randomUUID(),
+        identityId: randomBytes(20),
+        registered: false,
+        backupToken: randomBytes(20),
+        registration: {},
+        pairingCode: undefined,
     }
 }
 
@@ -67,12 +68,26 @@ const BufferJSON = {
 }
 
 module.exports = useMongoDBAuthState = async (collection) => {
+    const insertData = (data) => {
+        return collection.insertOne({
+            createdAt: new Date(),
+            ...JSON.parse(JSON.stringify(data, BufferJSON.replacer))
+        })
+    }
+
+    const updateOne = (filter, update) => {
+        return collection.updateOne(filter, update)
+    }
+
     const writeData = (data, id) => {
         return collection.replaceOne(
             { _id: id },
             JSON.parse(JSON.stringify(data, BufferJSON.replacer)),
             { upsert: true }
         )
+    }
+    const find = (query = {}) => {
+        return collection.find(query).toArray()
     }
     const readData = async (id) => {
         try {
@@ -85,7 +100,7 @@ module.exports = useMongoDBAuthState = async (collection) => {
     const removeData = async (id) => {
         try {
             await collection.deleteOne({ _id: id })
-        } catch (_a) {}
+        } catch (_a) { }
     }
     const creds = (await readData('creds')) || (0, initAuthCreds)()
     return {
@@ -126,5 +141,8 @@ module.exports = useMongoDBAuthState = async (collection) => {
         saveCreds: () => {
             return writeData(creds, 'creds')
         },
+        insertData,
+        find,
+        updateOne
     }
 }

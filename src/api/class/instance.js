@@ -17,6 +17,7 @@ const config = require('../../config/config')
 const downloadMessage = require('../helper/downloadMsg')
 const logger = require('pino')()
 const useMongoDBAuthState = require('../helper/mongoAuthState')
+const { AuditMessages } = require('./audit')
 const libPhonenumber = require('libphonenumber-js')
 
 class WhatsAppInstance {
@@ -309,9 +310,11 @@ class WhatsAppInstance {
         })
 
         sock?.ev.on('messages.update', async (messages) => {
-            //console.log('messages.update')
-            //console.dir(messages);
+            messages.forEach(element => {
+                AuditMessages.update(element)  
+            })
         })
+
         sock?.ws.on('CB:call', async (data) => {
             if (data.content) {
                 if (data.content.find((e) => e.tag === 'offer')) {
