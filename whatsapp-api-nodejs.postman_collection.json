@@ -79,6 +79,37 @@
 					"response": []
 				},
 				{
+					"name": "Login with phoneNumber",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/instance/phone-number-code?key={{instance_key}}&phone=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"instance",
+								"qr"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{instance_key}}",
+									"description": "Instance Key\n(Required)"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"description": "telephone Number \n(Required)"
+								}
+							]
+						},
+						"description": "Get code for whatsapp login"
+					},
+					"response": []
+				},
+				{
 					"name": "Get QR in Base64",
 					"request": {
 						"method": "GET",

@@ -39,6 +39,7 @@
         "ejs": "^3.1.7",
         "express": "^4.18.2",
         "express-exception-handler": "^1.3.23",
+        "libphonenumber-js": "^1.10.45",
         "link-preview-js": "^3.0.0",
         "mongodb": "^4.12.1",
         "mongoose": "^6.7.4",

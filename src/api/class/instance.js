@@ -4,6 +4,7 @@ const pino = require('pino')
 const {
     default: makeWASocket,
     DisconnectReason,
+    PHONENUMBER_MCC
 } = require('@whiskeysockets/baileys')
 const { unlinkSync } = require('fs')
 const { v4: uuidv4 } = require('uuid')
@@ -17,11 +18,13 @@ const downloadMessage = require('../helper/downloadMsg')
 const logger = require('pino')()
 const useMongoDBAuthState = require('../helper/mongoAuthState')
 const { AuditMessages } = require('./audit')
+const libPhonenumber = require('libphonenumber-js')
 
 class WhatsAppInstance {
     socketConfig = {
         defaultQueryTimeoutMs: undefined,
         printQRInTerminal: false,
+        mobile: config.instance.useMobileAuth,
         logger: pino({
             level: config.log.level,
         }),
@@ -1002,6 +1005,43 @@ class WhatsAppInstance {
         } catch (e) {
             logger.error('Error react message failed')
         }
+    }
+
+    async enterRegistrationCode(code) {
+        const response = await this.instance.sock?.register(code.replace(/["']/g, '').trim().toLowerCase())
+        logger.info('Successfully registered your phone number.')
+        return response
+    }
+
+    async sendCodeRegistrationToWhatsappNumber(phoneNumber) {
+        const parsedNumber = libPhonenumber.parsePhoneNumberWithError(phoneNumber)
+        if (!parsedNumber.isValid()) {
+            throw new Error('Invalid phone number: ' + phoneNumber)
+        }
+
+        const registration = {}
+        registration.phoneNumber = parsedNumber.format('E.164')
+        registration.phoneNumberCountryCode = parsedNumber.countryCallingCode
+        registration.phoneNumberNationalNumber = parsedNumber.nationalNumber
+        const mcc = PHONENUMBER_MCC[parsedNumber.countryCallingCode]
+        if(!mcc) {
+			throw new Error('Could not find MCC for phone number: ' + phoneNumber + '\nPlease specify the MCC manually.')
+		}
+
+        registration.phoneNumberMobileCountryCode = mcc
+        registration.identityId = Buffer.from(registration.phoneNumber, 'utf-8')
+        registration.backupToken = Buffer.from('1243', 'utf-8')
+        await this.instance.sock?.requestRegistrationCode(registration)
+    }
+
+    async requestMobileAuthCode(phoneNumber) {
+        if (!config.instance.useMobileAuth) {
+            throw new Error('Cannot use pairing code with mobile api')
+        }
+        logger.info(`request pairing code for : ${phoneNumber}`)
+        const _code = await this.instance.sock?.requestPairingCode(phoneNumber)
+        logger.info(`Pairing code: ${_code}`)
+        return _code
     }
 }
 

@@ -30,6 +30,15 @@ exports.init = async (req, res) => {
 exports.qr = async (req, res) => {
     try {
         const qrcode = await WhatsAppInstances[req.query.key]?.instance.qr
+        if (!qrcode) {
+            res.status(422).json({
+                error: true,
+                message: 'Qr code has not rendered',
+            })
+
+            return
+        }
+
         res.render('qrcode', {
             qrcode: qrcode,
         })
@@ -51,6 +60,23 @@ exports.qrbase64 = async (req, res) => {
     } catch {
         res.json({
             qrcode: '',
+        })
+    }
+}
+
+exports.requestMobileCode = async (req, res) => {
+    try{
+        const phone = req.query.phone
+        const instance = WhatsAppInstances[req.query.key]   
+        const code = await instance.requestMobileAuthCode(`+${phone}`) 
+        res.json({
+            error: false,
+            code,
+        })
+    } catch (e) {
+        res.json({
+            error: true,
+            message: e.message,
         })
     }
 }
