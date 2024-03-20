@@ -74,6 +74,10 @@ module.exports = useMongoDBAuthState = async (collection) => {
         })
     }
 
+    const updateOne = (filter, update) => {
+        return collection.updateOne(filter, update)
+    }
+
     const writeData = (data, id) => {
         return collection.replaceOne(
             { _id: id },
@@ -81,7 +85,7 @@ module.exports = useMongoDBAuthState = async (collection) => {
             { upsert: true }
         )
     }
-    const find = async (query = {}) => {
+    const find = (query = {}) => {
         return collection.find(query).toArray()
     }
     const readData = async (id) => {
@@ -137,6 +141,7 @@ module.exports = useMongoDBAuthState = async (collection) => {
             return writeData(creds, 'creds')
         },
         insertData,
-        find
+        find,
+        updateOne
     }
 }

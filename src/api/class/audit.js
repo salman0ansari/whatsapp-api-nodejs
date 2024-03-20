@@ -1,53 +1,74 @@
 const useMongoDBAuthState = require('../helper/mongoAuthState');
 const logger = require('pino')()
 
+function statusHandler(numberStatus) {
+    switch (numberStatus) {
+        case 1:
+            return 'pending'
+        case 3:
+            return 'played'
+        default:
+            return 'unknown'
+    }
+}
+
 class AuditMessageType {
     constructor(data) {
         this.key = data.key;
-        this.message = data.message;
-        this.status = data.status;
-        this.messageTimestamp = data.messageTimestamp;
         this.remoteJid = data.key.remoteJid;
+        this.identificator = data.id;
+        this.id = data.key.id;
+        this.messag = data.message;
+        this.status = statusHandler(data.status);
+        this.messageTimestamp = data.messageTimestamp;
     }
 }
 
 class AuditMessages {
-    constructor() {
+    constructor(id) {
         this.messages = [];
         this.collectionName = 'audit_messages';
+        this.id = id;
+    }
+
+    find(query) {
+        const collection = mongoClient.db('whatsapp-api').collection(this.collectionName)
+        return useMongoDBAuthState(collection)
+            .then(({ find }) => {
+                return find(query)
+            })
     }
 
     findHistory(remoteJid) {
-        const finded = this.messages.find(message => message.remoteJid === remoteJid)
-        if (finded) {
-            return finded
+        const findes = this.messages.filter(message => message.remoteJid === remoteJid)
+        if (findes.length > 0) {
+            return new Promise(resolve => resolve(findes))
         }
 
         const collection = mongoClient.db('whatsapp-api').collection(this.collectionName)
         return useMongoDBAuthState(collection)
-            .then(async ({ readData }) => {
-                const result = await readData({ remoteJid })
-                this.messages.push(result)
-                
-                return result[0]
+            .then(({ find }) => {
+                return find({ remoteJid })
             })
     }
 
     append(message) {
-        const newMessage = { 
-            key: message.key, 
-            message: message.message, 
+        const messageStruct = new AuditMessageType({
+            key: message.key,
+            message: message.message,
             status: message.status,
-            messageTimestamp: message.messageTimestamp
-        }
+            messageTimestamp: message.messageTimestamp,
+            id: this.id,
+            remoteJid: message.key.remoteJid,
+        });
 
         const collection = mongoClient.db('whatsapp-api').collection(this.collectionName)
         useMongoDBAuthState(collection)
             .then(({ insertData }) => {
-                insertData(newMessage)
+                insertData(messageStruct)
                     .then((result) => {
-                        logger.info('Audit message requested save saved')
-                        this.messages.push({ result, newMessage });
+                        logger.info('Audit message requested save saved', result)
+                        this.messages.push(messageStruct);
                     })
             })
     }
@@ -56,8 +77,21 @@ class AuditMessages {
         const remoteJid = message?.key?.remoteJid
         if (remoteJid) {
             this.findHistory(remoteJid)
-                .then(history => {
+                .then(entities => {
+                    const collection = mongoClient.db('whatsapp-api').collection(this.collectionName)
+                    const id = message.key.id;
+                    entities.forEach(entitie => {
+                        if (entitie.id === id) {
+                            useMongoDBAuthState(collection).then(({ updateOne }) => {
+                                updateOne(
+                                    { id: entitie.id, remoteJid: entitie.remoteJid },
+                                    { $set: { status: statusHandler(message.update.status), updateAt: new Date() } }
+                                )
+                            })
 
+                        }
+
+                    })
                 })
         }
     }

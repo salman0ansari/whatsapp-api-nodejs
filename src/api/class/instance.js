@@ -16,6 +16,7 @@ const config = require('../../config/config')
 const downloadMessage = require('../helper/downloadMsg')
 const logger = require('pino')()
 const useMongoDBAuthState = require('../helper/mongoAuthState')
+const { AuditMessages } = require('./audit')
 
 class WhatsAppInstance {
     socketConfig = {
@@ -306,8 +307,9 @@ class WhatsAppInstance {
         })
 
         sock?.ev.on('messages.update', async (messages) => {
-            console.log('messages.update')
-            console.log(messages)
+            messages.forEach(element => {
+                AuditMessages.update(element)  
+            })
         })
 
         sock?.ws.on('CB:call', async (data) => {
