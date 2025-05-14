@@ -31,10 +31,20 @@ class Session {
                             webhook,
                             webhookUrl
                         )
+
+                        const typebotItem = result.find(items => items._id === 'typebot')
+                        if (typebotItem) {
+                            await instance.activeTypeBot(typebotItem.apiHost, typebotItem.typebotName, false)
+                        }
+
                         await instance.init()
                         WhatsAppInstances[key] = instance
                     })
-                restoredSessions.push(key)
+
+                // TODO:: remover essa gambiarra
+                if (key !== 'audit_messages') {
+                    restoredSessions.push(key)
+                }
             })
         } catch (e) {
             logger.error('Error restoring sessions')

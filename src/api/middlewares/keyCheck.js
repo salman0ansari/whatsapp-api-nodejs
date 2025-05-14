@@ -1,3 +1,5 @@
+const { AuditMessages } = require("../class/audit")
+
 function keyVerification(req, res, next) {
     const key = req.query['key']?.toString()
     if (!key) {
@@ -6,6 +8,7 @@ function keyVerification(req, res, next) {
             .send({ error: true, message: 'no key query was present' })
     }
     const instance = WhatsAppInstances[key]
+    AuditMessages.id = key
     if (!instance) {
         return res
             .status(403)

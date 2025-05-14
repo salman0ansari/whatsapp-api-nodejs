@@ -27,9 +27,43 @@ exports.init = async (req, res) => {
     })
 }
 
+exports.addTypeBot = async (req, res) => {
+    const key = req.body.key
+    const { name, apiHost } = req.body.typebot
+    const instance = WhatsAppInstances[key]
+    if (!instance) {
+        return res
+            .status(422)
+            .json({
+                error: true,
+                message: 'Instance not found',
+            })
+    }
+
+    await instance.activeTypeBot(apiHost, name)
+
+    res.json({
+        error: false,
+        message: 'Typebot added successfully',
+        typebot: {
+            name,
+            apiHost,
+        },
+    })
+}
+
 exports.qr = async (req, res) => {
     try {
         const qrcode = await WhatsAppInstances[req.query.key]?.instance.qr
+        if (!qrcode) {
+            res.status(422).json({
+                error: true,
+                message: 'Qr code has not rendered',
+            })
+
+            return
+        }
+
         res.render('qrcode', {
             qrcode: qrcode,
         })
@@ -51,6 +85,23 @@ exports.qrbase64 = async (req, res) => {
     } catch {
         res.json({
             qrcode: '',
+        })
+    }
+}
+
+exports.requestMobileCode = async (req, res) => {
+    try {
+        const phone = req.query.phone
+        const instance = WhatsAppInstances[req.query.key]
+        const code = await instance.requestMobileAuthCode(`+${phone}`)
+        res.json({
+            error: false,
+            code,
+        })
+    } catch (e) {
+        res.json({
+            error: true,
+            message: e.message,
         })
     }
 }
@@ -133,7 +184,7 @@ exports.list = async (req, res) => {
         WhatsAppInstances[key].getInstanceDetail(key)
     )
     let data = await Promise.all(instance)
-    
+
     return res.json({
         error: false,
         message: 'All instance listed',

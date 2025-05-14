@@ -4,7 +4,6 @@ services:
     mongodb:
         container_name: mongodb
         image: mongo:latest
-        restart: unless-stopped
         ports:
             - 27017:27017
         volumes:
@@ -15,21 +14,18 @@ services:
             context: .
             dockerfile: Dockerfile
             args:
-                - PORT=${PORT}
+                - PORT=3333
         depends_on:
             - mongodb
-        restart: unless-stopped
         env_file: .env
         ports:
-            - ${PORT}:${PORT}
+            - 3333:3333
         environment:
-            - TOKEN=${TOKEN}
-            - PORT=${PORT}
-            - MONGODB_ENABLED=${MONGODB_ENABLED}
+            - PORT=3333
+            - MONGODB_ENABLED=true
             - MONGODB_URL=mongodb://mongodb:27017
-            - WEBHOOK_ENABLED=${WEBHOOK_ENABLED}
-            - WEBHOOK_URL=${WEBHOOK_URL}
-            - WEBHOOK_BASE64=${WEBHOOK_BASE64}
+            - WEBHOOK_ENABLED=false
+            - LOG_LEVEL=trace
         volumes:
             - ./:/home/node/app
             - /home/node/app/node_modules/

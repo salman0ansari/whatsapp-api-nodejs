@@ -2,16 +2,14 @@ FROM node:19-alpine
 
 ARG _WORKDIR=/home/node/app
 ARG PORT=3333
-
-USER root
-RUN apk add git
+ENV MONGODB_URL=mongodb://mongo:27017/whatsapp_api
 
 WORKDIR ${_WORKDIR}
 
 ADD . ${_WORKDIR}
-RUN yarn install
+RUN npm install
 
 USER node
 EXPOSE ${PORT}
 
-CMD yarn start
+CMD ["npm", "start"]

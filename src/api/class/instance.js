@@ -4,10 +4,9 @@ const pino = require('pino')
 const {
     default: makeWASocket,
     DisconnectReason,
+    PHONENUMBER_MCC
 } = require('@whiskeysockets/baileys')
-const { unlinkSync } = require('fs')
 const { v4: uuidv4 } = require('uuid')
-const path = require('path')
 const processButton = require('../helper/processbtn')
 const generateVC = require('../helper/genVc')
 const Chat = require('../models/chat.model')
@@ -16,11 +15,15 @@ const config = require('../../config/config')
 const downloadMessage = require('../helper/downloadMsg')
 const logger = require('pino')()
 const useMongoDBAuthState = require('../helper/mongoAuthState')
+const { AuditMessages } = require('./audit')
+const libPhonenumber = require('libphonenumber-js')
+const TypeBot = require('./typebot')
 
 class WhatsAppInstance {
     socketConfig = {
         defaultQueryTimeoutMs: undefined,
         printQRInTerminal: false,
+        mobile: config.instance.useMobileAuth,
         logger: pino({
             level: config.log.level,
         }),
@@ -37,6 +40,7 @@ class WhatsAppInstance {
         messages: [],
         qrRetry: 0,
         customWebhook: '',
+        typebot: null
     }
 
     axiosInstance = axios.create({
@@ -66,18 +70,25 @@ class WhatsAppInstance {
                 body,
                 instanceKey: key,
             })
-            .catch(() => {})
+            .catch(() => { })
     }
 
     async init() {
         this.collection = mongoClient.db('whatsapp-api').collection(this.key)
-        const { state, saveCreds } = await useMongoDBAuthState(this.collection)
-        this.authState = { state: state, saveCreds: saveCreds }
+        const { state, saveCreds, writeData } = await useMongoDBAuthState(this.collection)
+        this.authState = { state: state, saveCreds: saveCreds, writeData }
         this.socketConfig.auth = this.authState.state
         this.socketConfig.browser = Object.values(config.browser)
         this.instance.sock = makeWASocket(this.socketConfig)
         this.setHandler()
         return this
+    }
+
+    async activeTypeBot(apiHost, typebotname, saveData = true) {
+        const typebot = new TypeBot(apiHost, typebotname, this)
+        this.instance.typebot = typebot
+        if (saveData)
+            await this.authState.writeData(typebot.getObjectToSave(), 'typebot')
     }
 
     setHandler() {
@@ -302,13 +313,48 @@ class WhatsAppInstance {
                     )
                 )
                     await this.SendWebhook('message', webhookData, this.key)
+
+                if (this.instance.typebot) {
+                    // extendedTextMessage quando recebe mensagem do web-whatsapp
+                    if (messageType === 'extendedTextMessage') {
+                        await this.instance.typebot.startTypebot({
+                            message: msg.message.extendedTextMessage.text,
+                            remoteJid: msg.key.remoteJid
+                        })
+                    }
+
+                    // conversation quando recebe mensagem do celular
+                    if (messageType === 'conversation') {
+                        await this.instance.typebot.startTypebot({
+                            message: msg.message.conversation,
+                            remoteJid: msg.key.remoteJid
+                        })
+                    }
+
+                    if (messageType === 'templateButtonReplyMessage') {
+                        await this.instance.typebot.startTypebot({
+                            message: TypeBot.giveMeTextButtonAndIGiveUId(msg.message.templateButtonReplyMessage.selectedDisplayText),
+                            remoteJid: msg.key.remoteJid
+                        })
+                    }
+
+                    if (messageType === 'locationMessage') {
+                        const locationString = `${msg.message.locationMessage.degreesLatitude},${msg.message.locationMessage.degreesLongitude}`
+                        await this.instance.typebot.startTypebot({
+                            message: locationString,
+                            remoteJid: msg.key.remoteJid
+                        })
+                    }
+                }
             })
         })
 
         sock?.ev.on('messages.update', async (messages) => {
-            //console.log('messages.update')
-            //console.dir(messages);
+            messages.forEach(element => {
+                AuditMessages.update(element)
+            })
         })
+
         sock?.ws.on('CB:call', async (data) => {
             if (data.content) {
                 if (data.content.find((e) => e.tag === 'offer')) {
@@ -429,6 +475,10 @@ class WhatsAppInstance {
             phone_connected: this.instance?.online,
             webhookUrl: this.instance.customWebhook,
             user: this.instance?.online ? this.instance.sock?.user : {},
+            typebot: this.instance?.typebot ? {
+                apiHost: this.instance.typebot.apiHost,
+                typebotName: this.instance.typebot.typebotName,
+            } : {},
         }
     }
 
@@ -471,8 +521,9 @@ class WhatsAppInstance {
     async sendUrlMediaFile(to, url, type, mimeType, caption = '') {
         await this.verifyId(this.getWhatsAppId(to))
 
+        const receiver = this.getWhatsAppId(to)
         const data = await this.instance.sock?.sendMessage(
-            this.getWhatsAppId(to),
+            receiver,
             {
                 [type]: {
                     url: url,
@@ -999,6 +1050,43 @@ class WhatsAppInstance {
         } catch (e) {
             logger.error('Error react message failed')
         }
+    }
+
+    async enterRegistrationCode(code) {
+        const response = await this.instance.sock?.register(code.replace(/["']/g, '').trim().toLowerCase())
+        logger.info('Successfully registered your phone number.')
+        return response
+    }
+
+    async sendCodeRegistrationToWhatsappNumber(phoneNumber) {
+        const parsedNumber = libPhonenumber.parsePhoneNumberWithError(phoneNumber)
+        if (!parsedNumber.isValid()) {
+            throw new Error('Invalid phone number: ' + phoneNumber)
+        }
+
+        const registration = {}
+        registration.phoneNumber = parsedNumber.format('E.164')
+        registration.phoneNumberCountryCode = parsedNumber.countryCallingCode
+        registration.phoneNumberNationalNumber = parsedNumber.nationalNumber
+        const mcc = PHONENUMBER_MCC[parsedNumber.countryCallingCode]
+        if (!mcc) {
+            throw new Error('Could not find MCC for phone number: ' + phoneNumber + '\nPlease specify the MCC manually.')
+        }
+
+        registration.phoneNumberMobileCountryCode = mcc
+        registration.identityId = Buffer.from(registration.phoneNumber, 'utf-8')
+        registration.backupToken = Buffer.from('1243', 'utf-8')
+        await this.instance.sock?.requestRegistrationCode(registration)
+    }
+
+    async requestMobileAuthCode(phoneNumber) {
+        if (!config.instance.useMobileAuth) {
+            throw new Error('Cannot use pairing code with mobile api')
+        }
+        logger.info(`request pairing code for : ${phoneNumber}`)
+        const _code = await this.instance.sock?.requestPairingCode(phoneNumber)
+        logger.info(`Pairing code: ${_code}`)
+        return _code
     }
 }
 

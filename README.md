@@ -1,3 +1,6 @@
+# Maintained by Jeanlucafp
+This API is a forked from @salman0ansari and maintained by me.
+
 # Archive Notice 🔒
 After three years, I've decided to archive this open-source WhatsApp API project. Your support and contributions have been incredible!
 

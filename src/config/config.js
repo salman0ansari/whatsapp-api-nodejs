@@ -15,6 +15,9 @@ const APP_URL = process.env.APP_URL || false
 const LOG_LEVEL = process.env.LOG_LEVEL
 
 const INSTANCE_MAX_RETRY_QR = process.env.INSTANCE_MAX_RETRY_QR || 2
+const INSTANCE_PERMITS_NATIVE_MOBILE_AUTH = !!(
+    process.env.NATIVE_MOBILE_AUTH && process.env.NATIVE_MOBILE_AUTH == 'true'
+)
 
 const CLIENT_PLATFORM = process.env.CLIENT_PLATFORM || 'Whatsapp MD'
 const CLIENT_BROWSER = process.env.CLIENT_BROWSER || 'Chrome'
@@ -54,6 +57,7 @@ module.exports = {
     },
     instance: {
         maxRetryQr: INSTANCE_MAX_RETRY_QR,
+        useMobileAuth: INSTANCE_PERMITS_NATIVE_MOBILE_AUTH
     },
     mongoose: {
         enabled: MONGODB_ENABLED,

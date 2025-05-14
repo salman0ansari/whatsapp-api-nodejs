@@ -1,8 +1,12 @@
+const { AuditMessages } = require("../class/audit")
+
 exports.Text = async (req, res) => {
     const data = await WhatsAppInstances[req.query.key].sendTextMessage(
         req.body.id,
         req.body.message
     )
+
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
@@ -13,6 +17,7 @@ exports.Image = async (req, res) => {
         'image',
         req.body?.caption
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
@@ -23,6 +28,7 @@ exports.Video = async (req, res) => {
         'video',
         req.body?.caption
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
@@ -32,6 +38,7 @@ exports.Audio = async (req, res) => {
         req.file,
         'audio'
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
@@ -43,6 +50,7 @@ exports.Document = async (req, res) => {
         '',
         req.body.filename
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
@@ -54,15 +62,16 @@ exports.Mediaurl = async (req, res) => {
         req.body.mimetype, // mimeType of mediaFile / Check Common mimetypes in `https://mzl.la/3si3and`
         req.body.caption
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
 exports.Button = async (req, res) => {
-    // console.log(res.body)
     const data = await WhatsAppInstances[req.query.key].sendButtonMessage(
         req.body.id,
         req.body.btndata
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
@@ -71,6 +80,7 @@ exports.Contact = async (req, res) => {
         req.body.id,
         req.body.vcard
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
@@ -79,6 +89,7 @@ exports.List = async (req, res) => {
         req.body.id,
         req.body.msgdata
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
@@ -87,6 +98,7 @@ exports.MediaButton = async (req, res) => {
         req.body.id,
         req.body.btndata
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
@@ -110,6 +122,7 @@ exports.SetStatus = async (req, res) => {
         req.body.status,
         req.body.id
     )
+    AuditMessages.append(data)
     return res.status(201).json({ error: false, data: data })
 }
 
